@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curious Origins — Where Did Everything Begin?</title>
+<meta name="description" content="A storytelling-based knowledge platform exploring how the plants, animals, ideas, and everyday things around us came to be.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1714;
+    --ink-soft: #4a4744;
+    --ink-muted: #8a8784;
+    --paper: #faf8f4;
+    --paper-warm: #f3efe8;
+    --paper-card: #ffffff;
+    --gold: #c8923a;
+    --gold-light: #f0dfc0;
+    --teal: #2a7c6f;
+    --teal-light: #c8e8e4;
+    --rose: #b54a4a;
+    --rose-light: #f0d4d4;
+    --violet: #5a4a8a;
+    --violet-light: #ddd8f0;
+    --sage: #4a7a5a;
+    --sage-light: #cce0d0;
+    --border: rgba(26,23,20,0.1);
+    --border-strong: rgba(26,23,20,0.2);
+    --shadow: 0 2px 16px rgba(26,23,20,0.08);
+    --shadow-hover: 0 8px 32px rgba(26,23,20,0.14);
+    --ff-display: 'Playfair Display', Georgia, serif;
+    --ff-body: 'DM Sans', sans-serif;
+  }
+
+  body {
+    font-family: var(--ff-body);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    font-family: var(--ff-display);
+    font-size: 1.4rem;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); display: inline-block; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--ff-body);
+    padding: 0;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-search {
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 7px 14px 7px 10px;
+    font-size: 13px;
+    color: var(--ink-muted);
+    cursor: text;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--ff-body);
+    outline: none;
+    width: 200px;
+    transition: border-color 0.2s;
+  }
+  .nav-search:focus { border-color: var(--teal); }
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: 0.3s; }
+  .mobile-menu {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 99;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 4px 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 5rem 2rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .hero-tag {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); }
+  .hero h1 {
+    font-family: var(--ff-display);
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    line-height: 1.15;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--teal); }
+  .hero-sub {
+    color: var(--ink-soft);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 11px 24px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    font-family: var(--ff-body);
+    transition: background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--teal); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    padding: 11px 24px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid var(--border-strong);
+    cursor: pointer;
+    font-family: var(--ff-body);
+    transition: border-color 0.2s, color 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Featured card */
+  .featured-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: box-shadow 0.25s, transform 0.25s;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+  .featured-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
+  .featured-img {
+    height: 200px;
+    background: linear-gradient(135deg, #1a3a35 0%, #2a7c6f 60%, #3aac9a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+  }
+  .featured-body { padding: 1.25rem 1.5rem; }
+  .featured-tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--teal);
+    background: var(--teal-light);
+    padding: 3px 8px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  .featured-body h3 {
+    font-family: var(--ff-display);
+    font-size: 1.2rem;
+    line-height: 1.35;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .featured-body p { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+  .featured-meta { font-size: 11px; color: var(--ink-muted); margin-top: 10px; }
+
+  /* ── SECTION HELPERS ── */
+  .section { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem; }
+  .section-band { background: var(--paper-warm); padding: 0.5rem 0; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+  .section-header h2 { font-family: var(--ff-display); font-size: 1.5rem; font-weight: 600; }
+  .section-header a { font-size: 13px; color: var(--gold); text-decoration: none; font-weight: 500; }
+  .section-header a:hover { text-decoration: underline; }
+
+  /* ── CATEGORY CARDS ── */
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+  }
+  .cat-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .cat-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); border-color: transparent; }
+  .cat-icon { font-size: 1.8rem; line-height: 1; }
+  .cat-card h3 { font-size: 14px; font-weight: 500; line-height: 1.3; }
+  .cat-card p { font-size: 12px; color: var(--ink-muted); line-height: 1.5; }
+  .cat-count { font-size: 11px; font-weight: 500; margin-top: auto; }
+  .cat-teal { border-top: 3px solid var(--teal); } .cat-teal .cat-count { color: var(--teal); }
+  .cat-gold { border-top: 3px solid var(--gold); } .cat-gold .cat-count { color: #9a6a1a; }
+  .cat-rose { border-top: 3px solid var(--rose); } .cat-rose .cat-count { color: var(--rose); }
+  .cat-violet { border-top: 3px solid var(--violet); } .cat-violet .cat-count { color: var(--violet); }
+  .cat-sage { border-top: 3px solid var(--sage); } .cat-sage .cat-count { color: var(--sage); }
+
+  /* ── ARTICLE CARDS ── */
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .article-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.25s, transform 0.25s;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+  .article-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
+  .article-thumb {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    flex-shrink: 0;
+  }
+  .article-body { padding: 1rem; flex: 1; display: flex; flex-direction: column; }
+  .article-tag {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 8px;
+    width: fit-content;
+  }
+  .tag-teal { color: var(--teal); background: var(--teal-light); }
+  .tag-gold { color: #7a5010; background: var(--gold-light); }
+  .tag-rose { color: var(--rose); background: var(--rose-light); }
+  .tag-violet { color: var(--violet); background: var(--violet-light); }
+  .tag-sage { color: var(--sage); background: var(--sage-light); }
+  .article-body h3 {
+    font-family: var(--ff-display);
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .article-body p { font-size: 12px; color: var(--ink-soft); line-height: 1.6; flex: 1; }
+  .article-meta { font-size: 11px; color: var(--ink-muted); margin-top: 10px; display: flex; gap: 12px; }
+
+  /* ── PAGE SYSTEM ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .page-hero {
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--border);
+    padding: 3.5rem 2rem;
+  }
+  .page-hero-inner { max-width: 1100px; margin: 0 auto; }
+  .page-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .page-hero h1 { font-family: var(--ff-display); font-size: 2.2rem; margin-bottom: 0.5rem; font-weight: 600; }
+  .page-hero p { color: var(--ink-soft); font-size: 1rem; font-weight: 300; max-width: 600px; }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 7px 13px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--ink-soft);
+    font-family: var(--ff-body);
+    margin-bottom: 1.5rem;
+    transition: border-color 0.2s, color 0.2s;
+    text-decoration: none;
+  }
+  .back-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── ARTICLE FULL ── */
+  .article-full { max-width: 720px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
+  .article-full h1 {
+    font-family: var(--ff-display);
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    line-height: 1.25;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  .article-lead {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    font-weight: 300;
+    line-height: 1.75;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.5rem;
+  }
+  .story-section { margin-bottom: 2rem; }
+  .story-section h2 {
+    font-family: var(--ff-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    color: var(--teal);
+  }
+  .story-section p { color: var(--ink-soft); line-height: 1.8; font-size: 15px; }
+  .fun-fact {
+    background: var(--gold-light);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+  }
+  .fun-fact strong {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7a5010;
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .fun-fact p { font-size: 14px; color: #5a3a10; margin: 0; line-height: 1.65; }
+
+  /* ── ABOUT ── */
+  .prose-page { max-width: 720px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
+  .prose-page p { color: var(--ink-soft); line-height: 1.85; margin-bottom: 1.2rem; font-weight: 300; font-size: 15px; }
+  .prose-page h2 { font-family: var(--ff-display); font-size: 1.4rem; margin: 2.5rem 0 0.8rem; font-weight: 600; color: var(--ink); }
+  .values-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 1.5rem 0; }
+  .value-card { background: var(--paper-card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; }
+  .value-card h3 { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .value-card p { font-size: 13px; color: var(--ink-muted); margin: 0; line-height: 1.5; }
+
+  /* ── CONTACT ── */
+  .contact-form { margin-top: 2rem; display: flex; flex-direction: column; gap: 14px; }
+  .contact-form label { font-size: 12px; font-weight: 500; color: var(--ink-soft); display: block; margin-bottom: 4px; }
+  .contact-form input,
+  .contact-form textarea,
+  .contact-form select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    font-family: var(--ff-body);
+    font-size: 14px;
+    background: var(--paper-card);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+  .contact-form input:focus,
+  .contact-form textarea:focus,
+  .contact-form select:focus { border-color: var(--teal); }
+  .contact-form textarea { min-height: 130px; resize: vertical; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-success {
+    display: none;
+    background: var(--sage-light);
+    border: 1px solid var(--sage);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    color: var(--sage);
+    font-size: 14px;
+  }
+
+  /* ── SEARCH ── */
+  .search-bar-wrap { max-width: 600px; margin: 0 auto 2rem; position: relative; }
+  .search-bar-wrap input {
+    width: 100%;
+    padding: 12px 18px 12px 44px;
+    border: 1px solid var(--border-strong);
+    border-radius: 30px;
+    font-family: var(--ff-body);
+    font-size: 15px;
+    background: var(--paper-card);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search-bar-wrap input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(42,124,111,0.1); }
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ink-muted);
+    pointer-events: none;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 4rem;
+    border-top: 1px solid var(--border);
+    background: var(--paper-warm);
+    padding: 3rem 2rem;
+  }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 2.5rem;
+  }
+  .footer-brand h3 { font-family: var(--ff-display); font-size: 1.2rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 8px; }
+  .footer-brand p { font-size: 13px; color: var(--ink-muted); line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .footer-col ul li a { font-size: 13px; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--gold); }
+  .footer-bottom { border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-bottom p { font-size: 12px; color: var(--ink-muted); }
+  .footer-bottom a { font-size: 12px; color: var(--ink-muted); text-decoration: none; }
+  .footer-bottom a:hover { color: var(--gold); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 1.25rem 2rem; }
+    .nav-links, .nav-search { display: none; }
+    .hamburger { display: flex; }
+    .categories-grid { grid-template-columns: repeat(2, 1fr); }
+    .articles-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .footer-brand { grid-column: 1 / -1; }
+    .values-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    nav { padding: 0 1.25rem; }
+    .categories-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .page-hero { padding: 2rem 1.25rem; }
+    .article-full, .prose-page { padding: 1.5rem 1.25rem 3rem; }
+    .section { padding: 2rem 1.25rem; }
+  }
+
+  /* ── DARK MODE ── */
+  body.dark {
+    --ink: #f0ede8;
+    --ink-soft: #c0bdb8;
+    --ink-muted: #807d78;
+    --paper: #18161400;
+    --paper-warm: #1e1c1a;
+    --paper-card: #252220;
+    --border: rgba(240,237,232,0.1);
+    --border-strong: rgba(240,237,232,0.2);
+    --shadow: 0 2px 16px rgba(0,0,0,0.4);
+    --shadow-hover: 0 8px 32px rgba(0,0,0,0.5);
+    background: #18161400;
+  }
+  body.dark { background-color: #1c1a18; }
+  body.dark nav { background: #1c1a18; }
+  body.dark .mobile-menu { background: #1c1a18; }
+
+  /* Dark mode toggle button */
+  .dark-toggle {
+    background: none;
+    border: 1px solid var(--border-strong);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--ink-soft);
+    font-family: var(--ff-body);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: border-color 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  .dark-toggle:hover { border-color: var(--gold); color: var(--gold); }
+  .dark-toggle .toggle-icon { font-size: 14px; }
+
+  /* Random story button */
+  .random-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--paper-warm);
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-family: var(--ff-body);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    text-decoration: none;
+  }
+  .random-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--paper-card); }
+
+  /* ── READING PROGRESS BAR ── */
+  #reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--gold);
+    z-index: 9999;
+    transition: width 0.1s linear;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ── DID YOU KNOW section ── */
+  .did-you-know {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 2.5rem;
+  }
+  .dyk-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--teal);
+    border-radius: 0 10px 10px 0;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+  }
+  .dyk-card:hover { box-shadow: var(--shadow-hover); }
+  .dyk-icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 2px; }
+  .dyk-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 4px;
+  }
+  .dyk-text { font-size: 14px; color: var(--ink-soft); line-height: 1.65; }
+  .dyk-refresh { font-size: 11px; color: var(--ink-muted); margin-top: 6px; cursor: pointer; }
+  .dyk-refresh:hover { color: var(--gold); }
+
+  /* ── RELATED STORIES ── */
+  .related-section {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+  }
+  .related-section h2 {
+    font-family: var(--ff-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 1.5rem 0 1rem;
+    color: var(--ink);
+  }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .related-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .related-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .related-thumb { height: 80px; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+  .related-body { padding: 0.75rem; }
+  .related-body h4 { font-size: 13px; font-weight: 500; line-height: 1.35; margin-bottom: 4px; font-family: var(--ff-display); }
+  .related-body span { font-size: 11px; color: var(--ink-muted); }
+
+  /* ── CLICKABLE TAGS ── */
+  .article-tag.clickable { cursor: pointer; transition: opacity 0.2s; }
+  .article-tag.clickable:hover { opacity: 0.75; }
+
+  /* Tag results page */
+  .tag-results-header { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div id="reading-progress"></div>
+
+<script>
+// ── articles.js inlined ──────────────────────────────────────
+// Edit this array to add/remove articles. Counters update automatically.
+//
+// CATEGORY IDs: plants | animals | origins | anime | mind | everyday
+//               mysteries | technology | specialists | civilizations
+const articles = [
+  { title: "The Unlikely Journey of Coffee: From Ethiopian Goat Herder to Global Ritual", category: "plants",    url: "articles/coffee.html",        tags: ["plants","nature","coffee","ethiopia","caffeine","history"],             tagLabel: "Plants & Nature",   tagClass: "tag-teal",   icon: "🌿", bg: "linear-gradient(135deg,#1a3a35,#2a7c6f)", excerpt: "From a goat herder in Ethiopia to a global ritual — a thousand-year origin story.",                   mins: 7 },
+  { title: "Why Flowers Are Colourful: A Deal With Insects Made 130 Million Years Ago",   category: "plants",    url: "articles/flowers.html",       tags: ["flowers","plants","insects","bees","nature","colour","evolution"],      tagLabel: "Plants & Nature",   tagClass: "tag-sage",   icon: "🌸", bg: "linear-gradient(135deg,#1a3a20,#4a7a5a)", excerpt: "The ancient pact that transformed the planet and fed almost every creature on Earth.",               mins: 5 },
+  { title: "The Wood Wide Web: How Trees Talk Through Fungi",                              category: "plants",    url: "articles/wood-wide-web.html", tags: ["fungi","trees","forest","network","plants","nature","mycorrhizal"],     tagLabel: "Plants & Nature",   tagClass: "tag-gold",   icon: "🍄", bg: "linear-gradient(135deg,#2a1a10,#c8923a)", excerpt: "Beneath every forest is a secret communication network older than language itself.",                  mins: 6 },
+  { title: "The Octopus That Sees Colour — Without Being Able to See Colour",             category: "animals",   url: "articles/octopus.html",       tags: ["animals","octopus","colour","biology","camouflage","vision"],          tagLabel: "Animals & Biology", tagClass: "tag-teal",   icon: "🐙", bg: "linear-gradient(135deg,#1a3535,#2a6a7c)", excerpt: "Technically colour-blind, yet masters of camouflage. The mystery of the octopus eye.",               mins: 5 },
+  { title: "The Invention of Writing: How Humans First Stored a Thought",                 category: "origins",   url: "articles/writing.html",       tags: ["writing","history","mesopotamia","cuneiform","origins","invention"],   tagLabel: "How Things Began",  tagClass: "tag-rose",   icon: "📖", bg: "linear-gradient(135deg,#3a1a1a,#b54a4a)", excerpt: "5,000 years ago someone pressed a reed into clay — and the world was never the same.",               mins: 8 },
+  { title: "Why Does the Universe Have More Matter Than Antimatter?",                     category: "mysteries", url: "articles/antimatter.html",    tags: ["science","physics","antimatter","universe","big bang","cosmology"],   tagLabel: "Science Mysteries", tagClass: "tag-violet", icon: "🌌", bg: "linear-gradient(135deg,#2a1a3a,#5a4a8a)", excerpt: "One of the deepest puzzles in physics — and the reason you exist at all.",                          mins: 6 },
+  // ── Add new articles here. Counters update automatically. ──
+  // { title: "...", category: "origins", url: "articles/....html", tags: [...], tagLabel: "How Things Began", tagClass: "tag-rose", icon: "💰", bg: "linear-gradient(...)", excerpt: "...", mins: 7 },
+];
+
+// ── Page router ──────────────────────────────────────────────
+// Called by every onclick="showPage('...')" in the HTML.
+// Defined here — before the HTML renders — so it's always available.
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  var target = document.getElementById('page-' + name);
+  if (target) target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  closeMobileMenu();
+}
+
+// ── Mobile menu ──────────────────────────────────────────────
+function toggleMobileMenu() {
+  var m = document.getElementById('mobile-menu');
+  if (m) m.classList.toggle('open');
+}
+function closeMobileMenu() {
+  var m = document.getElementById('mobile-menu');
+  if (m) m.classList.remove('open');
+}
+
+// ── Contact form ─────────────────────────────────────────────
+function submitContact() {
+  var name  = document.getElementById('cf-name');
+  var email = document.getElementById('cf-email');
+  if (!name || !email || !name.value.trim() || !email.value.trim()) {
+    alert('Please fill in your name and email address.');
+    return;
+  }
+  var s = document.getElementById('form-success');
+  if (s) s.style.display = 'block';
+  ['cf-name','cf-email','cf-subject','cf-message','cf-type'].forEach(function(id) {
+    var el = document.getElementById(id); if (el) el.value = '';
+  });
+}
+
+// ── Search ───────────────────────────────────────────────────
+function handleSearch(val) {
+  var q = val.toLowerCase().trim();
+  if (!q) return;
+  showPage('search');
+  var si = document.getElementById('search-input');
+  if (si) si.value = val;
+  var results = articles.filter(function(a) {
+    if (a.title.toLowerCase().indexOf(q) !== -1) return true;
+    for (var i = 0; i < a.tags.length; i++) { if (a.tags[i].indexOf(q) !== -1) return true; }
+    return false;
+  });
+  var container = document.getElementById('search-results');
+  var empty     = document.getElementById('search-empty');
+  if (!container) return;
+  if (!results.length) {
+    container.innerHTML = '';
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+  container.innerHTML = results.map(function(a) {
+    return '<a class="article-card" href="' + a.url + '">'
+      + '<div class="article-thumb" style="background:' + a.bg + ';">' + a.icon + '</div>'
+      + '<div class="article-body">'
+      + '<span class="article-tag ' + a.tagClass + '">' + a.tagLabel + '</span>'
+      + '<h3>' + a.title + '</h3>'
+      + '<div class="article-meta"><span>' + a.mins + ' min read</span></div>'
+      + '</div></a>';
+  }).join('');
+}
+
+// ── Category counters ────────────────────────────────────────
+// Runs after the DOM is ready. Counts articles per category and
+// writes the result into every element with data-category="<id>"
+// (card counters) and data-category-desc="<id>" (page hero subheadings).
+function updateCategoryCounters() {
+  var counts = {};
+  articles.forEach(function(a) { counts[a.category] = (counts[a.category] || 0) + 1; });
+
+  // Card counters  e.g. "3 articles" / "Stories coming soon"
+  document.querySelectorAll('[data-category]').forEach(function(el) {
+    var n = counts[el.getAttribute('data-category')] || 0;
+    el.textContent = n === 0 ? 'Stories coming soon' : n + (n === 1 ? ' article' : ' articles');
+  });
+
+  // Page hero subheading prefix  e.g. "3 articles" / "Stories coming soon"
+  document.querySelectorAll('[data-category-desc]').forEach(function(el) {
+    var n = counts[el.getAttribute('data-category-desc')] || 0;
+    el.textContent = n === 0 ? 'Stories coming soon' : n + (n === 1 ? ' article' : ' articles');
+  });
+}
+
+// ── Article ID map ────────────────────────────────────────────
+// Maps article array index to the SPA page id for internal navigation.
+// Articles with a url like "articles/coffee.html" get id "article-coffee".
+function getArticlePageId(a) {
+  if (a.pageId) return a.pageId;
+  // derive from url: "articles/coffee.html" → "article-coffee"
+  var m = a.url.match(/articles\/(.+)\.html$/);
+  return m ? 'article-' + m[1].replace(/-/g, '-') : null;
+}
+
+// ── Render article card HTML ──────────────────────────────────
+function renderCard(a, extraClass) {
+  var pid = getArticlePageId(a);
+  var href = pid ? '#' : a.url;
+  var onclick = pid ? ' onclick="showPage(\'' + pid + '\');return false;"' : '';
+  return '<a class="article-card' + (extraClass ? ' ' + extraClass : '') + '" href="' + href + '"' + onclick + '>'
+    + '<div class="article-thumb" style="background:' + a.bg + ';">' + a.icon + '</div>'
+    + '<div class="article-body">'
+    + '<span class="article-tag clickable ' + a.tagClass + '" onclick="event.stopPropagation();event.preventDefault();showTagResults(\'' + a.category + '\',\'' + a.tagLabel + '\')">' + a.tagLabel + '</span>'
+    + '<h3>' + a.title + '</h3>'
+    + '<p>' + a.excerpt + '</p>'
+    + '<div class="article-meta"><span>' + a.mins + ' min read</span></div>'
+    + '</div></a>';
+}
+
+// ── 1. Latest Stories — auto-generated ──────────────────────
+function renderLatestStories() {
+  var container = document.getElementById('latest-stories-grid');
+  if (!container) return;
+  container.innerHTML = articles.map(function(a) { return renderCard(a); }).join('');
+}
+
+// ── 2. Category pages — auto-generated ───────────────────────
+function renderCategoryPages() {
+  document.querySelectorAll('[data-cat-page]').forEach(function(grid) {
+    var cat = grid.getAttribute('data-cat-page');
+    var matching = articles.filter(function(a) { return a.category === cat; });
+    if (matching.length === 0) {
+      grid.innerHTML = '<p style="color:var(--ink-muted);font-size:14px;">Articles coming soon. Check back shortly!</p>';
+    } else {
+      grid.innerHTML = matching.map(function(a) { return renderCard(a); }).join('');
+    }
+  });
+}
+
+// ── 3. Related Stories ────────────────────────────────────────
+function renderRelatedStories(currentPageId, category) {
+  var section = document.getElementById('related-' + currentPageId);
+  if (!section) return;
+  var container = section.querySelector('.related-grid');
+  if (!container) return;
+  var related = articles.filter(function(a) {
+    return a.category === category && getArticlePageId(a) !== currentPageId;
+  });
+  if (related.length === 0) {
+    section.style.display = 'none';
+    return;
+  }
+  container.innerHTML = related.map(function(a) {
+    var pid = getArticlePageId(a);
+    var href = pid ? '#' : a.url;
+    var onclick = pid ? ' onclick="showPage(\'' + pid + '\');return false;"' : '';
+    return '<a class="related-card" href="' + href + '"' + onclick + '>'
+      + '<div class="related-thumb" style="background:' + a.bg + ';">' + a.icon + '</div>'
+      + '<div class="related-body"><h4>' + a.title + '</h4><span>' + a.mins + ' min read</span></div>'
+      + '</a>';
+  }).join('');
+}
+
+// ── 4. Random article ────────────────────────────────────────
+function openRandomArticle() {
+  var idx = Math.floor(Math.random() * articles.length);
+  var pid = getArticlePageId(articles[idx]);
+  if (pid) showPage(pid);
+}
+
+// ── 5. Dark mode ─────────────────────────────────────────────
+function toggleDarkMode() {
+  var isDark = document.body.classList.toggle('dark');
+  var btn = document.getElementById('dark-toggle-btn');
+  if (btn) btn.querySelector('.toggle-icon').textContent = isDark ? '☀️' : '🌙';
+  try { localStorage.setItem('co-dark', isDark ? '1' : '0'); } catch(e) {}
+}
+function initDarkMode() {
+  try {
+    if (localStorage.getItem('co-dark') === '1') {
+      document.body.classList.add('dark');
+      var btn = document.getElementById('dark-toggle-btn');
+      if (btn) btn.querySelector('.toggle-icon').textContent = '☀️';
+    }
+  } catch(e) {}
+}
+
+// ── 6. Reading progress bar ───────────────────────────────────
+function updateProgressBar() {
+  var active = document.querySelector('.page.active');
+  var bar = document.getElementById('reading-progress');
+  if (!bar) return;
+  var isArticle = active && active.id && active.id.indexOf('page-article-') === 0;
+  if (!isArticle) { bar.style.opacity = '0'; bar.style.width = '0%'; return; }
+  bar.style.opacity = '1';
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  var pct = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+  bar.style.width = pct + '%';
+}
+window.addEventListener('scroll', updateProgressBar, { passive: true });
+
+// ── 7. Did You Know facts ────────────────────────────────────
+var dykFacts = [
+  { icon: '🌿', text: 'Coffee is the second most traded commodity in the world by volume — after crude oil.' },
+  { icon: '🐙', text: 'An octopus has three hearts, blue blood, and nine brains — one central and one in each arm.' },
+  { icon: '📖', text: 'The oldest known love poem was written in Sumerian on a clay tablet around 2000 BCE.' },
+  { icon: '🌸', text: 'Many "white" flowers contain ultraviolet patterns invisible to human eyes, visible only to bees.' },
+  { icon: '🍄', text: 'The largest living organism on Earth is a honey fungus in Oregon spanning 8.9 km².' },
+  { icon: '🌌', text: 'Everything we see in the universe may exist because of just one extra matter particle per billion.' },
+  { icon: '☕', text: 'Lloyd\'s of London — one of the world\'s biggest insurance markets — started as a coffeehouse in 1688.' },
+  { icon: '🌍', text: 'Finland consumes more coffee per person than any other country in the world — not Italy.' },
+  { icon: '🦠', text: 'Your body contains roughly 38 trillion bacterial cells — slightly more than human cells.' },
+  { icon: '📜', text: 'The first written records were accounting tablets — grain and beer tallies, not poetry or prayer.' },
+];
+var dykIndex = Math.floor(Math.random() * dykFacts.length);
+function renderDyk() {
+  var el = document.getElementById('dyk-content');
+  if (!el) return;
+  var f = dykFacts[dykIndex];
+  el.querySelector('.dyk-icon').textContent = f.icon;
+  el.querySelector('.dyk-text').textContent = f.text;
+}
+function nextDyk() {
+  dykIndex = (dykIndex + 1) % dykFacts.length;
+  renderDyk();
+}
+
+// ── 8. Tag results ────────────────────────────────────────────
+function showTagResults(category, label) {
+  var matching = articles.filter(function(a) { return a.category === category; });
+  var container = document.getElementById('tag-results-grid');
+  var heading   = document.getElementById('tag-results-heading');
+  if (!container || !heading) return;
+  heading.textContent = 'Stories tagged: ' + label;
+  container.innerHTML = matching.map(function(a) { return renderCard(a); }).join('');
+  showPage('tag-results');
+}
+
+// ── Page router ───────────────────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  var target = document.getElementById('page-' + name);
+  if (target) target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  closeMobileMenu();
+  updateProgressBar();
+}
+
+// ── Mobile menu ───────────────────────────────────────────────
+function toggleMobileMenu() {
+  var m = document.getElementById('mobile-menu');
+  if (m) m.classList.toggle('open');
+}
+function closeMobileMenu() {
+  var m = document.getElementById('mobile-menu');
+  if (m) m.classList.remove('open');
+}
+
+// ── Contact form ──────────────────────────────────────────────
+function submitContact() {
+  var name  = document.getElementById('cf-name');
+  var email = document.getElementById('cf-email');
+  if (!name || !email || !name.value.trim() || !email.value.trim()) {
+    alert('Please fill in your name and email address.');
+    return;
+  }
+  var s = document.getElementById('form-success');
+  if (s) s.style.display = 'block';
+  ['cf-name','cf-email','cf-subject','cf-message','cf-type'].forEach(function(id) {
+    var el = document.getElementById(id); if (el) el.value = '';
+  });
+}
+
+// ── Search ────────────────────────────────────────────────────
+function handleSearch(val) {
+  var q = val.toLowerCase().trim();
+  if (!q) return;
+  showPage('search');
+  var si = document.getElementById('search-input');
+  if (si) si.value = val;
+  var results = articles.filter(function(a) {
+    if (a.title.toLowerCase().indexOf(q) !== -1) return true;
+    for (var i = 0; i < a.tags.length; i++) { if (a.tags[i].indexOf(q) !== -1) return true; }
+    return false;
+  });
+  var container = document.getElementById('search-results');
+  var empty     = document.getElementById('search-empty');
+  if (!container) return;
+  if (!results.length) {
+    container.innerHTML = '';
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+  container.innerHTML = results.map(function(a) { return renderCard(a); }).join('');
+}
+
+// ── DOMContentLoaded init ─────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  updateCategoryCounters();
+  renderLatestStories();
+  renderCategoryPages();
+  renderDyk();
+  initDarkMode();
+  // Render related stories for each known article page
+  renderRelatedStories('article-coffee',     'plants');
+  renderRelatedStories('article-flowers',    'plants');
+  renderRelatedStories('article-fungi',      'plants');
+  renderRelatedStories('article-octopus',    'animals');
+  renderRelatedStories('article-writing',    'origins');
+  renderRelatedStories('article-antimatter', 'mysteries');
+});
+</script>
+
+<!-- ══════════════════════════════════ -->
+<!--  NAV                               -->
+<!-- ══════════════════════════════════ -->
+<nav>
+  <a class="logo" href="#" onclick="showPage('home');return false;">
+    <span class="logo-dot"></span> Curious Origins
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home');return false;">Home</a></li>
+    <li><a href="#" onclick="showPage('explore');return false;">Explore</a></li>
+    <li><a href="#" onclick="showPage('about');return false;">About</a></li>
+    <li><a href="#" onclick="showPage('contact');return false;">Contact</a></li>
+  </ul>
+  <input class="nav-search" type="text" placeholder="🔍  Search stories..." oninput="handleSearch(this.value)" onfocus="if(this.value.trim()) showPage('search')" />
+  <button class="random-btn" onclick="openRandomArticle()" title="Open a random article">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+    Random
+  </button>
+  <button class="dark-toggle" onclick="toggleDarkMode()" id="dark-toggle-btn" title="Toggle dark mode">
+    <span class="toggle-icon">🌙</span>
+  </button>
+  <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#" onclick="showPage('home');closeMobileMenu();return false;">Home</a>
+  <a href="#" onclick="showPage('explore');closeMobileMenu();return false;">Explore</a>
+  <a href="#" onclick="showPage('about');closeMobileMenu();return false;">About</a>
+  <a href="#" onclick="showPage('contact');closeMobileMenu();return false;">Contact</a>
+  <a href="#" onclick="openRandomArticle();closeMobileMenu();return false;">🔀 Random Story</a>
+</div>
+
+
+<!-- ══════════════════════════════════ -->
+<!--  HOME PAGE                         -->
+<!-- ══════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div>
+      <div class="hero-tag">A storytelling knowledge platform</div>
+      <h1>Where did <em>everything</em> begin?</h1>
+      <p class="hero-sub">Curious Origins explores how the plants, animals, ideas, and everyday things around us came to be — told through stories worth reading twice.</p>
+      <div class="hero-btns">
+        <a class="btn-primary" href="#" onclick="showPage('article-coffee');return false;">Read a story</a>
+        <a class="btn-secondary" href="#" onclick="showPage('explore');return false;">Explore topics</a>
+      </div>
+    </div>
+    <a class="featured-card" href="#" onclick="showPage('article-coffee');return false;">
+      <div class="featured-img">🌿</div>
+      <div class="featured-body">
+        <span class="featured-tag">✦ Featured Story</span>
+        <h3>The Unlikely Journey of Coffee: From Ethiopian Goat Herder to Global Ritual</h3>
+        <p>A chance discovery in the highlands of Ethiopia rippled outward for a thousand years — and changed how the world wakes up.</p>
+        <div class="featured-meta">Plants & Nature &nbsp;·&nbsp; 7 min read</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Categories -->
+  <div class="section-band">
+    <div class="section">
+      <div class="section-header">
+        <h2>Explore by Topic</h2>
+        <a href="#" onclick="showPage('explore');return false;">All topics →</a>
+      </div>
+      <div class="categories-grid">
+        <a class="cat-card cat-teal" href="#" onclick="showPage('cat-plants');return false;">
+          <div class="cat-icon">🌱</div>
+          <h3>Plants & Nature Stories</h3>
+          <p>Origins of the living world around us</p>
+          <div class="cat-count" data-category="plants">Stories coming soon</div>
+        </a>
+        <a class="cat-card cat-rose" href="#" onclick="showPage('cat-animals');return false;">
+          <div class="cat-icon">🦎</div>
+          <h3>Animals & Hidden Biology</h3>
+          <p>Surprising secrets of animal life</p>
+          <div class="cat-count" data-category="animals">Stories coming soon</div>
+        </a>
+        <a class="cat-card cat-gold" href="#" onclick="showPage('cat-origins');return false;">
+          <div class="cat-icon">📜</div>
+          <h3>How Things Began</h3>
+          <p>Writing, money, calendars, maps & more</p>
+          <div class="cat-count" data-category="origins">Stories coming soon</div>
+        </a>
+        <a class="cat-card cat-violet" href="#" onclick="showPage('cat-anime');return false;">
+          <div class="cat-icon">🎌</div>
+          <h3>Anime & Pop Culture</h3>
+          <p>How stories conquered the world</p>
+          <div class="cat-count" data-category="anime">Stories coming soon</div>
+        </a>
+        <a class="cat-card cat-sage" href="#" onclick="showPage('cat-mind');return false;">
+          <div class="cat-icon">🧠</div>
+          <h3>Human Mind & Behaviour</h3>
+          <p>Why we do the strange things we do</p>
+          <div class="cat-count" data-category="mind">Stories coming soon</div>
+        </a>
+        <a class="cat-card cat-gold" href="#" onclick="showPage('cat-everyday');return false;">
+          <div class="cat-icon">☕</div>
+          <h3>Everyday Things We Never Question</h3>
+          <p>The curious stories hiding in plain sight</p>
+          <div class="cat-count" data-category="everyday">Stories coming soon</div>
+        </a>
+        <a class="cat-card cat-teal" href="#" onclick="showPage('cat-mysteries');return false;">
+          <div class="cat-icon">🔭</div>
+          <h3>Science Mysteries Unsolved</h3>
+          <p>Questions that still keep scientists up</p>
+          <div class="cat-count" data-category="mysteries">Stories coming soon</div>
+        </a>
+        <a class="cat-card cat-rose" href="#" onclick="showPage('cat-technology');return false;">
+          <div class="cat-icon">💡</div>
+          <h3>Evolution of Technology</h3>
+          <p>How our tools grew smarter than us</p>
+          <div class="cat-count" data-category="technology">Stories coming soon</div>
+        </a>
+        <a class="cat-card cat-violet" href="#" onclick="showPage('cat-specialists');return false;">
+          <div class="cat-icon">🧬</div>
+          <h3>Specialists Behind Discoveries</h3>
+          <p>The humans who changed everything</p>
+          <div class="cat-count" data-category="specialists">Stories coming soon</div>
+        </a>
+        <a class="cat-card cat-sage" href="#" onclick="showPage('cat-civilizations');return false;">
+          <div class="cat-icon">🌍</div>
+          <h3>Evolution of Civilisations</h3>
+          <p>How societies rose, fell, and transformed</p>
+          <div class="cat-count" data-category="civilizations">Stories coming soon</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Did You Know -->
+  <div class="did-you-know">
+    <div class="dyk-card" onclick="nextDyk()" id="dyk-content">
+      <div class="dyk-icon">🌿</div>
+      <div>
+        <div class="dyk-label">Did you know?</div>
+        <div class="dyk-text">Loading a curious fact...</div>
+        <div class="dyk-refresh">Click for another fact →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Latest Articles — auto-generated from articles array -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Latest Stories</h2>
+      <a href="#" onclick="showPage('explore');return false;">See all →</a>
+    </div>
+    <div class="articles-grid" id="latest-stories-grid"></div>
+  </div>
+
+</div><!-- /home -->
+
+
+<!-- ══════════════════════════════════ -->
+<!--  EXPLORE PAGE                      -->
+<!-- ══════════════════════════════════ -->
+<div id="page-explore" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow" style="color: var(--gold);">Explore</p>
+      <h1>All Topics</h1>
+      <p>Ten windows into the world's most fascinating origin stories. Pick a thread and pull.</p>
+    </div>
+  </div>
+  <div class="section">
+    <button class="back-btn" onclick="showPage('home')">← Back to home</button>
+    <div class="categories-grid">
+      <a class="cat-card cat-teal" href="#" onclick="showPage('cat-plants');return false;"><div class="cat-icon">🌱</div><h3>Plants & Nature Stories</h3><p>Origins of the living world around us</p><div class="cat-count" data-category="plants">Stories coming soon</div></a>
+      <a class="cat-card cat-rose" href="#" onclick="showPage('cat-animals');return false;"><div class="cat-icon">🦎</div><h3>Animals & Hidden Biology</h3><p>Surprising secrets of animal life</p><div class="cat-count" data-category="animals">Stories coming soon</div></a>
+      <a class="cat-card cat-gold" href="#" onclick="showPage('cat-origins');return false;"><div class="cat-icon">📜</div><h3>How Things Began</h3><p>Writing, money, calendars, maps & more</p><div class="cat-count" data-category="origins">Stories coming soon</div></a>
+      <a class="cat-card cat-violet" href="#" onclick="showPage('cat-anime');return false;"><div class="cat-icon">🎌</div><h3>Anime & Pop Culture</h3><p>How stories conquered the world</p><div class="cat-count" data-category="anime">Stories coming soon</div></a>
+      <a class="cat-card cat-sage" href="#" onclick="showPage('cat-mind');return false;"><div class="cat-icon">🧠</div><h3>Human Mind & Behaviour</h3><p>Why we do the strange things we do</p><div class="cat-count" data-category="mind">Stories coming soon</div></a>
+      <a class="cat-card cat-gold" href="#" onclick="showPage('cat-everyday');return false;"><div class="cat-icon">☕</div><h3>Everyday Things We Never Question</h3><p>The curious stories hiding in plain sight</p><div class="cat-count" data-category="everyday">Stories coming soon</div></a>
+      <a class="cat-card cat-teal" href="#" onclick="showPage('cat-mysteries');return false;"><div class="cat-icon">🔭</div><h3>Science Mysteries Unsolved</h3><p>Questions that still keep scientists up</p><div class="cat-count" data-category="mysteries">Stories coming soon</div></a>
+      <a class="cat-card cat-rose" href="#" onclick="showPage('cat-technology');return false;"><div class="cat-icon">💡</div><h3>Evolution of Technology</h3><p>How our tools grew smarter than us</p><div class="cat-count" data-category="technology">Stories coming soon</div></a>
+      <a class="cat-card cat-violet" href="#" onclick="showPage('cat-specialists');return false;"><div class="cat-icon">🧬</div><h3>Specialists Behind Discoveries</h3><p>The humans who changed everything</p><div class="cat-count" data-category="specialists">Stories coming soon</div></a>
+      <a class="cat-card cat-sage" href="#" onclick="showPage('cat-civilizations');return false;"><div class="cat-icon">🌍</div><h3>Evolution of Civilisations</h3><p>How societies rose, fell, and transformed</p><div class="cat-count" data-category="civilizations">Stories coming soon</div></a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════ -->
+<!--  CATEGORY PAGES (templates)        -->
+<!-- ══════════════════════════════════ -->
+
+<!-- Plants & Nature -->
+<div id="page-cat-plants" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow" style="color: var(--teal);">Topic</p>
+      <h1>🌱 Plants & Nature Stories</h1>
+      <p><span data-category-desc="plants">Stories coming soon</span> exploring how the natural world came to be, evolved, and shapes life today.</p>
+    </div>
+  </div>
+  <div class="section">
+    <button class="back-btn" onclick="showPage('explore')">← All topics</button>
+    <div class="articles-grid" data-cat-page="plants"></div>
+  </div>
+</div>
+
+<!-- Animals -->
+<div id="page-cat-animals" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow" style="color: var(--rose);">Topic</p>
+      <h1>🦎 Animals & Hidden Biology</h1>
+      <p><span data-category-desc="animals">Stories coming soon</span> on the surprising secrets of animal life.</p>
+    </div>
+  </div>
+  <div class="section">
+    <button class="back-btn" onclick="showPage('explore')">← All topics</button>
+    <div class="articles-grid" data-cat-page="animals"></div>
+  </div>
+</div>
+
+<!-- How Things Began -->
+<div id="page-cat-origins" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow" style="color: var(--gold);">Topic</p>
+      <h1>📜 How Things Began</h1>
+      <p><span data-category-desc="origins">Stories coming soon</span> on the origins of writing, money, calendars, maps, and other everyday systems.</p>
+    </div>
+  </div>
+  <div class="section">
+    <button class="back-btn" onclick="showPage('explore')">← All topics</button>
+    <div class="articles-grid" data-cat-page="origins"></div>
+  </div>
+</div>
+
+<!-- Stub category pages -->
+<div id="page-cat-anime" class="page"><div class="page-hero"><div class="page-hero-inner"><p class="page-eyebrow" style="color:var(--violet);">Topic</p><h1>🎌 Anime & Pop Culture</h1><p><span data-category-desc="anime">Stories coming soon</span> on how stories conquered the world.</p></div></div><div class="section"><button class="back-btn" onclick="showPage('explore')">← All topics</button><div class="articles-grid" data-cat-page="anime"></div></div></div>
+<div id="page-cat-mind" class="page"><div class="page-hero"><div class="page-hero-inner"><p class="page-eyebrow" style="color:var(--sage);">Topic</p><h1>🧠 Human Mind & Behaviour</h1><p><span data-category-desc="mind">Stories coming soon</span> on why we do the strange things we do.</p></div></div><div class="section"><button class="back-btn" onclick="showPage('explore')">← All topics</button><div class="articles-grid" data-cat-page="mind"></div></div></div>
+<div id="page-cat-everyday" class="page"><div class="page-hero"><div class="page-hero-inner"><p class="page-eyebrow" style="color:var(--gold);">Topic</p><h1>☕ Everyday Things We Never Question</h1><p><span data-category-desc="everyday">Stories coming soon</span> on the curious stories hiding in plain sight.</p></div></div><div class="section"><button class="back-btn" onclick="showPage('explore')">← All topics</button><div class="articles-grid" data-cat-page="everyday"></div></div></div>
+<div id="page-cat-mysteries" class="page"><div class="page-hero"><div class="page-hero-inner"><p class="page-eyebrow" style="color:var(--teal);">Topic</p><h1>🔭 Science Mysteries Unsolved</h1><p><span data-category-desc="mysteries">Stories coming soon</span> on questions that still keep scientists up at night.</p></div></div><div class="section"><button class="back-btn" onclick="showPage('explore')">← All topics</button><div class="articles-grid" data-cat-page="mysteries"></div></div></div>
+<div id="page-cat-technology" class="page"><div class="page-hero"><div class="page-hero-inner"><p class="page-eyebrow" style="color:var(--rose);">Topic</p><h1>💡 Evolution of Technology</h1><p><span data-category-desc="technology">Stories coming soon</span> on how our tools grew smarter than us.</p></div></div><div class="section"><button class="back-btn" onclick="showPage('explore')">← All topics</button><div class="articles-grid" data-cat-page="technology"></div></div></div>
+<div id="page-cat-specialists" class="page"><div class="page-hero"><div class="page-hero-inner"><p class="page-eyebrow" style="color:var(--violet);">Topic</p><h1>🧬 Specialists Behind Discoveries</h1><p><span data-category-desc="specialists">Stories coming soon</span> on the humans who changed everything.</p></div></div><div class="section"><button class="back-btn" onclick="showPage('explore')">← All topics</button><div class="articles-grid" data-cat-page="specialists"></div></div></div>
+<div id="page-cat-civilizations" class="page"><div class="page-hero"><div class="page-hero-inner"><p class="page-eyebrow" style="color:var(--sage);">Topic</p><h1>🌍 Evolution of Civilisations</h1><p><span data-category-desc="civilizations">Stories coming soon</span> on how societies rose, fell, and transformed.</p></div></div><div class="section"><button class="back-btn" onclick="showPage('explore')">← All topics</button><div class="articles-grid" data-cat-page="civilizations"></div></div></div>
+
+
+<!-- ══════════════════════════════════ -->
+<!--  ARTICLE: COFFEE                   -->
+<!-- ══════════════════════════════════ -->
+<div id="page-article-coffee" class="page">
+  <div class="article-full">
+    <button class="back-btn" onclick="showPage('cat-plants')">← Plants & Nature Stories</button>
+    <span class="article-tag tag-teal" style="margin-bottom:1rem; display:inline-block;">Plants & Nature &nbsp;·&nbsp; 7 min read</span>
+    <h1>The Unlikely Journey of Coffee: From Ethiopian Goat Herder to Global Ritual</h1>
+    <p class="article-lead">A chance discovery in the highlands of Ethiopia rippled outward for a thousand years — passing through Sufi monks, Ottoman coffeehouses, and colonial trade routes — to become the most ritualised daily habit on Earth.</p>
+
+    <div class="story-section">
+      <h2>What it is</h2>
+      <p>Coffee is the brewed drink made from roasted seeds of the Coffea plant — a genus of flowering shrubs native to tropical and subtropical Africa. Today it is the second most traded commodity in the world by volume, after crude oil. Roughly 2.5 billion cups are drunk every single day. Two species dominate production: Coffea arabica (the delicate, complex one preferred by specialists) and Coffea canephora — the robusta — grown widely for its hardiness and high caffeine content.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>How it started</h2>
+      <p>The most credible origin story points to the Kaffa region of Ethiopia, sometime around the 9th century. A goat herder named Kaldi — according to legend — noticed his goats behaving unusually energetically after eating red berries from a specific shrub. He brought the berries to a nearby monastery. The monks, sceptical at first, threw them into a fire. The resulting aroma was said to be intoxicating. They dissolved the roasted beans in water, drank the resulting liquid, and found it helped them remain alert during long night prayers. The story may be apocryphal — but the geography is not. Ethiopia really is the genetic homeland of the Coffea arabica plant, and wild coffee still grows in its forests today.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>How it evolved</h2>
+      <p>By the 15th century, Sufi monks in Yemen were cultivating Coffea arabica and brewing it to stay alert during long night prayers — an echo of that original monastery story. The drink spread rapidly through the Arabian Peninsula. The first coffeehouses — called qahveh khaneh — opened in Mecca and later Constantinople. These became some of the most important social institutions of the era: places where men gathered to talk, debate, play chess, hear music, and exchange political views. Rulers periodically tried to ban coffeehouses, fearing sedition. They always failed.</p>
+      <p style="margin-top: 1rem;">By the 1600s, European travellers brought coffee back to Venice, then Amsterdam, Paris, and London. Coffeehouses spread extraordinarily fast. By 1700, London alone had more than 2,000 of them. They became the meeting places of the merchant class and the intellectual elite — and functioned, in many ways, as the first internet: a place where news, gossip, and ideas circulated faster than anywhere else.</p>
+    </div>
+
+    <div class="fun-fact">
+      <strong>Curious fact</strong>
+      <p>Lloyd's of London — one of the world's most powerful insurance markets — began as a coffeehouse. Edward Lloyd's establishment on Tower Street in 1688 attracted sailors, merchants, and underwriters who did business over cups of coffee. The institution that grew from those meetings still exists today.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>Why it matters today</h2>
+      <p>Coffee is now grown in over 70 countries across the "Coffee Belt" — the equatorial band between the Tropics of Cancer and Capricorn. It supports the livelihoods of an estimated 125 million people globally. Its chemistry — caffeine's mechanism of blocking adenosine receptors in the brain to prevent drowsiness — is one of the most studied psychoactive effects in neuroscience. It is also a lens into the history of colonialism: European powers forced colonial labour to grow coffee in Java, Brazil, and across the Caribbean, and the economics of coffee still reflect those power imbalances.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>Interesting & surprising facts</h2>
+      <p>Coffee beans are technically seeds from a fruit — the coffee cherry, which turns red when ripe. Finland is the world's biggest per capita coffee consumer, not Italy. Beethoven reportedly counted exactly 60 coffee beans per cup each morning. The word "coffee" traces through the Turkish <em>kahve</em> back to the Arabic <em>qahwa</em>, which some linguists believe originally meant "wine" — the energising drink of the Islamic world that did not ferment. And the famous Italian espresso tradition? It dates only to 1901, when Luigi Bezzera filed his first patent for a steam-pressure machine. Ancient by feel; modern by history.</p>
+    </div>
+  </div>
+  <div class="related-section" id="related-article-coffee">
+    <h2>Related Stories</h2>
+    <div class="related-grid"></div>
+  </div>
+</div>
+<!-- ══════════════════════════════════ -->
+<div id="page-article-antimatter" class="page">
+  <div class="article-full">
+    <button class="back-btn" onclick="showPage('cat-mysteries')">← Science Mysteries Unsolved</button>
+    <span class="article-tag tag-violet" style="margin-bottom:1rem; display:inline-block;">Science Mysteries &nbsp;·&nbsp; 6 min read</span>
+    <h1>Why Does the Universe Have More Matter Than Antimatter?</h1>
+    <p class="article-lead">If the Big Bang produced matter and antimatter in equal quantities — and they annihilate on contact — then everything should have cancelled out. Nothing should exist. The fact that you are reading this is, from a physics standpoint, deeply mysterious.</p>
+
+    <div class="story-section">
+      <h2>What it is</h2>
+      <p>Antimatter is the mirror-image twin of ordinary matter. For every particle, there exists an antiparticle with the same mass but opposite charge. When a particle meets its antiparticle, they annihilate in a burst of pure energy. The phenomenon was predicted by Paul Dirac in 1928 and experimentally confirmed in 1932 with the discovery of the positron — the antimatter counterpart of the electron.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>How it started (the problem)</h2>
+      <p>The equations governing the Big Bang are almost perfectly symmetrical. Matter and antimatter should have been produced in equal amounts. Yet the observable universe is made almost entirely of matter. Galaxies, stars, planets, biology — all matter. The antimatter that should have existed seems to have vanished. Physicists call this the "baryon asymmetry problem," and it is one of the most profound unsolved questions in all of science.</p>
+    </div>
+
+    <div class="fun-fact">
+      <strong>The staggering implication</strong>
+      <p>The entire visible universe — every galaxy, every star, every grain of sand — may exist because of a tiny imbalance: roughly one extra matter particle for every billion matter-antimatter pairs. Everything we see is the leftovers from that minute asymmetry.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>How science has evolved on this</h2>
+      <p>In 1964, physicists Cronin and Fitch discovered that particles called kaons behaved slightly differently than their antiparticles — a phenomenon called "CP violation." This showed that nature's laws are not perfectly symmetrical between matter and antimatter. But the known degree of CP violation is far too small to account for the imbalance we observe. Physicists suspect there are deeper, undiscovered mechanisms at play.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>Why it matters today</h2>
+      <p>The question is not academic. Understanding why matter won would likely require physics beyond the Standard Model — new particles, new forces, or new symmetry breakings. Experiments at CERN's LHCb detector and the Belle II experiment in Japan are actively measuring tiny differences between matter and antimatter to search for clues. The answer, if found, would be one of the greatest scientific discoveries in history.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>Interesting & surprising facts</h2>
+      <p>Antimatter is real and produced in particle accelerators daily — though only in vanishingly small quantities. A single gram of antimatter would cost an estimated $62 trillion to produce. Positron Emission Tomography (PET scans) used in hospitals rely on antimatter — positrons produced by radioactive tracers annihilate with electrons inside the body, generating gamma rays that create 3D images of metabolism. Your hospital is already using antimatter medicine.</p>
+    </div>
+  </div>
+  <div class="related-section" id="related-article-antimatter">
+    <h2>Related Stories</h2>
+    <div class="related-grid"></div>
+  </div>
+</div>
+<!-- ══════════════════════════════════ -->
+<div id="page-article-octopus" class="page">
+  <div class="article-full">
+    <button class="back-btn" onclick="showPage('cat-animals')">← Animals & Hidden Biology</button>
+    <span class="article-tag tag-teal" style="margin-bottom:1rem; display:inline-block;">Animals & Biology &nbsp;·&nbsp; 5 min read</span>
+    <h1>The Octopus That Sees Colour — Without Being Able to See Colour</h1>
+    <p class="article-lead">Octopuses are almost certainly colour-blind. Their eyes contain only one type of photoreceptor — meaning they should see the world in monochrome. And yet they are perhaps the most extraordinary colour-matching camouflage artists on Earth. Somehow, they know exactly what hue to become.</p>
+
+    <div class="story-section">
+      <h2>What it is</h2>
+      <p>Cephalopod camouflage is arguably the most sophisticated colour-changing system in nature. In milliseconds, an octopus can shift the colour, texture, and pattern of its entire body to match its surroundings — coral, sand, rocks, algae. The skin contains millions of specialised cells: chromatophores (pigment sacs), iridophores (structural colour reflectors), and papillae (texture bumps). The result can be near-perfect invisibility.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>The paradox</h2>
+      <p>Here is the problem: octopus eyes contain only a single type of opsin — a light-sensitive protein. Colour vision in most animals requires at least two (humans have three). With one opsin, you can detect brightness but not distinguish wavelengths. You are, technically, colour-blind. Studies photographing octopuses in colour-controlled environments confirmed they seem to match colours accurately. So how?</p>
+    </div>
+
+    <div class="fun-fact">
+      <strong>A leading hypothesis</strong>
+      <p>The pupils of octopus eyes are strangely shaped — U-shaped or W-shaped rather than round. Researchers at Harvard proposed that through "chromatic aberration," these odd pupils may allow different wavelengths of light to focus at slightly different depths, letting the octopus scan by adjusting focus to identify colour. It would be colour vision through an entirely different mechanism than anything else known.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>Why it matters today</h2>
+      <p>The octopus visual system challenges fundamental assumptions about how animal intelligence and perception evolve. Cephalopod brains are structured radically differently from vertebrate brains — and yet they achieve sophisticated cognition through an entirely independent evolutionary path. Studying octopus perception has implications for neuroscience, materials science (soft robotics, adaptive camouflage materials), and even the search for extraterrestrial intelligence — reminding us that complex minds can look utterly unlike our own.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>Interesting & surprising facts</h2>
+      <p>An octopus has three hearts, blue blood (copper-based haemocyanin rather than iron-based haemoglobin), and nine brains — one central brain and one in each arm, meaning its arms can act semi-independently. They can open childproof pill containers, solve mazes, and recognise individual human faces. They also appear to dream, showing rapid colour changes during sleep that resemble REM-state activity. The octopus is, by most metrics, an alien intelligence that evolved on Earth.</p>
+    </div>
+  </div>
+  <div class="related-section" id="related-article-octopus">
+    <h2>Related Stories</h2>
+    <div class="related-grid"></div>
+  </div>
+</div>
+<!-- ══════════════════════════════════ -->
+<div id="page-article-writing" class="page">
+  <div class="article-full">
+    <button class="back-btn" onclick="showPage('cat-origins')">← How Things Began</button>
+    <span class="article-tag tag-rose" style="margin-bottom:1rem; display:inline-block;">How Things Began &nbsp;·&nbsp; 8 min read</span>
+    <h1>The Invention of Writing: How Humans First Stored a Thought</h1>
+    <p class="article-lead">For 200,000 years, everything a human being knew lived only in a living brain. When that person died, the knowledge died with them. Then, around 3200 BCE, someone in Mesopotamia pressed a reed into wet clay — and permanence was born.</p>
+
+    <div class="story-section">
+      <h2>What it is</h2>
+      <p>Writing is a system of visual marks that encode language — allowing spoken words, numbers, and ideas to be stored, transmitted, and retrieved across time and space. It is arguably the most consequential invention in human history: the technology that made civilisation possible. Without writing, there is no law, no mathematics, no science, no literature, no accumulated history. Every institution of the modern world depends on it.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>How it started</h2>
+      <p>The earliest confirmed writing system — Sumerian cuneiform — emerged in Mesopotamia (modern Iraq) around 3200 BCE, not as poetry or prayer, but as accounting. The first tablets record quantities of grain and beer, lists of workers, and administrative tallies for the city of Uruk. Writing was invented for bureaucracy. The demands of managing a complex urban economy had outgrown what human memory alone could handle. The reed stylus pressed into clay was, at first, essentially a spreadsheet.</p>
+    </div>
+
+    <div class="fun-fact">
+      <strong>The first named author in history</strong>
+      <p>Enheduanna, an Akkadian priestess and daughter of Sargon of Akkad, is the first person in history known by name to have authored a written work. She lived around 2300 BCE and composed hymns to the goddess Inanna. Her name is carved onto a stone disc, now in the Penn Museum, Philadelphia.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>How it evolved</h2>
+      <p>Cuneiform began as pictographic — a stylised drawing of an ox meant "ox." Over centuries it became abstract: combinations of wedge-shaped marks that represented sounds rather than objects. This transition from pictograph to phonetic symbol is one of the great cognitive leaps in history. Meanwhile, independently and without contact, writing systems emerged in Egypt (hieroglyphics, c. 3100 BCE), the Indus Valley (c. 2600 BCE), China (oracle bone script, c. 1200 BCE), and Mesoamerica. The alphabet — a system representing individual sounds rather than syllables or words — emerged among Semitic peoples around 1800 BCE and became the ancestor of nearly every writing system in the Western world today.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>Why it matters today</h2>
+      <p>Every word you read, every law that governs you, every scientific paper ever published, every song ever written down — all of it depends on this invention. Writing externalised human memory, allowing knowledge to accumulate across generations rather than starting fresh each time. It is the reason you know about ancient Rome, about the ideas of people long dead, about everything that happened before you were born. The digital revolution is, in a deep sense, simply the latest chapter of this same story: humanity finding new ways to store and transmit marks that carry meaning.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>Interesting & surprising facts</h2>
+      <p>The oldest love poem ever found is Sumerian, written on a clay tablet around 2000 BCE, in the voice of a bride of the god Dumuzid. Linear A — the writing system of the ancient Minoan civilisation — remains undeciphered to this day. An estimated 26 scripts currently in use worldwide are still not fully decoded by scholars. And the word "alphabet" comes directly from the first two letters of the Greek system: alpha and beta — themselves derived from the Phoenician aleph (ox) and beth (house).</p>
+    </div>
+  </div>
+  <div class="related-section" id="related-article-writing">
+    <h2>Related Stories</h2>
+    <div class="related-grid"></div>
+  </div>
+</div>
+<!-- ══════════════════════════════════ -->
+<div id="page-article-flowers" class="page">
+  <div class="article-full">
+    <button class="back-btn" onclick="showPage('cat-plants')">← Plants & Nature Stories</button>
+    <span class="article-tag tag-sage" style="margin-bottom:1rem; display:inline-block;">Plants & Nature &nbsp;·&nbsp; 5 min read</span>
+    <h1>Why Flowers Are Colourful: A Deal With Insects Made 130 Million Years Ago</h1>
+    <p class="article-lead">Flowers did not have to be beautiful. For the first 250 million years of plant life on Earth, they weren't. Then, in the Cretaceous period, a quiet evolutionary negotiation began — and the world turned colour.</p>
+
+    <div class="story-section">
+      <h2>What it is</h2>
+      <p>Angiosperms — flowering plants — are the dominant form of plant life on Earth today, comprising about 90% of all plant species. Their defining feature is the flower: a structure evolved specifically to attract pollinators and ensure fertilisation. The colours, shapes, scents, and nectar of flowers are not decorative. They are advertisements, evolved to appeal to specific animals — bees, butterflies, birds, bats — in exchange for carrying pollen from plant to plant.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>How it started</h2>
+      <p>The first flowering plants appeared roughly 130 million years ago, during the Early Cretaceous, though fossil evidence suggests their origins may reach back further. Charles Darwin called their sudden proliferation in the fossil record "an abominable mystery" — they diversified explosively and with no clear precursor. The key was the co-evolution with insects. Early pollinators, visiting flowers for food, inadvertently carried pollen. Plants that attracted more visitors reproduced more successfully. Insects that found flowers more reliably fed better. Over millions of years, this became one of the most intricate mutual dependencies in the history of life.</p>
+    </div>
+
+    <div class="fun-fact">
+      <strong>Colour by species</strong>
+      <p>Bees cannot see red but can see ultraviolet — so many "white" flowers contain ultraviolet patterns invisible to human eyes that act as landing guides for bees. Hummingbirds, on the other hand, are drawn to red. Flowers pollinated by bats tend to be white or pale green, bloom at night, and smell musty. Every flower colour is, in a sense, a species-specific signal.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>Why it matters today</h2>
+      <p>Roughly 75% of the world's flowering crops depend on animal pollination. The global economic value of pollination services is estimated at over $500 billion annually. The decline of bee populations — driven by pesticides, habitat loss, and disease — represents a direct threat to global food security. Understanding the ancient deal between flowers and pollinators is essential to protecting it.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>Interesting & surprising facts</h2>
+      <p>The titan arum — one of the world's largest flowers — smells precisely like rotting flesh to attract carrion beetles. The orchid family has evolved flowers that mimic female insects so precisely that male insects attempt to mate with them, collecting pollen in the process. Some flowers can heat themselves to spread scent. The oldest flower fossil ever found is Montsechia vidalii, discovered in Spain, estimated to be 130 million years old — and it had no petals at all.</p>
+    </div>
+  </div>
+  <div class="related-section" id="related-article-flowers">
+    <h2>Related Stories</h2>
+    <div class="related-grid"></div>
+  </div>
+</div>
+<!-- ══════════════════════════════════ -->
+<div id="page-article-fungi" class="page">
+  <div class="article-full">
+    <button class="back-btn" onclick="showPage('cat-plants')">← Plants & Nature Stories</button>
+    <span class="article-tag tag-gold" style="margin-bottom:1rem; display:inline-block;">Plants & Nature &nbsp;·&nbsp; 6 min read</span>
+    <h1>The Wood Wide Web: How Trees Talk Through Fungi</h1>
+    <p class="article-lead">Beneath every forest floor is a network that has no name in human language older than thirty years. It predates the internet by 450 million years. And it may mean that forests, far from being collections of competing individuals, are something closer to communities.</p>
+
+    <div class="story-section">
+      <h2>What it is</h2>
+      <p>The mycorrhizal network is a web of fungal threads — called hyphae — that interweave with the roots of trees and plants throughout forest soil. The relationship is ancient and mutual: fungi receive carbohydrates (sugars) from trees in exchange for extending the tree's ability to absorb water and nutrients from the soil, especially phosphorus and nitrogen. Up to 90% of land plants form these relationships. The network can connect dozens or hundreds of trees across a large area.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>How it started</h2>
+      <p>The first land plants colonised bare rock around 450 million years ago — a hostile environment with little soil and scarce nutrients. They could not have done it alone. Fossil evidence shows that mycorrhizal fungi were present in the very earliest land plant roots, suggesting the partnership is as old as land-based life itself. It may be that plants only made it onto land because fungi led the way, breaking down rock and building soil. The forest, in a real sense, began underground.</p>
+    </div>
+
+    <div class="fun-fact">
+      <strong>Mother trees</strong>
+      <p>Forest ecologist Suzanne Simard's research showed that the oldest, largest trees in a forest — "mother trees" — are connected to hundreds of younger trees through mycorrhizal networks, and appear to preferentially send carbon and nutrients to their own seedlings. The forest may be less a battlefield of competing organisms than a family.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>Why it matters today</h2>
+      <p>The mycorrhizal network is increasingly seen as central to forest resilience and carbon sequestration. Healthy forest soils, rich in fungal networks, store enormous quantities of carbon. Industrial agriculture — which disrupts soil fungi through tillage and fungicides — may be undermining these systems on a vast scale. Research into restoring mycorrhizal networks in degraded soils is a growing field with significant implications for both agriculture and climate mitigation.</p>
+    </div>
+
+    <div class="story-section">
+      <h2>Interesting & surprising facts</h2>
+      <p>The largest living organism on Earth is likely a honey fungus (Armillaria ostoyae) in Oregon's Malheur National Forest — a single mycelial network spanning 8.9 km² and estimated to be between 2,000 and 8,000 years old. Trees under attack from insects have been shown to send chemical warning signals through the network to neighbouring trees, which then upregulate their own defences before being attacked. The forest may, in some limited sense, communicate.</p>
+    </div>
+  </div>
+  <div class="related-section" id="related-article-fungi">
+    <h2>Related Stories</h2>
+    <div class="related-grid"></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════ -->
+<!--  TAG RESULTS PAGE                  -->
+<!-- ══════════════════════════════════ -->
+<div id="page-tag-results" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow" style="color: var(--gold);">Tag</p>
+      <h1 id="tag-results-heading">Stories</h1>
+    </div>
+  </div>
+  <div class="section">
+    <button class="back-btn" onclick="history.go(-1) || showPage('home')">← Back</button>
+    <div class="articles-grid" id="tag-results-grid"></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════ -->
+<!--  SEARCH PAGE                       -->
+<!-- ══════════════════════════════════ -->
+<div id="page-search" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow" style="color: var(--gold);">Search</p>
+      <h1>Find a Story</h1>
+    </div>
+  </div>
+  <div class="section">
+    <button class="back-btn" onclick="showPage('home')">← Back to home</button>
+    <div class="search-bar-wrap">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="search-input" placeholder="e.g. coffee, writing, octopus…" oninput="handleSearch(this.value)" />
+    </div>
+    <div id="search-results" class="articles-grid"></div>
+    <p id="search-empty" style="color:var(--ink-muted); font-size:14px; display:none;">No stories match your search. Try a different term.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════ -->
+<!--  ABOUT PAGE                        -->
+<!-- ══════════════════════════════════ -->
+<div id="page-about" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow" style="color: var(--gold);">About</p>
+      <h1>About Curious Origins</h1>
+      <p>A digital knowledge magazine for the permanently curious.</p>
+    </div>
+  </div>
+  <div class="prose-page">
+    <button class="back-btn" onclick="showPage('home')">← Back to home</button>
+
+    <p>Curious Origins is a storytelling-based knowledge platform. We explore how different things in the world began, evolved, and became significant today — told through narratives that are as enjoyable to read as they are genuinely informative.</p>
+
+    <p>Every subject, no matter how ordinary, carries a hidden history of chance discoveries, forgotten pioneers, and unexpected consequences. We believe learning should feel like exploration, not instruction.</p>
+
+    <h2>How each story is structured</h2>
+    <p>Every article at Curious Origins follows the same storytelling arc — not because we're rigid, but because we've found this structure naturally mirrors how understanding develops:</p>
+
+    <div class="values-grid">
+      <div class="value-card">
+        <h3>What it is</h3>
+        <p>A clear, vivid description of the subject.</p>
+      </div>
+      <div class="value-card">
+        <h3>How it started</h3>
+        <p>The origin moment — often surprising.</p>
+      </div>
+      <div class="value-card">
+        <h3>How it evolved</h3>
+        <p>The journey from then to now.</p>
+      </div>
+      <div class="value-card">
+        <h3>Why it matters today</h3>
+        <p>The significance that isn't obvious.</p>
+      </div>
+    </div>
+    <p>Every article also ends with facts that shift your perspective — things you'll want to tell someone else within the hour.</p>
+
+    <h2>Our topics</h2>
+    <p>We cover ten areas: Plants & Nature, Animals & Hidden Biology, How Things Began, Anime & Pop Culture, Human Mind & Behaviour, Everyday Things We Never Question, Science Mysteries Unsolved, Evolution of Technology, Specialists Behind Discoveries, and the Evolution of Civilisations. The one thing they share: origins worth knowing.</p>
+
+    <h2>Who this is for</h2>
+    <p>Anyone who looks at an everyday object — a coffee cup, a map, a calendar — and wonders: how did this come to be? If that's you, you're in the right place.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════ -->
+<!--  CONTACT PAGE                      -->
+<!-- ══════════════════════════════════ -->
+<div id="page-contact" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow" style="color: var(--gold);">Contact</p>
+      <h1>Get in Touch</h1>
+      <p>Story ideas, corrections, feedback, or just saying hello.</p>
+    </div>
+  </div>
+  <div class="prose-page">
+    <button class="back-btn" onclick="showPage('home')">← Back to home</button>
+    <p>Have a fascinating origin story you think belongs here? A correction, a suggestion, or a question? We'd love to hear from you. Every message is read.</p>
+
+    <div class="contact-form">
+      <div class="form-row">
+        <div>
+          <label for="cf-name">Your name</label>
+          <input type="text" id="cf-name" placeholder="Ada Lovelace" />
+        </div>
+        <div>
+          <label for="cf-email">Email address</label>
+          <input type="email" id="cf-email" placeholder="you@example.com" />
+        </div>
+      </div>
+      <div>
+        <label for="cf-type">Type of message</label>
+        <select id="cf-type">
+          <option value="">Select one…</option>
+          <option>Story idea</option>
+          <option>Correction or feedback</option>
+          <option>Collaboration</option>
+          <option>General question</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div>
+        <label for="cf-subject">Subject</label>
+        <input type="text" id="cf-subject" placeholder="e.g. Story idea: the origin of chess" />
+      </div>
+      <div>
+        <label for="cf-message">Message</label>
+        <textarea id="cf-message" placeholder="Tell us more…"></textarea>
+      </div>
+      <button class="btn-primary" style="align-self:flex-start; padding:11px 28px;" onclick="submitContact()">Send message</button>
+      <div class="form-success" id="form-success">
+        ✓ &nbsp; Message sent! We'll get back to you shortly.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════ -->
+<!--  FOOTER                            -->
+<!-- ══════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3><span class="logo-dot"></span> Curious Origins</h3>
+        <p>A storytelling knowledge platform exploring how everything in the world began, evolved, and became significant today.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="#" onclick="showPage('home');return false;">Home</a></li>
+          <li><a href="#" onclick="showPage('explore');return false;">Explore Topics</a></li>
+          <li><a href="#" onclick="showPage('search');return false;">Search</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Topics</h4>
+        <ul>
+          <li><a href="#" onclick="showPage('cat-plants');return false;">Plants & Nature</a></li>
+          <li><a href="#" onclick="showPage('cat-animals');return false;">Animals</a></li>
+          <li><a href="#" onclick="showPage('cat-origins');return false;">How Things Began</a></li>
+          <li><a href="#" onclick="showPage('cat-mysteries');return false;">Science Mysteries</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>More</h4>
+        <ul>
+          <li><a href="#" onclick="showPage('about');return false;">About</a></li>
+          <li><a href="#" onclick="showPage('contact');return false;">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Curious Origins. All rights reserved.</p>
+      <a href="#" onclick="showPage('contact');return false;">Submit a story idea</a>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>
