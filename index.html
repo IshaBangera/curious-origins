@@ -4,7 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Curious Origins — Where Did Everything Begin?</title>
-<meta name="description" content="A storytelling-based knowledge platform exploring how the plants, animals, ideas, and everyday things around us came to be.">
+<meta name="description" content="A storytelling-based knowledge platform exploring how the plants, animals, ideas, and everyday things around us came to be — told through stories worth reading.">
+<meta name="keywords" content="curious origins, origin stories, history, nature, science, how things began, knowledge platform">
+<meta name="author" content="Curious Origins">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/curious-origins/">
+
+<!-- Open Graph (Facebook, WhatsApp, LinkedIn previews) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Curious Origins — Where Did Everything Begin?">
+<meta property="og:description" content="Explore how the plants, animals, ideas, and everyday things around us came to be — told through stories worth reading.">
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/curious-origins/">
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/curious-origins/images/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Curious Origins">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Curious Origins — Where Did Everything Begin?">
+<meta name="twitter:description" content="Explore how the plants, animals, ideas, and everyday things around us came to be.">
+<meta name="twitter:image" content="https://YOUR-USERNAME.github.io/curious-origins/images/og-cover.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -172,20 +192,22 @@
   }
   .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
   .btn-primary {
-    background: var(--ink);
-    color: var(--paper);
+    background: #1a1714;
+    color: #faf8f4;
     padding: 11px 24px;
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
-    border: none;
+    border: 2px solid #1a1714;
     cursor: pointer;
     font-family: var(--ff-body);
-    transition: background 0.2s;
+    transition: background 0.2s, border-color 0.2s;
     text-decoration: none;
     display: inline-block;
   }
-  .btn-primary:hover { background: var(--teal); }
+  .btn-primary:hover { background: var(--teal); border-color: var(--teal); color: #fff; }
+  body.dark .btn-primary { background: #f0ede8; color: #1a1714; border-color: #f0ede8; }
+  body.dark .btn-primary:hover { background: var(--teal); border-color: var(--teal); color: #fff; }
   .btn-secondary {
     background: transparent;
     color: var(--ink);
@@ -316,7 +338,20 @@
     justify-content: center;
     font-size: 3rem;
     flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
   }
+  /* Image inside thumbnail — sits on top of the emoji/gradient background */
+  .article-thumb img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* Hide broken images completely — emoji fallback shows through */
+  .article-thumb img[data-broken="true"] { display: none; }
   .article-body { padding: 1rem; flex: 1; display: flex; flex-direction: column; }
   .article-tag {
     font-size: 10px;
@@ -416,6 +451,7 @@
     padding: 1rem 1.25rem;
     margin: 1.5rem 0;
   }
+  body.dark .fun-fact { background: rgba(200,146,58,0.15); }
   .fun-fact strong {
     font-size: 10px;
     letter-spacing: 0.1em;
@@ -425,7 +461,9 @@
     margin-bottom: 6px;
     font-weight: 600;
   }
+  body.dark .fun-fact strong { color: var(--gold); }
   .fun-fact p { font-size: 14px; color: #5a3a10; margin: 0; line-height: 1.65; }
+  body.dark .fun-fact p { color: var(--ink-soft); }
 
   /* ── ABOUT ── */
   .prose-page { max-width: 720px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
@@ -683,7 +721,43 @@
   .article-tag.clickable { cursor: pointer; transition: opacity 0.2s; }
   .article-tag.clickable:hover { opacity: 0.75; }
 
-  /* Tag results page */
+  /* ── ARTICLE & THUMBNAIL IMAGES ── */
+  .article-thumb img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .article-thumb img[data-broken="true"] { display: none; }
+  .article-img {
+    width: 100%;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    display: block;
+    max-height: 480px;
+    object-fit: cover;
+  }
+  /* Hide broken article body images — no broken icon, no alt text overflow */
+  .article-img[data-broken="true"] { display: none !important; }
+  .article-img + .article-img-caption { margin-top: -1rem; }
+  .article-img[data-broken="true"] + .article-img-caption { display: none; }
+  .article-img-caption {
+    font-size: 12px;
+    color: var(--ink-muted);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+  .featured-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* tag-results-header */
   .tag-results-header { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 8px; }
 </style>
 </head>
@@ -697,14 +771,14 @@
 // CATEGORY IDs: plants | animals | origins | anime | mind | everyday
 //               mysteries | technology | specialists | civilizations
 const articles = [
-  { title: "The Unlikely Journey of Coffee: From Ethiopian Goat Herder to Global Ritual", category: "plants",    url: "articles/coffee.html",        tags: ["plants","nature","coffee","ethiopia","caffeine","history"],             tagLabel: "Plants & Nature",   tagClass: "tag-teal",   icon: "🌿", bg: "linear-gradient(135deg,#1a3a35,#2a7c6f)", excerpt: "From a goat herder in Ethiopia to a global ritual — a thousand-year origin story.",                   mins: 7 },
-  { title: "Why Flowers Are Colourful: A Deal With Insects Made 130 Million Years Ago",   category: "plants",    url: "articles/flowers.html",       tags: ["flowers","plants","insects","bees","nature","colour","evolution"],      tagLabel: "Plants & Nature",   tagClass: "tag-sage",   icon: "🌸", bg: "linear-gradient(135deg,#1a3a20,#4a7a5a)", excerpt: "The ancient pact that transformed the planet and fed almost every creature on Earth.",               mins: 5 },
-  { title: "The Wood Wide Web: How Trees Talk Through Fungi",                              category: "plants",    url: "articles/wood-wide-web.html", tags: ["fungi","trees","forest","network","plants","nature","mycorrhizal"],     tagLabel: "Plants & Nature",   tagClass: "tag-gold",   icon: "🍄", bg: "linear-gradient(135deg,#2a1a10,#c8923a)", excerpt: "Beneath every forest is a secret communication network older than language itself.",                  mins: 6 },
-  { title: "The Octopus That Sees Colour — Without Being Able to See Colour",             category: "animals",   url: "articles/octopus.html",       tags: ["animals","octopus","colour","biology","camouflage","vision"],          tagLabel: "Animals & Biology", tagClass: "tag-teal",   icon: "🐙", bg: "linear-gradient(135deg,#1a3535,#2a6a7c)", excerpt: "Technically colour-blind, yet masters of camouflage. The mystery of the octopus eye.",               mins: 5 },
-  { title: "The Invention of Writing: How Humans First Stored a Thought",                 category: "origins",   url: "articles/writing.html",       tags: ["writing","history","mesopotamia","cuneiform","origins","invention"],   tagLabel: "How Things Began",  tagClass: "tag-rose",   icon: "📖", bg: "linear-gradient(135deg,#3a1a1a,#b54a4a)", excerpt: "5,000 years ago someone pressed a reed into clay — and the world was never the same.",               mins: 8 },
-  { title: "Why Does the Universe Have More Matter Than Antimatter?",                     category: "mysteries", url: "articles/antimatter.html",    tags: ["science","physics","antimatter","universe","big bang","cosmology"],   tagLabel: "Science Mysteries", tagClass: "tag-violet", icon: "🌌", bg: "linear-gradient(135deg,#2a1a3a,#5a4a8a)", excerpt: "One of the deepest puzzles in physics — and the reason you exist at all.",                          mins: 6 },
+  { title: "The Unlikely Journey of Coffee: From Ethiopian Goat Herder to Global Ritual", category: "plants",    url: "articles/coffee.html",        img: "images/coffee.jpg",        imgAlt: "A coffee plant with ripe red coffee cherries in Ethiopia",          tags: ["plants","nature","coffee","ethiopia","caffeine","history"],             tagLabel: "Plants & Nature",   tagClass: "tag-teal",   icon: "🌿", bg: "linear-gradient(135deg,#1a3a35,#2a7c6f)", excerpt: "From a goat herder in Ethiopia to a global ritual — a thousand-year origin story.",                   mins: 7 },
+  { title: "Why Flowers Are Colourful: A Deal With Insects Made 130 Million Years Ago",   category: "plants",    url: "articles/flowers.html",       img: "images/flowers.jpg",       imgAlt: "Vibrant colourful wildflowers with bees in a summer meadow",        tags: ["flowers","plants","insects","bees","nature","colour","evolution"],      tagLabel: "Plants & Nature",   tagClass: "tag-sage",   icon: "🌸", bg: "linear-gradient(135deg,#1a3a20,#4a7a5a)", excerpt: "The ancient pact that transformed the planet and fed almost every creature on Earth.",               mins: 5 },
+  { title: "The Wood Wide Web: How Trees Talk Through Fungi",                              category: "plants",    url: "articles/wood-wide-web.html", img: "images/fungi.jpg",         imgAlt: "Forest floor with mushrooms and tree roots showing mycorrhizal network", tags: ["fungi","trees","forest","network","plants","nature","mycorrhizal"],     tagLabel: "Plants & Nature",   tagClass: "tag-gold",   icon: "🍄", bg: "linear-gradient(135deg,#2a1a10,#c8923a)", excerpt: "Beneath every forest is a secret communication network older than language itself.",                  mins: 6 },
+  { title: "The Octopus That Sees Colour — Without Being Able to See Colour",             category: "animals",   url: "articles/octopus.html",       img: "images/octopus.jpg",       imgAlt: "An octopus changing colour to match coral reef surroundings",        tags: ["animals","octopus","colour","biology","camouflage","vision"],          tagLabel: "Animals & Biology", tagClass: "tag-teal",   icon: "🐙", bg: "linear-gradient(135deg,#1a3535,#2a6a7c)", excerpt: "Technically colour-blind, yet masters of camouflage. The mystery of the octopus eye.",               mins: 5 },
+  { title: "The Invention of Writing: How Humans First Stored a Thought",                 category: "origins",   url: "articles/writing.html",       img: "images/writing.jpg",       imgAlt: "Ancient Sumerian cuneiform clay tablet with wedge-shaped inscriptions", tags: ["writing","history","mesopotamia","cuneiform","origins","invention"],   tagLabel: "How Things Began",  tagClass: "tag-rose",   icon: "📖", bg: "linear-gradient(135deg,#3a1a1a,#b54a4a)", excerpt: "5,000 years ago someone pressed a reed into clay — and the world was never the same.",               mins: 8 },
+  { title: "Why Does the Universe Have More Matter Than Antimatter?",                     category: "mysteries", url: "articles/antimatter.html",    img: "images/antimatter.jpg",    imgAlt: "Deep space photograph showing galaxies and cosmic matter",           tags: ["science","physics","antimatter","universe","big bang","cosmology"],   tagLabel: "Science Mysteries", tagClass: "tag-violet", icon: "🌌", bg: "linear-gradient(135deg,#2a1a3a,#5a4a8a)", excerpt: "One of the deepest puzzles in physics — and the reason you exist at all.",                          mins: 6 },
   // ── Add new articles here. Counters update automatically. ──
-  // { title: "...", category: "origins", url: "articles/....html", tags: [...], tagLabel: "How Things Began", tagClass: "tag-rose", icon: "💰", bg: "linear-gradient(...)", excerpt: "...", mins: 7 },
+  // { title: "...", category: "origins", url: "articles/....html", img: "images/....jpg", imgAlt: "Describe the image for screen readers and SEO", tags: [...], tagLabel: "How Things Began", tagClass: "tag-rose", icon: "💰", bg: "linear-gradient(...)", excerpt: "...", mins: 7 },
 ];
 
 // ── Page router ──────────────────────────────────────────────
@@ -811,8 +885,13 @@ function renderCard(a, extraClass) {
   var pid = getArticlePageId(a);
   var href = pid ? '#' : a.url;
   var onclick = pid ? ' onclick="showPage(\'' + pid + '\');return false;"' : '';
+  // Always render the emoji as background content.
+  // If an img path exists, overlay it on top — if it fails to load it hides itself.
+  var imgOverlay = a.img
+    ? '<img src="' + a.img + '" alt="' + (a.imgAlt || a.title) + '" loading="lazy" onerror="this.setAttribute(\'data-broken\',\'true\')">'
+    : '';
   return '<a class="article-card' + (extraClass ? ' ' + extraClass : '') + '" href="' + href + '"' + onclick + '>'
-    + '<div class="article-thumb" style="background:' + a.bg + ';">' + a.icon + '</div>'
+    + '<div class="article-thumb" style="background:' + a.bg + ';">' + a.icon + imgOverlay + '</div>'
     + '<div class="article-body">'
     + '<span class="article-tag clickable ' + a.tagClass + '" onclick="event.stopPropagation();event.preventDefault();showTagResults(\'' + a.category + '\',\'' + a.tagLabel + '\')">' + a.tagLabel + '</span>'
     + '<h3>' + a.title + '</h3>'
@@ -1269,22 +1348,45 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="article-full">
     <button class="back-btn" onclick="showPage('cat-plants')">← Plants & Nature Stories</button>
     <span class="article-tag tag-teal" style="margin-bottom:1rem; display:inline-block;">Plants & Nature &nbsp;·&nbsp; 7 min read</span>
+
+    <!-- SEO: H1 contains the focus keyword "coffee origin" -->
     <h1>The Unlikely Journey of Coffee: From Ethiopian Goat Herder to Global Ritual</h1>
     <p class="article-lead">A chance discovery in the highlands of Ethiopia rippled outward for a thousand years — passing through Sufi monks, Ottoman coffeehouses, and colonial trade routes — to become the most ritualised daily habit on Earth.</p>
 
+    <!-- Hero image: replace src with your actual image path -->
+    <!-- Image should be ~1200×630px, saved as images/coffee.jpg in your repo -->
+    <img
+      class="article-img"
+      src="images/coffee.jpg"
+      alt="Ripe red coffee cherries growing on a Coffea arabica plant in the highlands of Ethiopia"
+      loading="eager"
+      onerror="this.setAttribute('data-broken','true')"
+    >
+    <p class="article-img-caption">Coffea arabica growing in the Kaffa region of Ethiopia — the genetic homeland of the world's most popular beverage.</p>
+
     <div class="story-section">
       <h2>What it is</h2>
-      <p>Coffee is the brewed drink made from roasted seeds of the Coffea plant — a genus of flowering shrubs native to tropical and subtropical Africa. Today it is the second most traded commodity in the world by volume, after crude oil. Roughly 2.5 billion cups are drunk every single day. Two species dominate production: Coffea arabica (the delicate, complex one preferred by specialists) and Coffea canephora — the robusta — grown widely for its hardiness and high caffeine content.</p>
+      <p>Coffee is the brewed drink made from roasted seeds of the <em>Coffea</em> plant — a genus of flowering shrubs native to tropical and subtropical Africa. Today it is the second most traded commodity in the world by volume, after crude oil. Roughly 2.5 billion cups are drunk every single day. Two species dominate production: <em>Coffea arabica</em> (the delicate, complex one preferred by specialists) and <em>Coffea canephora</em> — the robusta — grown widely for its hardiness and high caffeine content.</p>
     </div>
 
     <div class="story-section">
       <h2>How it started</h2>
-      <p>The most credible origin story points to the Kaffa region of Ethiopia, sometime around the 9th century. A goat herder named Kaldi — according to legend — noticed his goats behaving unusually energetically after eating red berries from a specific shrub. He brought the berries to a nearby monastery. The monks, sceptical at first, threw them into a fire. The resulting aroma was said to be intoxicating. They dissolved the roasted beans in water, drank the resulting liquid, and found it helped them remain alert during long night prayers. The story may be apocryphal — but the geography is not. Ethiopia really is the genetic homeland of the Coffea arabica plant, and wild coffee still grows in its forests today.</p>
+      <p>The most credible <strong>origin of coffee</strong> points to the Kaffa region of Ethiopia, sometime around the 9th century. A goat herder named Kaldi — according to legend — noticed his goats behaving unusually energetically after eating red berries from a specific shrub. He brought the berries to a nearby monastery. The monks, sceptical at first, threw them into a fire. The resulting aroma was said to be intoxicating. They dissolved the roasted beans in water, drank the resulting liquid, and found it helped them remain alert during long night prayers. The story may be apocryphal — but the geography is not. Ethiopia really is the genetic homeland of the <em>Coffea arabica</em> plant, and wild coffee still grows in its forests today.</p>
     </div>
+
+    <!-- Inline image mid-article: replace with your actual image -->
+    <img
+      class="article-img"
+      src="images/coffeehouse.jpg"
+      alt="A historical Ottoman coffeehouse from the 17th century with men gathered around low tables"
+      loading="lazy"
+      onerror="this.setAttribute('data-broken','true')"
+    >
+    <p class="article-img-caption">The qahveh khaneh — Ottoman coffeehouses — became the intellectual meeting places of the 16th and 17th centuries.</p>
 
     <div class="story-section">
       <h2>How it evolved</h2>
-      <p>By the 15th century, Sufi monks in Yemen were cultivating Coffea arabica and brewing it to stay alert during long night prayers — an echo of that original monastery story. The drink spread rapidly through the Arabian Peninsula. The first coffeehouses — called qahveh khaneh — opened in Mecca and later Constantinople. These became some of the most important social institutions of the era: places where men gathered to talk, debate, play chess, hear music, and exchange political views. Rulers periodically tried to ban coffeehouses, fearing sedition. They always failed.</p>
+      <p>By the 15th century, Sufi monks in Yemen were cultivating <em>Coffea arabica</em> and brewing it to stay alert during long night prayers — an echo of that original monastery story. The drink spread rapidly through the Arabian Peninsula. The first coffeehouses — called <em>qahveh khaneh</em> — opened in Mecca and later Constantinople. These became some of the most important social institutions of the era: places where men gathered to talk, debate, play chess, hear music, and exchange political views. Rulers periodically tried to ban coffeehouses, fearing sedition. They always failed.</p>
       <p style="margin-top: 1rem;">By the 1600s, European travellers brought coffee back to Venice, then Amsterdam, Paris, and London. Coffeehouses spread extraordinarily fast. By 1700, London alone had more than 2,000 of them. They became the meeting places of the merchant class and the intellectual elite — and functioned, in many ways, as the first internet: a place where news, gossip, and ideas circulated faster than anywhere else.</p>
     </div>
 
@@ -1296,6 +1398,8 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="story-section">
       <h2>Why it matters today</h2>
       <p>Coffee is now grown in over 70 countries across the "Coffee Belt" — the equatorial band between the Tropics of Cancer and Capricorn. It supports the livelihoods of an estimated 125 million people globally. Its chemistry — caffeine's mechanism of blocking adenosine receptors in the brain to prevent drowsiness — is one of the most studied psychoactive effects in neuroscience. It is also a lens into the history of colonialism: European powers forced colonial labour to grow coffee in Java, Brazil, and across the Caribbean, and the economics of coffee still reflect those power imbalances.</p>
+      <!-- Internal link example: linking to a related article on the same site -->
+      <p style="margin-top:1rem;">The coffee plant's story is also deeply connected to the natural world — similar to how <a href="#" onclick="showPage('article-fungi');return false;" style="color:var(--teal);text-decoration:underline;">fungi form hidden networks beneath forests</a>, the global coffee trade forms invisible webs connecting farmers, traders, and consumers across continents.</p>
     </div>
 
     <div class="story-section">
@@ -1316,6 +1420,9 @@ document.addEventListener('DOMContentLoaded', function() {
     <h1>Why Does the Universe Have More Matter Than Antimatter?</h1>
     <p class="article-lead">If the Big Bang produced matter and antimatter in equal quantities — and they annihilate on contact — then everything should have cancelled out. Nothing should exist. The fact that you are reading this is, from a physics standpoint, deeply mysterious.</p>
 
+    <img class="article-img" src="images/antimatter.jpg" alt="Deep space photograph showing galaxies, stars and cosmic matter against the darkness of space" loading="eager" onerror="this.setAttribute('data-broken','true')">
+    <p class="article-img-caption">The observable universe — made almost entirely of matter. Where did all the antimatter go?</p>
+
     <div class="story-section">
       <h2>What it is</h2>
       <p>Antimatter is the mirror-image twin of ordinary matter. For every particle, there exists an antiparticle with the same mass but opposite charge. When a particle meets its antiparticle, they annihilate in a burst of pure energy. The phenomenon was predicted by Paul Dirac in 1928 and experimentally confirmed in 1932 with the discovery of the positron — the antimatter counterpart of the electron.</p>
@@ -1330,6 +1437,9 @@ document.addEventListener('DOMContentLoaded', function() {
       <strong>The staggering implication</strong>
       <p>The entire visible universe — every galaxy, every star, every grain of sand — may exist because of a tiny imbalance: roughly one extra matter particle for every billion matter-antimatter pairs. Everything we see is the leftovers from that minute asymmetry.</p>
     </div>
+
+    <img class="article-img" src="images/cern-accelerator.jpg" alt="The CERN Large Hadron Collider tunnel showing the circular particle accelerator in Geneva Switzerland" loading="lazy" onerror="this.setAttribute('data-broken','true')">
+    <p class="article-img-caption">CERN's Large Hadron Collider in Geneva — one of the facilities actively studying matter-antimatter asymmetry.</p>
 
     <div class="story-section">
       <h2>How science has evolved on this</h2>
@@ -1359,6 +1469,9 @@ document.addEventListener('DOMContentLoaded', function() {
     <h1>The Octopus That Sees Colour — Without Being Able to See Colour</h1>
     <p class="article-lead">Octopuses are almost certainly colour-blind. Their eyes contain only one type of photoreceptor — meaning they should see the world in monochrome. And yet they are perhaps the most extraordinary colour-matching camouflage artists on Earth. Somehow, they know exactly what hue to become.</p>
 
+    <img class="article-img" src="images/octopus.jpg" alt="An octopus perfectly camouflaged against a rocky coral reef, changing its skin colour and texture to match its surroundings" loading="eager" onerror="this.setAttribute('data-broken','true')">
+    <p class="article-img-caption">An octopus mid-camouflage — matching colour, texture and pattern to its surroundings in milliseconds.</p>
+
     <div class="story-section">
       <h2>What it is</h2>
       <p>Cephalopod camouflage is arguably the most sophisticated colour-changing system in nature. In milliseconds, an octopus can shift the colour, texture, and pattern of its entire body to match its surroundings — coral, sand, rocks, algae. The skin contains millions of specialised cells: chromatophores (pigment sacs), iridophores (structural colour reflectors), and papillae (texture bumps). The result can be near-perfect invisibility.</p>
@@ -1374,8 +1487,8 @@ document.addEventListener('DOMContentLoaded', function() {
       <p>The pupils of octopus eyes are strangely shaped — U-shaped or W-shaped rather than round. Researchers at Harvard proposed that through "chromatic aberration," these odd pupils may allow different wavelengths of light to focus at slightly different depths, letting the octopus scan by adjusting focus to identify colour. It would be colour vision through an entirely different mechanism than anything else known.</p>
     </div>
 
-    <div class="story-section">
-      <h2>Why it matters today</h2>
+    <img class="article-img" src="images/octopus-eye.jpg" alt="Close-up of an octopus eye showing its distinctive W-shaped pupil and complex iris structure" loading="lazy" onerror="this.setAttribute('data-broken','true')">
+    <p class="article-img-caption">The W-shaped pupil of an octopus — the unusual structure at the heart of the chromatic aberration hypothesis.</p>
       <p>The octopus visual system challenges fundamental assumptions about how animal intelligence and perception evolve. Cephalopod brains are structured radically differently from vertebrate brains — and yet they achieve sophisticated cognition through an entirely independent evolutionary path. Studying octopus perception has implications for neuroscience, materials science (soft robotics, adaptive camouflage materials), and even the search for extraterrestrial intelligence — reminding us that complex minds can look utterly unlike our own.</p>
     </div>
 
@@ -1397,6 +1510,9 @@ document.addEventListener('DOMContentLoaded', function() {
     <h1>The Invention of Writing: How Humans First Stored a Thought</h1>
     <p class="article-lead">For 200,000 years, everything a human being knew lived only in a living brain. When that person died, the knowledge died with them. Then, around 3200 BCE, someone in Mesopotamia pressed a reed into wet clay — and permanence was born.</p>
 
+    <img class="article-img" src="images/writing.jpg" alt="Ancient Sumerian cuneiform clay tablet with wedge-shaped inscriptions from Mesopotamia circa 3000 BCE" loading="eager" onerror="this.setAttribute('data-broken','true')">
+    <p class="article-img-caption">A Sumerian cuneiform tablet from around 3000 BCE — one of the earliest examples of written language ever discovered.</p>
+
     <div class="story-section">
       <h2>What it is</h2>
       <p>Writing is a system of visual marks that encode language — allowing spoken words, numbers, and ideas to be stored, transmitted, and retrieved across time and space. It is arguably the most consequential invention in human history: the technology that made civilisation possible. Without writing, there is no law, no mathematics, no science, no literature, no accumulated history. Every institution of the modern world depends on it.</p>
@@ -1411,6 +1527,9 @@ document.addEventListener('DOMContentLoaded', function() {
       <strong>The first named author in history</strong>
       <p>Enheduanna, an Akkadian priestess and daughter of Sargon of Akkad, is the first person in history known by name to have authored a written work. She lived around 2300 BCE and composed hymns to the goddess Inanna. Her name is carved onto a stone disc, now in the Penn Museum, Philadelphia.</p>
     </div>
+
+    <img class="article-img" src="images/hieroglyphs.jpg" alt="Egyptian hieroglyphics carved into stone walls at an ancient temple showing pictographic writing system" loading="lazy" onerror="this.setAttribute('data-broken','true')">
+    <p class="article-img-caption">Egyptian hieroglyphics — one of several writing systems that developed independently around the same period as Sumerian cuneiform.</p>
 
     <div class="story-section">
       <h2>How it evolved</h2>
@@ -1440,6 +1559,9 @@ document.addEventListener('DOMContentLoaded', function() {
     <h1>Why Flowers Are Colourful: A Deal With Insects Made 130 Million Years Ago</h1>
     <p class="article-lead">Flowers did not have to be beautiful. For the first 250 million years of plant life on Earth, they weren't. Then, in the Cretaceous period, a quiet evolutionary negotiation began — and the world turned colour.</p>
 
+    <img class="article-img" src="images/flowers.jpg" alt="Vibrant colourful wildflowers in a summer meadow with bees and butterflies collecting pollen" loading="eager" onerror="this.setAttribute('data-broken','true')">
+    <p class="article-img-caption">A summer meadow in full bloom — the result of 130 million years of co-evolution between flowering plants and their pollinators.</p>
+
     <div class="story-section">
       <h2>What it is</h2>
       <p>Angiosperms — flowering plants — are the dominant form of plant life on Earth today, comprising about 90% of all plant species. Their defining feature is the flower: a structure evolved specifically to attract pollinators and ensure fertilisation. The colours, shapes, scents, and nectar of flowers are not decorative. They are advertisements, evolved to appeal to specific animals — bees, butterflies, birds, bats — in exchange for carrying pollen from plant to plant.</p>
@@ -1454,6 +1576,9 @@ document.addEventListener('DOMContentLoaded', function() {
       <strong>Colour by species</strong>
       <p>Bees cannot see red but can see ultraviolet — so many "white" flowers contain ultraviolet patterns invisible to human eyes that act as landing guides for bees. Hummingbirds, on the other hand, are drawn to red. Flowers pollinated by bats tend to be white or pale green, bloom at night, and smell musty. Every flower colour is, in a sense, a species-specific signal.</p>
     </div>
+
+    <img class="article-img" src="images/bee-flower.jpg" alt="A honey bee covered in yellow pollen landing on a purple flower during pollination" loading="lazy" onerror="this.setAttribute('data-broken','true')">
+    <p class="article-img-caption">A bee collecting pollen — completing the ancient exchange that keeps most of the world's food crops alive.</p>
 
     <div class="story-section">
       <h2>Why it matters today</h2>
@@ -1478,6 +1603,9 @@ document.addEventListener('DOMContentLoaded', function() {
     <h1>The Wood Wide Web: How Trees Talk Through Fungi</h1>
     <p class="article-lead">Beneath every forest floor is a network that has no name in human language older than thirty years. It predates the internet by 450 million years. And it may mean that forests, far from being collections of competing individuals, are something closer to communities.</p>
 
+    <img class="article-img" src="images/fungi.jpg" alt="Forest floor covered in mushrooms with tree roots and mycorrhizal fungi network visible in the soil" loading="eager" onerror="this.setAttribute('data-broken','true')">
+    <p class="article-img-caption">The visible part of a fungal network — most of the wood wide web lies invisibly beneath the soil surface.</p>
+
     <div class="story-section">
       <h2>What it is</h2>
       <p>The mycorrhizal network is a web of fungal threads — called hyphae — that interweave with the roots of trees and plants throughout forest soil. The relationship is ancient and mutual: fungi receive carbohydrates (sugars) from trees in exchange for extending the tree's ability to absorb water and nutrients from the soil, especially phosphorus and nitrogen. Up to 90% of land plants form these relationships. The network can connect dozens or hundreds of trees across a large area.</p>
@@ -1492,6 +1620,9 @@ document.addEventListener('DOMContentLoaded', function() {
       <strong>Mother trees</strong>
       <p>Forest ecologist Suzanne Simard's research showed that the oldest, largest trees in a forest — "mother trees" — are connected to hundreds of younger trees through mycorrhizal networks, and appear to preferentially send carbon and nutrients to their own seedlings. The forest may be less a battlefield of competing organisms than a family.</p>
     </div>
+
+    <img class="article-img" src="images/forest-roots.jpg" alt="Ancient old-growth forest with massive tree trunks and tangled root systems above ground in a temperate rainforest" loading="lazy" onerror="this.setAttribute('data-broken','true')">
+    <p class="article-img-caption">An old-growth forest — the oldest trees here are "mother trees," acting as central hubs in the mycorrhizal network beneath.</p>
 
     <div class="story-section">
       <h2>Why it matters today</h2>
