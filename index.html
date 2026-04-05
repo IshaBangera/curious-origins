@@ -1028,6 +1028,51 @@ function showPage(name) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   closeMobileMenu();
   updateProgressBar();
+
+   // Update meta tags for article pages
+  var metaMap = {
+    'article-coffee': {
+      title: 'Origin of Coffee: From Ethiopia to the World | Curious Origins',
+      desc: 'Discover the origin of coffee and how an Ethiopian forest plant became the world’s most loved daily ritual.',
+      img: 'images/coffee.jpg'
+    },
+    'article-flowers': {
+      title: 'Why Flowers Are Colourful | Curious Origins',
+      desc: 'Learn why flowers evolved colour and how pollinators shaped the evolution of flowering plants.',
+      img: 'images/flowers.jpg'
+    },
+    'article-fungi': {
+      title: 'The Wood Wide Web Explained | Curious Origins',
+      desc: 'Explore how trees communicate through underground fungal networks known as the mycorrhizal network.',
+      img: 'images/fungi.jpg'
+    },
+    'article-octopus': {
+      title: 'The Octopus That Sees Colour | Curious Origins',
+      desc: 'Octopuses are colour-blind yet masters of camouflage. Discover how their vision really works.',
+      img: 'images/octopus.jpg'
+    },
+    'article-writing': {
+      title: 'The Invention of Writing | Curious Origins',
+      desc: 'Discover how humans invented writing in ancient Mesopotamia and changed civilisation forever.',
+      img: 'images/writing.jpg'
+    },
+    'article-antimatter': {
+      title: 'Matter vs Antimatter Mystery | Curious Origins',
+      desc: 'Why does the universe contain more matter than antimatter? Explore one of physics’ biggest mysteries.',
+      img: 'images/antimatter.jpg'
+    }
+  };
+
+  var meta = metaMap[name];
+  if (meta) {
+    document.title = meta.title;
+    document.querySelector('meta[name="description"]').setAttribute('content', meta.desc);
+    document.querySelector('meta[property="og:title"]').setAttribute('content', meta.title);
+    document.querySelector('meta[property="og:description"]').setAttribute('content', meta.desc);
+    document.querySelector('meta[property="og:image"]').setAttribute('content', meta.img);
+  } else if (name === 'home') {
+    document.title = 'Curious Origins — Where Did Everything Begin?';
+  }
 }
 
 // ── Mobile menu ───────────────────────────────────────────────
@@ -1373,16 +1418,6 @@ document.addEventListener('DOMContentLoaded', function() {
       <h2>How it started</h2>
       <p>The most credible <strong>origin of coffee</strong> points to the Kaffa region of Ethiopia, sometime around the 9th century. A goat herder named Kaldi — according to legend — noticed his goats behaving unusually energetically after eating red berries from a specific shrub. He brought the berries to a nearby monastery. The monks, sceptical at first, threw them into a fire. The resulting aroma was said to be intoxicating. They dissolved the roasted beans in water, drank the resulting liquid, and found it helped them remain alert during long night prayers. The story may be apocryphal — but the geography is not. Ethiopia really is the genetic homeland of the <em>Coffea arabica</em> plant, and wild coffee still grows in its forests today.</p>
     </div>
-
-    <!-- Inline image mid-article: replace with your actual image -->
-    <img
-      class="article-img"
-      src="images/coffeehouse.jpg"
-      alt="A historical Ottoman coffeehouse from the 17th century with men gathered around low tables"
-      loading="lazy"
-      onerror="this.setAttribute('data-broken','true')"
-    >
-    <p class="article-img-caption">The qahveh khaneh — Ottoman coffeehouses — became the intellectual meeting places of the 16th and 17th centuries.</p>
 
     <div class="story-section">
       <h2>How it evolved</h2>
