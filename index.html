@@ -476,7 +476,7 @@
   .value-card p { font-size: 13px; color: var(--ink-muted); margin: 0; line-height: 1.5; }
 
   /* ── CONTACT ── */
-  .contact-form { margin-top: 2rem; display: flex; flex-direction: column; gap: 14px; }
+  .contact-form { margin-top: 2rem; display: flex; flex-direction: column; gap: 14px; width: 100%; }
   .contact-form label { font-size: 12px; font-weight: 500; color: var(--ink-soft); display: block; margin-bottom: 4px; }
   .contact-form input,
   .contact-form textarea,
@@ -795,17 +795,48 @@ function closeMobileMenu() {
 }
 
 // ── Contact form ─────────────────────────────────────────────
-function submitContact() {
-  var name  = document.getElementById('cf-name');
-  var email = document.getElementById('cf-email');
-  if (!name || !email || !name.value.trim() || !email.value.trim()) {
+// Handles Formspree AJAX submission so the page doesn't navigate away.
+function submitContact(e) {
+  if (e) e.preventDefault();
+  var form = document.getElementById('contact-form');
+  if (!form) return;
+
+  var nameEl  = document.getElementById('cf-name');
+  var emailEl = document.getElementById('cf-email');
+  if (!nameEl.value.trim() || !emailEl.value.trim()) {
     alert('Please fill in your name and email address.');
     return;
   }
-  var s = document.getElementById('form-success');
-  if (s) s.style.display = 'block';
-  ['cf-name','cf-email','cf-subject','cf-message','cf-type'].forEach(function(id) {
-    var el = document.getElementById(id); if (el) el.value = '';
+
+  var btn = form.querySelector('button[type="submit"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+  var data = new FormData(form);
+
+  fetch('https://formspree.io/f/xlgoaobo', {
+    method: 'POST',
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(function(response) {
+    if (response.ok) {
+      // Show success message, hide form fields
+      var s = document.getElementById('form-success');
+      if (s) s.style.display = 'block';
+      form.reset();
+      if (btn) { btn.style.display = 'none'; }
+    } else {
+      response.json().then(function(data) {
+        var msg = (data.errors && data.errors.map(function(e){ return e.message; }).join(', '))
+                  || 'Something went wrong. Please try again.';
+        alert(msg);
+        if (btn) { btn.disabled = false; btn.textContent = 'Send message'; }
+      });
+    }
+  })
+  .catch(function() {
+    alert('Network error — please check your connection and try again.');
+    if (btn) { btn.disabled = false; btn.textContent = 'Send message'; }
   });
 }
 
@@ -1132,20 +1163,7 @@ function closeMobileMenu() {
   if (m) m.classList.remove('open');
 }
 
-// ── Contact form ──────────────────────────────────────────────
-function submitContact() {
-  var name  = document.getElementById('cf-name');
-  var email = document.getElementById('cf-email');
-  if (!name || !email || !name.value.trim() || !email.value.trim()) {
-    alert('Please fill in your name and email address.');
-    return;
-  }
-  var s = document.getElementById('form-success');
-  if (s) s.style.display = 'block';
-  ['cf-name','cf-email','cf-subject','cf-message','cf-type'].forEach(function(id) {
-    var el = document.getElementById(id); if (el) el.value = '';
-  });
-}
+// Contact form handled by submitContact() defined above
 
 // ── Search ────────────────────────────────────────────────────
 function handleSearch(val) {
@@ -1855,20 +1873,26 @@ document.addEventListener('DOMContentLoaded', function() {
     <button class="back-btn" onclick="showPage('home')">← Back to home</button>
     <p>Have a fascinating origin story you think belongs here? A correction, a suggestion, or a question? We'd love to hear from you. Every message is read.</p>
 
-    <div class="contact-form">
+    <form
+      id="contact-form"
+      class="contact-form"
+      action="https://formspree.io/f/xlgoaobo"
+      method="POST"
+      onsubmit="submitContact(event)"
+    >
       <div class="form-row">
         <div>
           <label for="cf-name">Your name</label>
-          <input type="text" id="cf-name" placeholder="Ada Lovelace" />
+          <input type="text" id="cf-name" name="name" placeholder="Ada Lovelace" required />
         </div>
         <div>
           <label for="cf-email">Email address</label>
-          <input type="email" id="cf-email" placeholder="you@example.com" />
+          <input type="email" id="cf-email" name="email" placeholder="you@example.com" required />
         </div>
       </div>
       <div>
         <label for="cf-type">Type of message</label>
-        <select id="cf-type">
+        <select id="cf-type" name="type">
           <option value="">Select one…</option>
           <option>Story idea</option>
           <option>Correction or feedback</option>
@@ -1879,17 +1903,17 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
       <div>
         <label for="cf-subject">Subject</label>
-        <input type="text" id="cf-subject" placeholder="e.g. Story idea: the origin of chess" />
+        <input type="text" id="cf-subject" name="subject" placeholder="e.g. Story idea: the origin of chess" />
       </div>
       <div>
         <label for="cf-message">Message</label>
-        <textarea id="cf-message" placeholder="Tell us more…"></textarea>
+        <textarea id="cf-message" name="message" placeholder="Tell us more…"></textarea>
       </div>
-      <button class="btn-primary" style="align-self:flex-start; padding:11px 28px;" onclick="submitContact()">Send message</button>
+      <button type="submit" class="btn-primary" style="align-self:flex-start; padding:11px 28px;">Send message</button>
       <div class="form-success" id="form-success">
         ✓ &nbsp; Message sent! We'll get back to you shortly.
       </div>
-    </div>
+    </form>
   </div>
 </div>
 
