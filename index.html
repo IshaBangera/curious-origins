@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+ <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NWP9FLLC');</script>
+<!-- End Google Tag Manager -->
+ 
 <link rel="canonical" href="https://ishabangera.github.io/curious-origins/">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -267,7 +275,7 @@
     margin-bottom: 8px;
     font-weight: 600;
   }
-  .featured-body p { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+  .featured- p { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
   .featured-meta { font-size: 11px; color: var(--ink-muted); margin-top: 10px; }
 
   /* ── SECTION HELPERS ── */
@@ -353,7 +361,7 @@
   }
   /* Hide broken images completely — emoji fallback shows through */
   .article-thumb img[data-broken="true"] { display: none; }
-  .article-body { padding: 1rem; flex: 1; display: flex; flex-direction: column; }
+  .article- { padding: 1rem; flex: 1; display: flex; flex-direction: column; }
   .article-tag {
     font-size: 10px;
     letter-spacing: 0.08em;
@@ -370,14 +378,14 @@
   .tag-rose { color: var(--rose); background: var(--rose-light); }
   .tag-violet { color: var(--violet); background: var(--violet-light); }
   .tag-sage { color: var(--sage); background: var(--sage-light); }
-  .article-body h3 {
+  .article- h3 {
     font-family: var(--ff-display);
     font-size: 1rem;
     line-height: 1.4;
     margin-bottom: 6px;
     font-weight: 600;
   }
-  .article-body p { font-size: 12px; color: var(--ink-soft); line-height: 1.6; flex: 1; }
+  .article- p { font-size: 12px; color: var(--ink-soft); line-height: 1.6; flex: 1; }
   .article-meta { font-size: 11px; color: var(--ink-muted); margin-top: 10px; display: flex; gap: 12px; }
 
   /* ── PAGE SYSTEM ── */
@@ -411,7 +419,7 @@
     font-size: 13px;
     cursor: pointer;
     color: var(--ink-soft);
-    font-family: var(--ff-body);
+    font-family: var(--ff-);
     margin-bottom: 1.5rem;
     transition: border-color 0.2s, color 0.2s;
     text-decoration: none;
@@ -452,7 +460,7 @@
     padding: 1rem 1.25rem;
     margin: 1.5rem 0;
   }
-  body.dark .fun-fact { background: rgba(200,146,58,0.15); }
+  .dark .fun-fact { background: rgba(200,146,58,0.15); }
   .fun-fact strong {
     font-size: 10px;
     letter-spacing: 0.1em;
@@ -462,9 +470,9 @@
     margin-bottom: 6px;
     font-weight: 600;
   }
-  body.dark .fun-fact strong { color: var(--gold); }
+  .dark .fun-fact strong { color: var(--gold); }
   .fun-fact p { font-size: 14px; color: #5a3a10; margin: 0; line-height: 1.65; }
-  body.dark .fun-fact p { color: var(--ink-soft); }
+  .dark .fun-fact p { color: var(--ink-soft); }
 
   /* ── ABOUT ── */
   .prose-page { max-width: 720px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
@@ -485,7 +493,7 @@
     padding: 10px 14px;
     border: 1px solid var(--border-strong);
     border-radius: 6px;
-    font-family: var(--ff-body);
+    font-family: var(--ff-);
     font-size: 14px;
     background: var(--paper-card);
     color: var(--ink);
@@ -515,7 +523,7 @@
     padding: 12px 18px 12px 44px;
     border: 1px solid var(--border-strong);
     border-radius: 30px;
-    font-family: var(--ff-body);
+    font-family: var(--ff-);
     font-size: 15px;
     background: var(--paper-card);
     color: var(--ink);
@@ -580,7 +588,7 @@
   }
 
   /* ── DARK MODE ── */
-  body.dark {
+  .dark {
     --ink: #f0ede8;
     --ink-soft: #c0bdb8;
     --ink-muted: #807d78;
@@ -593,9 +601,9 @@
     --shadow-hover: 0 8px 32px rgba(0,0,0,0.5);
     background: #18161400;
   }
-  body.dark { background-color: #1c1a18; }
-  body.dark nav { background: #1c1a18; }
-  body.dark .mobile-menu { background: #1c1a18; }
+  .dark { background-color: #1c1a18; }
+  .dark nav { background: #1c1a18; }
+  .dark .mobile-menu { background: #1c1a18; }
 
   /* Dark mode toggle button */
   .dark-toggle {
@@ -606,7 +614,7 @@
     font-size: 13px;
     cursor: pointer;
     color: var(--ink-soft);
-    font-family: var(--ff-body);
+    font-family: var(--ff-);
     display: flex;
     align-items: center;
     gap: 6px;
@@ -629,7 +637,7 @@
     font-weight: 500;
     color: var(--ink-soft);
     cursor: pointer;
-    font-family: var(--ff-body);
+    font-family: var(--ff-);
     transition: border-color 0.2s, color 0.2s, background 0.2s;
     text-decoration: none;
   }
@@ -714,9 +722,9 @@
   }
   .related-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
   .related-thumb { height: 80px; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
-  .related-body { padding: 0.75rem; }
-  .related-body h4 { font-size: 13px; font-weight: 500; line-height: 1.35; margin-bottom: 4px; font-family: var(--ff-display); }
-  .related-body span { font-size: 11px; color: var(--ink-muted); }
+  .related- { padding: 0.75rem; }
+  .related- h4 { font-size: 13px; font-weight: 500; line-height: 1.35; margin-bottom: 4px; font-family: var(--ff-display); }
+  .related- span { font-size: 11px; color: var(--ink-muted); }
 
   /* ── CLICKABLE TAGS ── */
   .article-tag.clickable { cursor: pointer; transition: opacity 0.2s; }
@@ -763,6 +771,11 @@
 </style>
 </head>
 <body>
+ <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NWP9FLLC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+ 
 <div id="reading-progress"></div>
 
 <script>
@@ -1581,7 +1594,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <div class="story-section">
       <h2>Interesting & surprising facts</h2>
-      <p>Antimatter is real and produced in particle accelerators daily — though only in vanishingly small quantities. A single gram of antimatter would cost an estimated $62 trillion to produce. Positron Emission Tomography (PET scans) used in hospitals rely on antimatter — positrons produced by radioactive tracers annihilate with electrons inside the body, generating gamma rays that create 3D images of metabolism. Your hospital is already using antimatter medicine.</p>
+      <p>Antimatter is real and produced in particle accelerators daily — though only in vanishingly small quantities. A single gram of antimatter would cost an estimated $62 trillion to produce. Positron Emission Tomography (PET scans) used in hospitals rely on antimatter — positrons produced by radioactive tracers annihilate with electrons inside the , generating gamma rays that create 3D images of metabolism. Your hospital is already using antimatter medicine.</p>
     </div>
   </div>
   <div class="related-section" id="related-article-antimatter">
@@ -1602,7 +1615,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <div class="story-section">
       <h2>What it is</h2>
-      <p>Cephalopod camouflage is arguably the most sophisticated colour-changing system in nature. In milliseconds, an octopus can shift the colour, texture, and pattern of its entire body to match its surroundings — coral, sand, rocks, algae. The skin contains millions of specialised cells: chromatophores (pigment sacs), iridophores (structural colour reflectors), and papillae (texture bumps). The result can be near-perfect invisibility.</p>
+      <p>Cephalopod camouflage is arguably the most sophisticated colour-changing system in nature. In milliseconds, an octopus can shift the colour, texture, and pattern of its entire  to match its surroundings — coral, sand, rocks, algae. The skin contains millions of specialised cells: chromatophores (pigment sacs), iridophores (structural colour reflectors), and papillae (texture bumps). The result can be near-perfect invisibility.</p>
     </div>
 
     <div class="story-section">
