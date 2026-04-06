@@ -735,21 +735,22 @@
   .article-img {
     width: 100%;
     border-radius: 8px;
-    margin: 1.5rem 0;
+    margin: 1.5rem 0 0.5rem 0;
     display: block;
     max-height: 480px;
     object-fit: cover;
+    min-height: 40px;
   }
-  /* Hide broken article body images — no broken icon, no alt text overflow */
+  /* When image is broken: hide it AND its caption */
   .article-img[data-broken="true"] { display: none !important; }
-  .article-img + .article-img-caption { margin-top: -1rem; }
-  .article-img[data-broken="true"] + .article-img-caption { display: none; }
+  .article-img[data-broken="true"] + .article-img-caption { display: none !important; }
   .article-img-caption {
     font-size: 12px;
     color: var(--ink-muted);
     text-align: center;
-    margin-bottom: 1.5rem;
+    margin: 0 0 1.5rem 0;
     font-style: italic;
+    line-height: 1.5;
   }
   .featured-img img {
     width: 100%;
@@ -1021,32 +1022,55 @@ function showTagResults(category, label) {
   showPage('tag-results');
 }
 
- // Page URL router (maps pages to clean URLs)
+// Page URL router
 var BASE = '/curious-origins';
 
 var PAGE_URLS = {
-
-  'home': BASE + '/',
-
-  'explore': BASE + '/explore',
-  'about': BASE + '/about',
-  'contact': BASE + '/contact',
-
-  'cat-plants': BASE + '/category/plants',
-  'cat-animals': BASE + '/category/animals',
-  'cat-origins': BASE + '/category/origins',
-  'cat-mysteries': BASE + '/category/mysteries',
-
-  'article-coffee': BASE + '/article/coffee',
-  'article-flowers': BASE + '/article/flowers',
-  'article-fungi': BASE + '/article/fungi',
-  'article-writing': BASE + '/article/writing',
-  'article-antimatter': BASE + '/article/antimatter'
-
+  'home':              BASE + '/',
+  'explore':           BASE + '/explore',
+  'about':             BASE + '/about',
+  'contact':           BASE + '/contact',
+  'search':            BASE + '/search',
+  'tag-results':       BASE + '/tag',
+  'cat-plants':        BASE + '/category/plants',
+  'cat-animals':       BASE + '/category/animals',
+  'cat-origins':       BASE + '/category/origins',
+  'cat-anime':         BASE + '/category/anime',
+  'cat-mind':          BASE + '/category/mind',
+  'cat-everyday':      BASE + '/category/everyday',
+  'cat-mysteries':     BASE + '/category/mysteries',
+  'cat-technology':    BASE + '/category/technology',
+  'cat-specialists':   BASE + '/category/specialists',
+  'cat-civilizations': BASE + '/category/civilizations',
+  'article-coffee':     BASE + '/article/coffee',
+  'article-flowers':    BASE + '/article/flowers',
+  'article-fungi':      BASE + '/article/fungi',
+  'article-writing':    BASE + '/article/writing',
+  'article-antimatter': BASE + '/article/antimatter',
+  'article-octopus':    BASE + '/article/octopus'
 };
 
+// Reverse map: URL path -> page id
+var URL_TO_PAGE = {};
+Object.keys(PAGE_URLS).forEach(function(id) { URL_TO_PAGE[PAGE_URLS[id]] = id; });
+
+function urlToPageId(path) {
+  var p = path.replace(/\/$/, '') || (BASE + '/');
+  return URL_TO_PAGE[p] || URL_TO_PAGE[path] || 'home';
+}
+
+// Back/forward button support
+window.addEventListener('popstate', function(e) {
+  try {
+    var pageId = (e.state && e.state.page) ? e.state.page : urlToPageId(window.location.pathname);
+    showPage(pageId, false);
+  } catch(ex) {}
+});
+
 // ── Page router ───────────────────────────────────────────────
-function showPage(name) {
+function showPage(name, addToHistory) {
+  if (addToHistory === undefined) addToHistory = true;
+
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   var target = document.getElementById('page-' + name);
   if (target) target.classList.add('active');
@@ -1054,16 +1078,21 @@ function showPage(name) {
   closeMobileMenu();
   updateProgressBar();
 
- // Update browser URL
-if (PAGE_URLS[name]) {
-  history.pushState(null, '', PAGE_URLS[name]);
-}
+  // Update URL safely (silent fail in preview/file:// environments)
+  try {
+    var url = PAGE_URLS[name] || (BASE + '/' + name);
+    if (addToHistory) {
+      history.pushState({ page: name }, '', url);
+    } else {
+      history.replaceState({ page: name }, '', url);
+    }
+  } catch(ex) {}
 
-   // Update meta tags for article pages
+  // Update meta tags for article pages
   var metaMap = {
     'article-coffee': {
       title: 'Origin of Coffee: From Ethiopia to the World | Curious Origins',
-      desc: 'Discover the origin of coffee and how an Ethiopian forest plant became the world’s most loved daily ritual.',
+      desc: "Discover the origin of coffee and how an Ethiopian forest plant became the world's most loved daily ritual.",
       img: 'images/coffee.jpg'
     },
     'article-flowers': {
@@ -1078,7 +1107,7 @@ if (PAGE_URLS[name]) {
     },
     'article-octopus': {
       title: 'The Octopus That Sees Colour | Curious Origins',
-      desc: 'Octopuses are colour-blind yet masters of camouflage. Discover how their vision really works.',
+      desc: "Octopuses are colour-blind yet masters of camouflage. Discover how their vision really works.",
       img: 'images/octopus.jpg'
     },
     'article-writing': {
@@ -1088,21 +1117,27 @@ if (PAGE_URLS[name]) {
     },
     'article-antimatter': {
       title: 'Matter vs Antimatter Mystery | Curious Origins',
-      desc: 'Why does the universe contain more matter than antimatter? Explore one of physics’ biggest mysteries.',
+      desc: "Why does the universe contain more matter than antimatter? Explore one of physics' biggest mysteries.",
       img: 'images/antimatter.jpg'
     }
   };
 
-  var meta = metaMap[name];
-  if (meta) {
-    document.title = meta.title;
-    document.querySelector('meta[name="description"]').setAttribute('content', meta.desc);
-    document.querySelector('meta[property="og:title"]').setAttribute('content', meta.title);
-    document.querySelector('meta[property="og:description"]').setAttribute('content', meta.desc);
-    document.querySelector('meta[property="og:image"]').setAttribute('content', meta.img);
-  } else if (name === 'home') {
-    document.title = 'Curious Origins — Where Did Everything Begin?';
-  }
+  try {
+    var meta = metaMap[name];
+    if (meta) {
+      document.title = meta.title;
+      var d = document.querySelector('meta[name="description"]');
+      if (d) d.setAttribute('content', meta.desc);
+      var ot = document.querySelector('meta[property="og:title"]');
+      if (ot) ot.setAttribute('content', meta.title);
+      var od = document.querySelector('meta[property="og:description"]');
+      if (od) od.setAttribute('content', meta.desc);
+      var oi = document.querySelector('meta[property="og:image"]');
+      if (oi) oi.setAttribute('content', 'https://ishabangera.github.io/curious-origins/' + meta.img);
+    } else if (name === 'home') {
+      document.title = 'Curious Origins — Where Did Everything Begin?';
+    }
+  } catch(ex) {}
 }
 
 // ── Mobile menu ───────────────────────────────────────────────
@@ -1161,13 +1196,32 @@ document.addEventListener('DOMContentLoaded', function() {
   renderCategoryPages();
   renderDyk();
   initDarkMode();
-  // Render related stories for each known article page
   renderRelatedStories('article-coffee',     'plants');
   renderRelatedStories('article-flowers',    'plants');
   renderRelatedStories('article-fungi',      'plants');
   renderRelatedStories('article-octopus',    'animals');
   renderRelatedStories('article-writing',    'origins');
   renderRelatedStories('article-antimatter', 'mysteries');
+
+  // Read the URL on load so refresh/direct links open the right page.
+  // Also handles ?p= redirect from 404.html.
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var redirectPath = params.get('p');
+    if (redirectPath) {
+      // Came via 404.html redirect — clean up URL and show correct page
+      history.replaceState(null, '', redirectPath);
+      var pageId = urlToPageId(redirectPath.split('?')[0]);
+      showPage(pageId, false);
+    } else {
+      // Normal load — show page matching current URL
+      var initialPage = urlToPageId(window.location.pathname);
+      showPage(initialPage, false);
+    }
+  } catch(e) {
+    // Preview / file:// environment — just show homepage
+    showPage('home', false);
+  }
 });
 </script>
 
