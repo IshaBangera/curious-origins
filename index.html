@@ -1020,6 +1020,28 @@ function showTagResults(category, label) {
   showPage('tag-results');
 }
 
+ // Page URL router (maps pages to clean URLs)
+var PAGE_URLS = {
+
+  'home': '/',
+
+  'explore': '/explore',
+  'about': '/about',
+  'contact': '/contact',
+
+  'cat-plants': '/category/plants',
+  'cat-animals': '/category/animals',
+  'cat-origins': '/category/origins',
+  'cat-mysteries': '/category/mysteries',
+
+  'article-coffee': '/article/coffee',
+  'article-flowers': '/article/flowers',
+  'article-fungi': '/article/fungi',
+  'article-writing': '/article/writing',
+  'article-antimatter': '/article/antimatter'
+
+};
+
 // ── Page router ───────────────────────────────────────────────
 function showPage(name) {
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
@@ -1028,6 +1050,11 @@ function showPage(name) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   closeMobileMenu();
   updateProgressBar();
+
+ // Update browser URL
+if (PAGE_URLS[name]) {
+  history.pushState(null, '', PAGE_URLS[name]);
+}
 
    // Update meta tags for article pages
   var metaMap = {
