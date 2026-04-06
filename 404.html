@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Curious Origins</title>
+<script>
+  // GitHub Pages 404 fix.
+  // When someone refreshes or pastes a URL like /curious-origins/article/coffee,
+  // GitHub Pages can't find a file there and serves this 404.html instead.
+  // This script redirects back to index.html, passing the original path as ?p=
+  // so the site can read it and show the correct page.
+  var path = window.location.pathname;
+  var query = window.location.search;
+  var hash  = window.location.hash;
+  window.location.replace(
+    '/curious-origins/?p=' + encodeURIComponent(path + query + hash)
+  );
+</script>
+</head>
+<body>
+  <p style="font-family:sans-serif;text-align:center;margin-top:4rem;color:#888;">
+    Loading Curious Origins...
+  </p>
+</body>
+</html>
