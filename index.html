@@ -407,7 +407,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   /* Hide broken images completely — emoji fallback shows through */
   .article-thumb img[data-broken="true"] { display: none; }
-  .article- { padding: 1rem; flex: 1; display: flex; flex-direction: column; }
+  .article-body { padding: 1.25rem 1.25rem 1rem; flex: 1; display: flex; flex-direction: column; }
   .article-tag {
     font-size: 10px;
     letter-spacing: 0.08em;
@@ -424,15 +424,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .tag-rose { color: var(--rose); background: var(--rose-light); }
   .tag-violet { color: var(--violet); background: var(--violet-light); }
   .tag-sage { color: var(--sage); background: var(--sage-light); }
-  .article- h3 {
+  .article-body h3 {
     font-family: var(--ff-display);
     font-size: 1rem;
     line-height: 1.4;
     margin-bottom: 6px;
     font-weight: 600;
   }
-  .article- p { font-size: 12px; color: var(--ink-soft); line-height: 1.6; flex: 1; }
-  .article-meta { font-size: 11px; color: var(--ink-muted); margin-top: 10px; display: flex; gap: 12px; }
+  .article-body p { font-size: 12px; color: var(--ink-soft); line-height: 1.6; flex: 1; }
+  .article-meta { font-size: 11px; color: var(--ink-muted); margin-top: 10px; margin-bottom: 4px; display: flex; gap: 12px; }
 
   /* ── PAGE SYSTEM ── */
   .page { display: none; }
@@ -1290,9 +1290,9 @@ var SEO_META = {
   // ── Article pages ─────────────────────────────────────────────
   // To add meta for a new article, copy one block below and update all fields
   'article-coffee': {
-    title:    'Origin of Coffee: From Ethiopian Goat Herder to Global Ritual | Curious Origins',
-    desc:     'Discover the 1,000-year origin story of coffee — from a chance discovery in Ethiopia to Ottoman coffeehouses to the world's most ritualised daily habit.',
-    keywords: 'origin of coffee, coffee history, ethiopian coffee, coffea arabica, coffee evolution, history of coffee, ottoman coffeehouse',
+    title:    'History of Coffee: Origin, Discovery & Global Spread',
+    desc:     'Discover where coffee originated, who discovered it first, and how coffee spread from Ethiopia to become a global cultural ritual.',
+    keywords: 'history of coffee, origin of coffee, who discovered coffee, coffee history timeline, coffee journey from Ethiopia, how coffee spread worldwide, coffee culture history',
     img:      '/curious-origins/images/coffee.jpg',
     url:      '/article/coffee'
   },
@@ -1326,7 +1326,7 @@ var SEO_META = {
   },
   'article-antimatter': {
     title:    'Why Does the Universe Have More Matter Than Antimatter? | Curious Origins',
-    desc:     'If the Big Bang created equal amounts of matter and antimatter, everything should have cancelled out. The reason you exist is one of physics' greatest mysteries.',
+    desc:     'If the Big Bang created equal amounts of matter and antimatter, everything should have cancelled out. The reason you exist is one of physics\' greatest mysteries.',
     keywords: 'matter antimatter mystery, baryon asymmetry, why matter exists, physics mysteries, big bang antimatter, antimatter science',
     img:      '/curious-origins/images/antimatter.jpg',
     url:      '/article/antimatter'
@@ -1699,8 +1699,10 @@ document.addEventListener('DOMContentLoaded', function() {
     <span class="article-tag tag-teal" style="margin-bottom:1rem; display:inline-block;">Plants & Nature &nbsp;·&nbsp; 7 min read</span>
 
     <!-- SEO: H1 contains the focus keyword "coffee origin" -->
-    <h1>The Unlikely Journey of Coffee: From Ethiopian Goat Herder to Global Ritual</h1>
-    <p class="article-lead">A chance discovery in the highlands of Ethiopia rippled outward for a thousand years — passing through Sufi monks, Ottoman coffeehouses, and colonial trade routes — to become the most ritualised daily habit on Earth.</p>
+    <h1>The Unlikely Journey of Coffee: From Ethiopian Discovery to a Global Ritual</h1>
+    <p class="article-lead">Coffee began as a chance discovery in the highlands of Ethiopia and slowly travelled across the Middle East, Europe, and eventually the rest of the world. Today, more than <strong>2.5 billion cups of coffee are consumed every single day</strong>, making coffee one of the most influential beverages in human history.
+<br>
+This article explains the <strong>history of coffee</strong>strong>, where coffee originated, who discovered coffee, and how coffee spread from Ethiopia to become a global cultural ritual.</p>
 
     <!-- Hero image: replace src with your actual image path -->
     <!-- Image should be ~1200×630px, saved as images/coffee.jpg in your repo -->
@@ -1714,19 +1716,30 @@ document.addEventListener('DOMContentLoaded', function() {
     <p class="article-img-caption">Coffea arabica growing in the Kaffa region of Ethiopia — the genetic homeland of the world's most popular beverage.</p>
 
     <div class="story-section">
-      <h2>What it is</h2>
-      <p>Coffee is the brewed drink made from roasted seeds of the <em>Coffea</em> plant — a genus of flowering shrubs native to tropical and subtropical Africa. Today it is the second most traded commodity in the world by volume, after crude oil. Roughly 2.5 billion cups are drunk every single day. Two species dominate production: <em>Coffea arabica</em> (the delicate, complex one preferred by specialists) and <em>Coffea canephora</em> — the robusta — grown widely for its hardiness and high caffeine content.</p>
+      <h2>What is coffee?</h2>
+      <p>Coffee is a brewed drink made from roasted seeds of the <strong>Coffea plant</strong>, a tropical shrub native to Africa. Although coffee is now cultivated across many continents, its natural home lies in Ethiopia’s forest ecosystems.</p>
+ <p style="margin-top: 1rem;">Today, coffee is among the most widely traded agricultural commodities in the world and is consumed daily in homes, cafés, offices, and cities across every continent. Two species dominate global production: Coffea arabica, known for its smooth flavour and aroma, and <strong>Coffea canephora</strong>, commonly called robusta, which has a stronger taste and higher caffeine content.</p>
+ <p style="margin-top: 1rem;">Understanding what coffee is helps explain how a forest plant became part of everyday life around the world.</p>
     </div>
 
     <div class="story-section">
-      <h2>How it started</h2>
-      <p>The most credible <strong>origin of coffee</strong> points to the Kaffa region of Ethiopia, sometime around the 9th century. A goat herder named Kaldi — according to legend — noticed his goats behaving unusually energetically after eating red berries from a specific shrub. He brought the berries to a nearby monastery. The monks, sceptical at first, threw them into a fire. The resulting aroma was said to be intoxicating. They dissolved the roasted beans in water, drank the resulting liquid, and found it helped them remain alert during long night prayers. The story may be apocryphal — but the geography is not. Ethiopia really is the genetic homeland of the <em>Coffea arabica</em> plant, and wild coffee still grows in its forests today.</p>
+      <h2>The origin of coffee in Ethiopia</h2>
+      <p>The origin of coffee can be traced to the Kaffa region of Ethiopia, where wild coffee plants still grow naturally today. Long before coffee became a global drink, local communities were already familiar with the energising properties of coffee cherries.</p>
+ <p style="margin-top: 1rem;">Ethiopia remains central to the story of coffee not only because of geography but also because of biodiversity. The forests of this region still contain some of the oldest naturally growing Coffea arabica plants in the world.</p>
+ <p style="margin-top: 1rem;">From these forests began one of the most remarkable journeys in agricultural history.</p>
     </div>
 
     <div class="story-section">
-      <h2>How it evolved</h2>
-      <p>By the 15th century, Sufi monks in Yemen were cultivating <em>Coffea arabica</em> and brewing it to stay alert during long night prayers — an echo of that original monastery story. The drink spread rapidly through the Arabian Peninsula. The first coffeehouses — called <em>qahveh khaneh</em> — opened in Mecca and later Constantinople. These became some of the most important social institutions of the era: places where men gathered to talk, debate, play chess, hear music, and exchange political views. Rulers periodically tried to ban coffeehouses, fearing sedition. They always failed.</p>
-     <p style="margin-top: 1rem;">By the 1600s, European travellers brought coffee back to Venice, then Amsterdam, Paris, and London. Coffeehouses spread extraordinarily fast. By 1700, London alone had more than 2,000 of them. They became the meeting places of the merchant class and the intellectual elite — and functioned, in many ways, as the first internet: a place where news, gossip, and ideas circulated faster than anywhere else.</p>
+      <h2>Coffee spreads across the Middle East</h2>
+      <p>By the 15th century, coffee cultivation had reached Yemen, where Sufi monks began preparing coffee to stay alert during spiritual practices. From there, coffee travelled rapidly across the Arabian Peninsula and neighbouring regions.</p>
+       <h3 style="margin-top: 1rem;">Coffee soon appeared in major cultural centres such as:</h3>
+         <ul>
+            <li>Mecca</li>
+            <li>Cairo</li>
+            <li>Damascus</li>
+            <li>Constantinople (modern Istanbul)</li>
+        </ul>
+     <p style="margin-top: 1rem;">Coffeehouses known as qahveh khaneh became lively gathering spaces where people discussed politics, shared news, listened to music, and exchanged ideas. These spaces played an important role in shaping early public conversation across the region.</p>
     </div>
 
     <img
