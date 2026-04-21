@@ -215,7 +215,70 @@ select option { background: var(--bg3); }
 .empty-state h3 { font-size: 15px; font-weight: 500; color: var(--text2); margin-bottom: 6px; }
 .empty-state p { font-size: 13px; }
 
-/* ── MODAL ── */
+/* ── BODY EDITOR ── */
+.editor-toolbar {
+  display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 10px;
+  background: var(--bg4); border: 1px solid var(--border2);
+  border-bottom: none; border-radius: var(--radius) var(--radius) 0 0;
+}
+.editor-toolbar button {
+  padding: 4px 10px; background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 4px; color: var(--text2); font-size: 12px; font-weight: 500;
+  cursor: pointer; font-family: var(--ff); transition: all 0.15s;
+}
+.editor-toolbar button:hover { background: var(--bg2); color: var(--text); border-color: var(--border2); }
+.editor-toolbar button.active { background: var(--gold-dim); color: var(--gold); border-color: rgba(240,168,50,0.3); }
+.editor-toolbar .sep { width: 1px; background: var(--border2); margin: 2px 4px; }
+.body-editor {
+  min-height: 380px; padding: 16px 18px;
+  background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: 0 0 var(--radius) var(--radius);
+  color: var(--text); font-size: 14px; line-height: 1.7;
+  outline: none; overflow-y: auto;
+}
+.body-editor:focus { border-color: var(--gold); }
+.body-editor h1 { font-size: 1.4rem; font-weight: 600; margin: 0.75rem 0 0.5rem; color: var(--text); }
+.body-editor h2 { font-size: 1.1rem; font-weight: 600; margin: 1rem 0 0.4rem; color: var(--teal); }
+.body-editor p { margin-bottom: 0.75rem; color: var(--text2); }
+.body-editor strong { color: var(--text); }
+.body-editor em { font-style: italic; }
+.body-editor blockquote {
+  border-left: 3px solid var(--gold); margin: 1rem 0;
+  padding: 0.6rem 1rem; background: var(--gold-dim); border-radius: 0 6px 6px 0;
+  color: var(--text2); font-style: italic;
+}
+.body-editor img { max-width: 100%; border-radius: 6px; margin: 0.75rem 0; display: block; }
+.body-editor a { color: var(--teal); text-decoration: underline; }
+.body-editor ul, .body-editor ol { padding-left: 1.4rem; margin-bottom: 0.75rem; color: var(--text2); }
+.body-editor li { margin-bottom: 0.25rem; }
+.body-editor hr { border: none; border-top: 1px solid var(--border2); margin: 1.2rem 0; }
+
+/* Blocks panel */
+.blocks-panel { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.block-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 11px; background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: var(--radius); font-size: 12px; color: var(--text2);
+  cursor: pointer; font-family: var(--ff); transition: all 0.15s;
+}
+.block-btn:hover { background: var(--bg4); color: var(--text); border-color: var(--border2); }
+
+/* Image insert dialog */
+.img-insert-row { display: flex; gap: 8px; margin-top: 8px; }
+.img-insert-row input { flex: 1; }
+
+/* Source view */
+.source-editor {
+  min-height: 380px; padding: 14px 16px;
+  background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: var(--radius); color: var(--teal);
+  font-family: var(--mono); font-size: 12px; line-height: 1.6;
+  resize: vertical; width: 100%; outline: none;
+  display: none;
+}
+.source-editor:focus { border-color: var(--gold); }
+
+/* ── MODAL EXTENSION ── */
 .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
 .modal-backdrop.open { display: flex; }
 .modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-lg); padding: 24px; max-width: 420px; width: 100%; }
@@ -510,6 +573,86 @@ select option { background: var(--bg3); }
           </div>
           <div class="form-hint">Keywords used for site search — add 5–10 relevant terms</div>
         </div>
+
+        <!-- ── ARTICLE BODY ── -->
+        <div class="section-divider" style="margin-top:28px;">
+          <h3>✍️ Article Body</h3>
+          <p>Edit the full article content. This writes directly into the <code style="font-family:var(--mono);font-size:11px;">index.html</code> page section on Push.</p>
+        </div>
+
+        <div id="body-new-notice" class="alert alert-info show" style="margin-bottom:12px;">
+          💡 New articles: write your body content here. It will be wrapped in the standard article template automatically on Push.
+        </div>
+        <div id="body-loaded-notice" class="alert alert-success" style="margin-bottom:12px;">
+          ✓ Body loaded from index.html — editing live content
+        </div>
+
+        <!-- Quick-insert blocks -->
+        <div style="margin-bottom:8px;">
+          <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;">Insert block</div>
+          <div class="blocks-panel">
+            <button class="block-btn" onclick="insertBlock('section')">＋ Section</button>
+            <button class="block-btn" onclick="insertBlock('funfact')">💡 Fun Fact</button>
+            <button class="block-btn" onclick="insertBlock('image')">📸 Image</button>
+            <button class="block-btn" onclick="insertBlock('link')">🔗 Link</button>
+            <button class="block-btn" onclick="insertBlock('bold')"><b>B</b> Bold</button>
+            <button class="block-btn" onclick="insertBlock('italic')"><i>I</i> Italic</button>
+            <button class="block-btn" onclick="insertBlock('hr')">— Divider</button>
+          </div>
+        </div>
+
+        <!-- Image insert helper (shown when image block clicked) -->
+        <div id="img-insert-panel" style="display:none;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px;">
+          <div style="font-size:12px;font-weight:500;margin-bottom:6px;">Insert Image</div>
+          <div class="img-insert-row">
+            <input type="text" id="img-src-input" placeholder="/curious-origins/images/filename.jpg">
+            <input type="text" id="img-alt-input" placeholder="Alt text (describe the image)">
+            <button class="btn btn-secondary btn-sm" onclick="confirmInsertImage()">Insert</button>
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('img-insert-panel').style.display='none'">✕</button>
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-top:6px;">Add <code style="font-family:var(--mono)">loading="eager"</code> for hero images, <code style="font-family:var(--mono)">loading="lazy"</code> for the rest</div>
+        </div>
+
+        <!-- Link insert helper -->
+        <div id="link-insert-panel" style="display:none;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px;">
+          <div style="font-size:12px;font-weight:500;margin-bottom:6px;">Insert Link</div>
+          <div class="img-insert-row">
+            <input type="text" id="link-text-input" placeholder="Link text">
+            <input type="text" id="link-href-input" placeholder="URL or #page-id">
+            <button class="btn btn-secondary btn-sm" onclick="confirmInsertLink()">Insert</button>
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('link-insert-panel').style.display='none'">✕</button>
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-top:6px;">Internal links: use <code style="font-family:var(--mono)">onclick="showPage('article-coffee')"</code> format</div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="editor-toolbar">
+          <button onclick="execCmd('bold')" title="Bold"><b>B</b></button>
+          <button onclick="execCmd('italic')" title="Italic"><i>I</i></button>
+          <button onclick="execCmd('underline')" title="Underline"><u>U</u></button>
+          <div class="sep"></div>
+          <button onclick="execCmd('formatBlock','h1')" title="Heading 1">H1</button>
+          <button onclick="execCmd('formatBlock','h2')" title="Heading 2">H2</button>
+          <button onclick="execCmd('formatBlock','p')" title="Paragraph">P</button>
+          <button onclick="execCmd('formatBlock','blockquote')" title="Quote">❝</button>
+          <div class="sep"></div>
+          <button onclick="execCmd('insertUnorderedList')" title="Bullet list">• List</button>
+          <button onclick="execCmd('insertOrderedList')" title="Numbered list">1. List</button>
+          <div class="sep"></div>
+          <button onclick="execCmd('removeFormat')" title="Clear formatting">✕ Format</button>
+          <div class="sep"></div>
+          <button id="source-toggle-btn" onclick="toggleSourceView()" title="View/edit raw HTML">⟨/⟩ Source</button>
+        </div>
+        <div id="body-editor" class="body-editor" contenteditable="true" spellcheck="true"
+             oninput="onBodyChange()" onpaste="onBodyPaste(event)">
+          <p>Start writing your article content here, or click "Edit" on an existing article to load its content...</p>
+        </div>
+        <textarea id="body-source" class="source-editor" oninput="onSourceChange()"></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+          <div style="font-size:11px;color:var(--text3);" id="body-word-count">0 words</div>
+          <div style="font-size:11px;color:var(--text3);">Changes auto-save when you click Save Article</div>
+        </div>
+
       </div>
 
       <!-- SEO TAB -->
@@ -1384,6 +1527,523 @@ function logout() {
 
 // Init pending changes panel
 renderPendingChanges();
+
+// ══════════════════════════════════════════════════════════════
+//  ARTICLE BODY EDITOR
+// ══════════════════════════════════════════════════════════════
+
+// Stores extracted article body HTML keyed by article slug
+// e.g. STATE.articleBodies['article-coffee'] = '<div class="article-full">...</div>'
+STATE.articleBodies = {};
+
+// ── Extract all article bodies from index.html ────────────────
+function parseArticleBodies() {
+  var html = STATE.rawHtml;
+  var articleIds = [
+    'article-coffee','article-antimatter','article-octopus',
+    'article-writing','article-flowers','article-fungi'
+  ];
+
+  // Also discover any article ids from the articles array
+  STATE.articles.forEach(function(a) {
+    var slug = getArticleSlug(a);
+    if (articleIds.indexOf(slug) === -1) articleIds.push(slug);
+  });
+
+  articleIds.forEach(function(id) {
+    var pageId = 'page-' + id;
+    var startMarker = '<div id="' + pageId + '"';
+    var start = html.indexOf(startMarker);
+    if (start === -1) return;
+
+    // The editable inner content is inside <div class="article-full">
+    var innerStart = html.indexOf('<div class="article-full">', start);
+    if (innerStart === -1) return;
+
+    // End of article-full is right before <div class="related-section"
+    var innerEnd = html.indexOf('\n  <div class="related-section"', innerStart);
+    if (innerEnd === -1) {
+      // Fallback: find closing </div> of article-full
+      innerEnd = html.indexOf('</div>\n</div>', innerStart);
+    }
+    if (innerEnd === -1) return;
+
+    // Store the article-full div content (everything inside it, excl the div tags themselves)
+    var divEnd = html.indexOf('>', innerStart) + 1;
+    var bodyHtml = html.slice(divEnd, innerEnd).trim();
+    STATE.articleBodies[id] = bodyHtml;
+  });
+}
+
+// ── Call parseArticleBodies after main parseHtml ──────────────
+var _origParseHtml = parseHtml;
+parseHtml = function() {
+  _origParseHtml();
+  parseArticleBodies();
+};
+
+// ── Load body into editor when editing an article ─────────────
+function loadBodyIntoEditor(articleSlug) {
+  var editor = document.getElementById('body-editor');
+  var newNotice = document.getElementById('body-new-notice');
+  var loadedNotice = document.getElementById('body-loaded-notice');
+  var body = STATE.articleBodies[articleSlug];
+
+  if (body) {
+    // Clean up the raw HTML into editable form
+    var editable = bodyHtmlToEditable(body);
+    editor.innerHTML = editable;
+    newNotice.className = 'alert';
+    loadedNotice.className = 'alert alert-success show';
+  } else {
+    // New article — show template
+    editor.innerHTML = getBodyTemplate();
+    newNotice.className = 'alert alert-info show';
+    loadedNotice.className = 'alert';
+  }
+  updateWordCount();
+  syncSourceFromEditor();
+}
+
+// ── Convert stored HTML into clean editable HTML ──────────────
+function bodyHtmlToEditable(html) {
+  // Remove the back button and tag span (regenerated on inject)
+  html = html.replace(/<button[^>]*class="back-btn"[^>]*>.*?<\/button>/gs, '');
+  html = html.replace(/<span[^>]*class="article-tag[^"]*"[^>]*>.*?<\/span>/gs, '');
+
+  // Unwrap story-section divs — keep their contents
+  html = html.replace(/<div[^>]*class="story-section"[^>]*>/g, '<div class="story-section">');
+
+  // Fix images — strip onerror and data-broken for clean display
+  html = html.replace(/\s*onerror="[^"]*"/g, '');
+  html = html.replace(/\s*data-broken="[^"]*"/g, '');
+
+  return html.trim();
+}
+
+// ── Default template for brand-new articles ───────────────────
+function getBodyTemplate() {
+  return [
+    '<p class="article-lead">Your opening paragraph — the hook that makes readers want to continue.</p>',
+    '',
+    '<div class="story-section">',
+    '  <h2>What it is</h2>',
+    '  <p>Explain what the subject is — a clear, vivid description.</p>',
+    '</div>',
+    '',
+    '<div class="story-section">',
+    '  <h2>How it started</h2>',
+    '  <p>The origin moment — often surprising. Tell the story.</p>',
+    '</div>',
+    '',
+    '<div class="story-section">',
+    '  <h2>How it evolved</h2>',
+    '  <p>The journey from then to now.</p>',
+    '</div>',
+    '',
+    '<div class="fun-fact">',
+    '  <strong>Curious fact</strong>',
+    '  <p>An interesting detail that shifts perspective.</p>',
+    '</div>',
+    '',
+    '<div class="story-section">',
+    '  <h2>Why it matters today</h2>',
+    '  <p>The significance — why this is relevant now.</p>',
+    '</div>',
+    '',
+    '<div class="story-section">',
+    '  <h2>Interesting &amp; surprising facts</h2>',
+    '  <p>A few final facts that readers will want to share.</p>',
+    '</div>'
+  ].join('\n');
+}
+
+// ── Toolbar command executor ──────────────────────────────────
+function execCmd(cmd, val) {
+  document.getElementById('body-editor').focus();
+  if (val) {
+    document.execCommand(cmd, false, val);
+  } else {
+    document.execCommand(cmd, false, null);
+  }
+  onBodyChange();
+}
+
+// ── Insert structural blocks ──────────────────────────────────
+function insertBlock(type) {
+  var editor = document.getElementById('body-editor');
+  editor.focus();
+
+  var html = '';
+  switch(type) {
+    case 'section':
+      html = '<div class="story-section"><h2>New Section</h2><p>Section content here.</p></div>';
+      break;
+    case 'funfact':
+      html = '<div class="fun-fact"><strong>Curious fact</strong><p>Your interesting fact here.</p></div>';
+      break;
+    case 'image':
+      document.getElementById('img-insert-panel').style.display = 'block';
+      document.getElementById('link-insert-panel').style.display = 'none';
+      document.getElementById('img-src-input').focus();
+      return;
+    case 'link':
+      document.getElementById('link-insert-panel').style.display = 'block';
+      document.getElementById('img-insert-panel').style.display = 'none';
+      // Save current selection for link insertion
+      STATE._savedRange = saveSelection();
+      document.getElementById('link-text-input').focus();
+      return;
+    case 'bold':
+      execCmd('bold'); return;
+    case 'italic':
+      execCmd('italic'); return;
+    case 'hr':
+      html = '<hr>';
+      break;
+  }
+
+  if (html) {
+    document.execCommand('insertHTML', false, html);
+    onBodyChange();
+  }
+}
+
+function confirmInsertImage() {
+  var src = document.getElementById('img-src-input').value.trim();
+  var alt = document.getElementById('img-alt-input').value.trim();
+  if (!src) { alert('Please enter an image path.'); return; }
+  var html = '<img class="article-img" src="' + src + '" alt="' + (alt || '') + '" loading="lazy" onerror="this.setAttribute(\'data-broken\',\'true\')">'
+           + '<p class="article-img-caption">' + (alt || 'Image caption') + '</p>';
+  document.getElementById('body-editor').focus();
+  document.execCommand('insertHTML', false, html);
+  document.getElementById('img-insert-panel').style.display = 'none';
+  document.getElementById('img-src-input').value = '';
+  document.getElementById('img-alt-input').value = '';
+  onBodyChange();
+}
+
+function confirmInsertLink() {
+  var text = document.getElementById('link-text-input').value.trim();
+  var href = document.getElementById('link-href-input').value.trim();
+  if (!text || !href) { alert('Please enter both link text and URL.'); return; }
+  var html = '<a href="' + href + '">' + text + '</a>';
+  restoreSelection(STATE._savedRange);
+  document.getElementById('body-editor').focus();
+  document.execCommand('insertHTML', false, html);
+  document.getElementById('link-insert-panel').style.display = 'none';
+  document.getElementById('link-text-input').value = '';
+  document.getElementById('link-href-input').value = '';
+  onBodyChange();
+}
+
+// ── Selection helpers for link insertion ─────────────────────
+function saveSelection() {
+  if (window.getSelection) {
+    var sel = window.getSelection();
+    if (sel.getRangeAt && sel.rangeCount) return sel.getRangeAt(0).cloneRange();
+  }
+  return null;
+}
+function restoreSelection(range) {
+  if (range && window.getSelection) {
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+}
+
+// ── Source toggle ─────────────────────────────────────────────
+var _sourceViewActive = false;
+function toggleSourceView() {
+  _sourceViewActive = !_sourceViewActive;
+  var editor = document.getElementById('body-editor');
+  var source = document.getElementById('body-source');
+  var btn    = document.getElementById('source-toggle-btn');
+
+  if (_sourceViewActive) {
+    source.value = editor.innerHTML;
+    editor.style.display = 'none';
+    source.style.display = 'block';
+    btn.classList.add('active');
+  } else {
+    editor.innerHTML = source.value;
+    source.style.display = 'none';
+    editor.style.display = 'block';
+    btn.classList.remove('active');
+    onBodyChange();
+  }
+}
+
+function onSourceChange() {
+  updateWordCount();
+}
+
+function syncSourceFromEditor() {
+  document.getElementById('body-source').value = document.getElementById('body-editor').innerHTML;
+}
+
+// ── Paste handler — strips unsafe attributes ──────────────────
+function onBodyPaste(e) {
+  e.preventDefault();
+  var text = (e.clipboardData || window.clipboardData).getData('text/html') ||
+             (e.clipboardData || window.clipboardData).getData('text/plain');
+  // Strip scripts and on* attributes from pasted HTML
+  text = text.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+  text = text.replace(/\s+on\w+="[^"]*"/g, '');
+  document.execCommand('insertHTML', false, text);
+  onBodyChange();
+}
+
+// ── Word count ────────────────────────────────────────────────
+function onBodyChange() {
+  updateWordCount();
+  syncSourceFromEditor();
+}
+
+function updateWordCount() {
+  var source = _sourceViewActive
+    ? document.getElementById('body-source').value
+    : document.getElementById('body-editor').innerText || '';
+  var words = source.trim().split(/\s+/).filter(function(w) { return w.length > 0; }).length;
+  var el = document.getElementById('body-word-count');
+  if (el) el.textContent = words + ' words' + (words > 0 ? ' · ~' + Math.ceil(words / 200) + ' min read' : '');
+}
+
+// ── Save body into STATE when saving article ──────────────────
+function getEditorBody() {
+  if (_sourceViewActive) {
+    return document.getElementById('body-source').value.trim();
+  }
+  return document.getElementById('body-editor').innerHTML.trim();
+}
+
+// ── Reset body editor ─────────────────────────────────────────
+function resetBodyEditor() {
+  var editor = document.getElementById('body-editor');
+  var source = document.getElementById('body-source');
+  editor.innerHTML = '<p>Start writing your article content here...</p>';
+  source.value = '';
+  if (_sourceViewActive) {
+    // Switch back to visual
+    _sourceViewActive = false;
+    editor.style.display = 'block';
+    source.style.display = 'none';
+    document.getElementById('source-toggle-btn').classList.remove('active');
+  }
+  document.getElementById('body-new-notice').className = 'alert alert-info show';
+  document.getElementById('body-loaded-notice').className = 'alert';
+  document.getElementById('img-insert-panel').style.display = 'none';
+  document.getElementById('link-insert-panel').style.display = 'none';
+  updateWordCount();
+}
+
+// ── Inject article bodies back into index.html ────────────────
+function injectArticleBodies(html, articleBodies) {
+  Object.keys(articleBodies).forEach(function(slug) {
+    var pageId = 'page-' + slug;
+    var startMarker = '<div id="' + pageId + '"';
+    var start = html.indexOf(startMarker);
+    if (start === -1) return;
+
+    // Find article-full div
+    var innerStart = html.indexOf('<div class="article-full">', start);
+    if (innerStart === -1) return;
+    var divContentStart = html.indexOf('>', innerStart) + 1;
+
+    // Find where article-full content ends (before related-section)
+    var innerEnd = html.indexOf('\n  <div class="related-section"', innerStart);
+    if (innerEnd === -1) innerEnd = html.indexOf('</div>\n</div>', innerStart);
+    if (innerEnd === -1) return;
+
+    var body = articleBodies[slug];
+
+    // For existing articles: just replace the inner content
+    // Rebuild: back-btn + tag span + body content
+    var a = STATE.articles.find(function(art) { return getArticleSlug(art) === slug; });
+    var category = a ? a.category : '';
+    var catMap = {
+      plants:'cat-plants',animals:'cat-animals',origins:'cat-origins',anime:'cat-anime',
+      mind:'cat-mind',everyday:'cat-everyday',mysteries:'cat-mysteries',technology:'cat-technology',
+      specialists:'cat-specialists',civilizations:'cat-civilizations'
+    };
+    var catPageId = catMap[category] || 'explore';
+    var catLabel = a ? a.tagLabel : 'Articles';
+    var tagClass = a ? a.tagClass : 'tag-teal';
+    var mins = a ? a.mins : 5;
+
+    var header = '\n    <button class="back-btn" onclick="showPage(\'' + catPageId + '\')">← ' + catLabel + '</button>\n'
+               + '    <span class="article-tag ' + tagClass + '" style="margin-bottom:1rem; display:inline-block;">'
+               + catLabel + ' &nbsp;·&nbsp; ' + mins + ' min read</span>\n\n    ';
+
+    var newContent = header + body + '\n  ';
+    html = html.slice(0, divContentStart) + newContent + html.slice(innerEnd);
+  });
+
+  return html;
+}
+
+// ── NEW ARTICLE BODY: inject full page div when article is new ─
+function injectNewArticlePage(html, slug, bodyContent, a) {
+  // Find where to inject — before the tag-results page or search page
+  var insertBefore = html.indexOf('<!-- ══════════════════════════════════ -->\n<!--  TAG RESULTS PAGE');
+  if (insertBefore === -1) insertBefore = html.indexOf('<!-- ══════════════════════════════════ -->\n<!--  SEARCH PAGE');
+  if (insertBefore === -1) return html; // fallback: don't inject
+
+  var catMap = {
+    plants:'cat-plants',animals:'cat-animals',origins:'cat-origins',anime:'cat-anime',
+    mind:'cat-mind',everyday:'cat-everyday',mysteries:'cat-mysteries',technology:'cat-technology',
+    specialists:'cat-specialists',civilizations:'cat-civilizations'
+  };
+  var catPageId = catMap[a.category] || 'explore';
+  var relatedId = 'related-' + slug;
+
+  var block = [
+    '',
+    '<!-- ══════════════════════════════════ -->',
+    '<!--  ARTICLE: ' + (a.title || slug).toUpperCase().slice(0,30) + '  -->',
+    '<!-- ══════════════════════════════════ -->',
+    '<div id="page-' + slug + '" class="page">',
+    '  <div class="article-full">',
+    '    <button class="back-btn" onclick="showPage(\'' + catPageId + '\')">← ' + (a.tagLabel || 'Articles') + '</button>',
+    '    <span class="article-tag ' + (a.tagClass || 'tag-teal') + '" style="margin-bottom:1rem; display:inline-block;">' + (a.tagLabel || '') + ' &nbsp;·&nbsp; ' + (a.mins || 5) + ' min read</span>',
+    '',
+    '    ' + bodyContent,
+    '  </div>',
+    '  <div class="related-section" id="' + relatedId + '">',
+    '    <h2>Related Stories</h2>',
+    '    <div class="related-grid"></div>',
+    '  </div>',
+    '</div>',
+    '',
+    ''
+  ].join('\n');
+
+  return html.slice(0, insertBefore) + block + html.slice(insertBefore);
+}
+
+// ── Override saveArticle to also store body content ───────────
+var _origSaveArticle = saveArticle;
+saveArticle = function() {
+  // Store body for this article before calling original save
+  var title = document.getElementById('art-title').value.trim();
+  var url = document.getElementById('art-url').value.trim() || 'articles/' + title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '.html';
+  var tempArticle = { title: title, url: url };
+  var slug = getArticleSlug(tempArticle);
+
+  var bodyContent = getEditorBody();
+  if (bodyContent && bodyContent.trim() && bodyContent !== '<p>Start writing your article content here...</p>') {
+    STATE.articleBodies[slug] = bodyContent;
+  }
+
+  _origSaveArticle();
+};
+
+// ── Override editArticle to load body into editor ─────────────
+var _origEditArticle = editArticle;
+editArticle = function(idx) {
+  _origEditArticle(idx);
+  var a = STATE.articles[idx];
+  var slug = getArticleSlug(a);
+  loadBodyIntoEditor(slug);
+};
+
+// ── Override resetArticleForm to reset body editor ────────────
+var _origResetArticleForm = resetArticleForm;
+resetArticleForm = function() {
+  _origResetArticleForm();
+  resetBodyEditor();
+};
+
+// ── Override publishToGitHub to also inject bodies ────────────
+var _origPublish = publishToGitHub;
+publishToGitHub = function() {
+  if (!STATE.pendingChanges.length) {
+    showAlert('publish-alert', 'No pending changes to push.', 'info');
+    return;
+  }
+  var btn = document.getElementById('publish-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Pushing...';
+
+  var url = 'https://api.github.com/repos/' + STATE.user + '/' + STATE.repo + '/contents/index.html';
+  fetch(url, { headers: { 'Authorization': 'token ' + STATE.token, 'Accept': 'application/vnd.github.v3+json' } })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    STATE.sha = data.sha;
+    var currentHtml = atob(data.content.replace(/\n/g,''));
+
+    // 1. Inject articles array
+    var newHtml = injectArticles(currentHtml, STATE.articles);
+    // 2. Inject SEO_META
+    newHtml = injectSeoMeta(newHtml, STATE.seoMeta);
+    // 3. Inject new article page divs (for brand new articles)
+    STATE.articles.forEach(function(a) {
+      var slug = getArticleSlug(a);
+      var existingPage = newHtml.indexOf('<div id="page-' + slug + '"');
+      if (existingPage === -1 && STATE.articleBodies[slug]) {
+        newHtml = injectNewArticlePage(newHtml, slug, STATE.articleBodies[slug], a);
+      }
+    });
+    // 4. Inject edited body content into existing pages
+    newHtml = injectArticleBodies(newHtml, STATE.articleBodies);
+    // 5. Ensure renderRelatedStories calls exist for new articles
+    newHtml = injectRelatedStoriesCalls(newHtml, STATE.articles);
+
+    var encoded = btoa(unescape(encodeURIComponent(newHtml)));
+    return fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'token ' + STATE.token,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github.v3+json'
+      },
+      body: JSON.stringify({
+        message: document.getElementById('commit-msg').value || 'Update via admin panel',
+        content: encoded,
+        sha: STATE.sha
+      })
+    });
+  })
+  .then(function(r) {
+    if (!r.ok) return r.json().then(function(d) { throw new Error(d.message || 'Push failed'); });
+    return r.json();
+  })
+  .then(function() {
+    showAlert('publish-alert', '✓ Pushed successfully! Your site will update in ~30 seconds.', 'success');
+    STATE.pendingChanges = [];
+    renderPendingChanges();
+    btn.disabled = false;
+    btn.innerHTML = '↑ Push to GitHub';
+  })
+  .catch(function(err) {
+    showAlert('publish-alert', 'Error: ' + err.message, 'error');
+    btn.disabled = false;
+    btn.innerHTML = '↑ Push to GitHub';
+  });
+};
+
+// ── Ensure renderRelatedStories calls exist for new articles ──
+function injectRelatedStoriesCalls(html, articles) {
+  var anchor = 'renderRelatedStories(\'article-antimatter\'';
+  var anchorIdx = html.lastIndexOf(anchor);
+  if (anchorIdx === -1) return html;
+  var lineEnd = html.indexOf('\n', anchorIdx);
+  if (lineEnd === -1) return html;
+
+  articles.forEach(function(a) {
+    var slug = getArticleSlug(a);
+    var call = "  renderRelatedStories('" + slug + "', '" + a.category + "');";
+    if (html.indexOf(call) === -1) {
+      html = html.slice(0, lineEnd + 1) + call + '\n' + html.slice(lineEnd + 1);
+      lineEnd += call.length + 1;
+    }
+  });
+  return html;
+}
+
+// Trigger word count on load
+updateWordCount();
 </script>
 </body>
 </html>
