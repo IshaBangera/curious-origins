@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curious Origins — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0f1117;
+  --bg2:       #161920;
+  --bg3:       #1e2128;
+  --bg4:       #252830;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.12);
+  --text:      #e8eaf0;
+  --text2:     #9da3b4;
+  --text3:     #5a6075;
+  --gold:      #f0a832;
+  --gold-dim:  rgba(240,168,50,0.12);
+  --teal:      #2ec4a0;
+  --teal-dim:  rgba(46,196,160,0.12);
+  --rose:      #e05c6a;
+  --rose-dim:  rgba(224,92,106,0.12);
+  --violet:    #9b7fe8;
+  --violet-dim:rgba(155,127,232,0.12);
+  --green:     #4ade80;
+  --green-dim: rgba(74,222,128,0.12);
+  --ff: 'DM Sans', sans-serif;
+  --mono: 'DM Mono', monospace;
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+
+body { font-family: var(--ff); background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; line-height: 1.5; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+
+/* ── LAYOUT ── */
+#app { display: flex; height: 100vh; overflow: hidden; }
+#sidebar { width: 220px; flex-shrink: 0; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+#main { flex: 1; overflow-y: auto; }
+
+/* ── SIDEBAR ── */
+.sidebar-logo { padding: 20px 18px 16px; border-bottom: 1px solid var(--border); }
+.sidebar-logo h1 { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: 0.05em; }
+.sidebar-logo p { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.sidebar-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); margin-right: 6px; }
+
+.nav-section { padding: 12px 10px 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); }
+.nav-item { display: flex; align-items: center; gap: 9px; padding: 8px 10px; border-radius: var(--radius); cursor: pointer; font-size: 13px; color: var(--text2); transition: all 0.15s; margin: 1px 6px; }
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active { background: var(--gold-dim); color: var(--gold); }
+.nav-item .icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+
+.sidebar-footer { margin-top: auto; padding: 12px; border-top: 1px solid var(--border); }
+.github-status { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg3); border-radius: var(--radius); font-size: 12px; }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--rose); flex-shrink: 0; }
+.status-dot.connected { background: var(--green); }
+#status-text { color: var(--text2); }
+
+/* ── PAGES ── */
+.page { display: none; padding: 28px 32px; max-width: 1100px; }
+.page.active { display: block; }
+
+/* ── PAGE HEADER ── */
+.page-header { margin-bottom: 28px; }
+.page-header h2 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+.page-header p { color: var(--text2); font-size: 13px; }
+.page-header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+/* ── BUTTONS ── */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; border: none; font-family: var(--ff); transition: all 0.15s; white-space: nowrap; }
+.btn-primary { background: var(--gold); color: #0f1117; }
+.btn-primary:hover { background: #f8b94a; }
+.btn-secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border2); }
+.btn-secondary:hover { background: var(--bg4); }
+.btn-danger { background: var(--rose-dim); color: var(--rose); border: 1px solid rgba(224,92,106,0.2); }
+.btn-danger:hover { background: var(--rose); color: #fff; }
+.btn-success { background: var(--green-dim); color: var(--green); border: 1px solid rgba(74,222,128,0.2); }
+.btn-success:hover { background: var(--green); color: #0f1117; }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── CONNECT SCREEN ── */
+#connect-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+.connect-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px 40px; max-width: 480px; width: 100%; }
+.connect-card h2 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+.connect-card p { color: var(--text2); font-size: 13px; line-height: 1.6; margin-bottom: 20px; }
+.connect-card .logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+.connect-card .logo-row h1 { font-size: 16px; font-weight: 600; }
+.steps { margin-bottom: 24px; display: flex; flex-direction: column; gap: 10px; }
+.step { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--text2); }
+.step-num { width: 20px; height: 20px; border-radius: 50%; background: var(--gold-dim); color: var(--gold); font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step a { color: var(--gold); text-decoration: none; }
+.step a:hover { text-decoration: underline; }
+
+/* ── FORM ELEMENTS ── */
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 6px; letter-spacing: 0.02em; }
+.form-group label span { color: var(--rose); margin-left: 2px; }
+input[type="text"], input[type="email"], input[type="url"], input[type="number"],
+input[type="password"], textarea, select {
+  width: 100%; padding: 9px 12px; background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: var(--radius); color: var(--text); font-family: var(--ff); font-size: 13px;
+  outline: none; transition: border-color 0.15s;
+}
+input:focus, textarea:focus, select:focus { border-color: var(--gold); }
+textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+select option { background: var(--bg3); }
+.form-hint { font-size: 11px; color: var(--text3); margin-top: 4px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.char-count { font-size: 11px; text-align: right; margin-top: 3px; }
+.char-ok { color: var(--green); }
+.char-warn { color: var(--gold); }
+.char-over { color: var(--rose); }
+
+/* ── SECTION DIVIDER ── */
+.section-divider { margin: 24px 0 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.section-divider h3 { font-size: 13px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.section-divider p { font-size: 12px; color: var(--text3); margin-top: 3px; }
+.badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+.badge-seo { background: var(--teal-dim); color: var(--teal); }
+.badge-aeo { background: var(--violet-dim); color: var(--violet); }
+.badge-geo { background: var(--gold-dim); color: var(--gold); }
+
+/* ── ARTICLES LIST ── */
+.articles-list { display: flex; flex-direction: column; gap: 10px; }
+.article-row {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 14px 16px; display: flex; align-items: center; gap: 14px;
+  transition: border-color 0.15s;
+}
+.article-row:hover { border-color: var(--border2); }
+.article-thumb { width: 48px; height: 48px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+.article-info { flex: 1; min-width: 0; }
+.article-info h4 { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.article-info p { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.article-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.cat-badge { display: inline-flex; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 500; background: var(--bg4); color: var(--text2); }
+.article-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+/* ── TABS ── */
+.tabs { display: flex; gap: 2px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 3px; margin-bottom: 24px; width: fit-content; }
+.tab { padding: 7px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; color: var(--text2); transition: all 0.15s; font-weight: 500; }
+.tab.active { background: var(--bg4); color: var(--text); }
+.tab:hover:not(.active) { color: var(--text); }
+
+/* ── CARDS ── */
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 18px; }
+.stat-card .label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
+.stat-card .value { font-size: 26px; font-weight: 600; }
+.stat-card .sub { font-size: 12px; color: var(--text3); margin-top: 3px; }
+
+/* ── SEO SCORE ── */
+.seo-score-ring { width: 56px; height: 56px; position: relative; flex-shrink: 0; }
+.seo-score-ring svg { transform: rotate(-90deg); }
+.seo-score-ring .score-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
+
+/* ── FAQ BUILDER ── */
+.faq-list { display: flex; flex-direction: column; gap: 10px; }
+.faq-item { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+.faq-item-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.faq-item-num { width: 22px; height: 22px; border-radius: 50%; background: var(--gold-dim); color: var(--gold); font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.faq-remove { margin-left: auto; background: none; border: none; color: var(--text3); cursor: pointer; font-size: 16px; line-height: 1; padding: 2px 6px; border-radius: 4px; }
+.faq-remove:hover { background: var(--rose-dim); color: var(--rose); }
+
+/* ── ALERT ── */
+.alert { padding: 10px 14px; border-radius: var(--radius); font-size: 13px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.alert-success { background: var(--green-dim); color: var(--green); border: 1px solid rgba(74,222,128,0.2); }
+.alert-error { background: var(--rose-dim); color: var(--rose); border: 1px solid rgba(224,92,106,0.2); }
+.alert-info { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(240,168,50,0.2); }
+.alert { display: none; }
+.alert.show { display: flex; }
+
+/* ── PREVIEW PANEL ── */
+.preview-bar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--bg3); border-radius: var(--radius); margin-bottom: 16px; font-size: 12px; color: var(--text3); }
+.preview-url { font-family: var(--mono); color: var(--teal); font-size: 12px; }
+
+/* ── PROGRESS ── */
+.progress-bar { height: 4px; background: var(--bg4); border-radius: 2px; overflow: hidden; margin-top: 6px; }
+.progress-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+
+/* ── TAG INPUT ── */
+.tag-input-wrap { display: flex; flex-wrap: wrap; gap: 6px; padding: 7px 10px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius); cursor: text; }
+.tag-input-wrap:focus-within { border-color: var(--gold); }
+.tag-chip { display: inline-flex; align-items: center; gap: 5px; background: var(--bg4); border: 1px solid var(--border2); color: var(--text); padding: 2px 8px; border-radius: 20px; font-size: 12px; }
+.tag-chip button { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 14px; line-height: 1; padding: 0; margin-top: -1px; }
+.tag-chip button:hover { color: var(--rose); }
+.tag-actual-input { border: none; background: none; outline: none; font-size: 12px; color: var(--text); font-family: var(--ff); min-width: 80px; flex: 1; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  #sidebar { display: none; }
+  .page { padding: 20px 16px; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .form-grid, .form-grid-3 { grid-template-columns: 1fr; }
+}
+
+/* ── SPINNER ── */
+.spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.2); border-top-color: currentColor; border-radius: 50%; animation: spin 0.6s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── EMPTY STATE ── */
+.empty-state { text-align: center; padding: 48px 24px; color: var(--text3); }
+.empty-state .icon { font-size: 2.5rem; margin-bottom: 12px; }
+.empty-state h3 { font-size: 15px; font-weight: 500; color: var(--text2); margin-bottom: 6px; }
+.empty-state p { font-size: 13px; }
+
+/* ── MODAL ── */
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+.modal-backdrop.open { display: flex; }
+.modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-lg); padding: 24px; max-width: 420px; width: 100%; }
+.modal h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+.modal p { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════ -->
+<!--  CONNECT SCREEN                    -->
+<!-- ══════════════════════════════════ -->
+<div id="connect-screen">
+  <div class="connect-card">
+    <div class="logo-row">
+      <span style="font-size:1.3rem;">●</span>
+      <h1>Curious Origins Admin</h1>
+    </div>
+    <h2>Connect to GitHub</h2>
+    <p>This admin panel reads and writes your <code style="font-family:var(--mono);font-size:12px;background:var(--bg3);padding:1px 6px;border-radius:4px;">index.html</code> file on GitHub directly. Your token is stored only in your browser — never sent anywhere else.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>Go to <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens/new</a>, generate a <strong>Classic token</strong> with the <strong>repo</strong> scope ticked</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>Copy the token and paste it below (starts with <code style="font-size:11px;font-family:var(--mono);">ghp_</code>)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>Click Connect — admin opens instantly</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>GitHub Personal Access Token <span>*</span></label>
+      <input type="password" id="token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+      <div class="form-hint">Token is saved in localStorage. Clear browser data to log out.</div>
+    </div>
+    <div class="form-group">
+      <label>GitHub Username <span>*</span></label>
+      <input type="text" id="user-input" placeholder="ishabangera" value="ishabangera">
+    </div>
+    <div class="form-group">
+      <label>Repository Name <span>*</span></label>
+      <input type="text" id="repo-input" placeholder="curious-origins" value="curious-origins">
+    </div>
+    <div id="connect-error" class="alert alert-error" style="margin-bottom:12px;"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="connectToGitHub()">
+      Connect to GitHub
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!--  MAIN APP                          -->
+<!-- ══════════════════════════════════ -->
+<div id="app" style="display:none;">
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div class="sidebar-logo">
+      <h1><span class="sidebar-dot"></span>Curious Origins</h1>
+      <p>Admin Panel</p>
+    </div>
+
+    <div style="padding: 8px 6px; flex:1; overflow-y:auto;">
+      <div class="nav-section">Content</div>
+      <div class="nav-item active" onclick="showSection('dashboard')">
+        <span class="icon">◈</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="showSection('articles')">
+        <span class="icon">◎</span> All Articles
+      </div>
+      <div class="nav-item" onclick="showSection('new-article')">
+        <span class="icon">＋</span> New Article
+      </div>
+
+      <div class="nav-section" style="margin-top:8px;">Settings</div>
+      <div class="nav-item" onclick="showSection('site-settings')">
+        <span class="icon">⊡</span> Site Settings
+      </div>
+      <div class="nav-item" onclick="showSection('seo-settings')">
+        <span class="icon">◇</span> Global SEO
+      </div>
+
+      <div class="nav-section" style="margin-top:8px;">Publish</div>
+      <div class="nav-item" onclick="showSection('publish')">
+        <span class="icon">↑</span> Push to GitHub
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="github-status">
+        <div class="status-dot connected" id="sidebar-status-dot"></div>
+        <span id="status-text">Connected</span>
+      </div>
+      <button class="btn btn-secondary btn-sm" style="width:100%;margin-top:8px;justify-content:center;" onclick="logout()">
+        Disconnect
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="main">
+
+    <!-- ── DASHBOARD ── -->
+    <div id="page-dashboard" class="page active">
+      <div class="page-header-row">
+        <div class="page-header">
+          <h2>Dashboard</h2>
+          <p>Overview of your Curious Origins website</p>
+        </div>
+        <button class="btn btn-primary" onclick="showSection('new-article')">＋ New Article</button>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="label">Total Articles</div>
+          <div class="value" id="stat-total">—</div>
+          <div class="sub">across all categories</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Categories</div>
+          <div class="value" id="stat-cats">10</div>
+          <div class="sub">topic sections</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">With Images</div>
+          <div class="value" id="stat-images">—</div>
+          <div class="sub">have thumbnails set</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">SEO Coverage</div>
+          <div class="value" id="stat-seo">—</div>
+          <div class="sub">pages with meta</div>
+        </div>
+      </div>
+
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:500;margin-bottom:12px;">Recent Articles</div>
+        <div id="recent-articles-list"></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;">
+          <div style="font-size:13px;font-weight:500;margin-bottom:10px;">Quick Actions</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <button class="btn btn-secondary" style="justify-content:flex-start;" onclick="showSection('new-article')">＋ Add new article</button>
+            <button class="btn btn-secondary" style="justify-content:flex-start;" onclick="showSection('site-settings')">⊡ Edit site settings</button>
+            <button class="btn btn-secondary" style="justify-content:flex-start;" onclick="showSection('publish')">↑ Push changes to live site</button>
+            <a href="https://ishabangera.github.io/curious-origins/" target="_blank" class="btn btn-secondary" style="justify-content:flex-start;text-decoration:none;">↗ View live site</a>
+          </div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;">
+          <div style="font-size:13px;font-weight:500;margin-bottom:10px;">Category Breakdown</div>
+          <div id="cat-breakdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ALL ARTICLES ── -->
+    <div id="page-articles" class="page">
+      <div class="page-header-row">
+        <div class="page-header">
+          <h2>All Articles</h2>
+          <p>Click Edit to modify any article</p>
+        </div>
+        <button class="btn btn-primary" onclick="showSection('new-article')">＋ New Article</button>
+      </div>
+      <div style="margin-bottom:14px;">
+        <input type="text" id="article-search" placeholder="Search articles..." oninput="filterArticles(this.value)" style="max-width:320px;">
+      </div>
+      <div class="articles-list" id="articles-list"></div>
+    </div>
+
+    <!-- ── NEW / EDIT ARTICLE ── -->
+    <div id="page-new-article" class="page">
+      <div class="page-header-row">
+        <div class="page-header">
+          <h2 id="article-form-title">New Article</h2>
+          <p id="article-form-sub">Fill in the details below and save to update your site</p>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-secondary" onclick="showSection('articles')">← Back</button>
+          <button class="btn btn-primary" id="save-article-btn" onclick="saveArticle()">Save Article</button>
+        </div>
+      </div>
+
+      <div id="article-alert" class="alert"></div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('content')">Content</div>
+        <div class="tab" onclick="switchTab('seo')">SEO / AEO / GEO</div>
+        <div class="tab" onclick="switchTab('faq')">FAQ Builder</div>
+      </div>
+
+      <!-- CONTENT TAB -->
+      <div id="tab-content">
+        <div class="form-grid">
+          <div class="form-group" style="grid-column:1/-1;">
+            <label>Article Title <span>*</span></label>
+            <input type="text" id="art-title" placeholder="The Unlikely Journey of Coffee...">
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Category <span>*</span></label>
+            <select id="art-category">
+              <option value="">Select category...</option>
+              <option value="plants">Plants & Nature Stories</option>
+              <option value="animals">Animals & Hidden Biology</option>
+              <option value="origins">How Things Began</option>
+              <option value="anime">Anime & Pop Culture</option>
+              <option value="mind">Human Mind & Behaviour</option>
+              <option value="everyday">Everyday Things We Never Question</option>
+              <option value="mysteries">Science Mysteries Unsolved</option>
+              <option value="technology">Evolution of Technology</option>
+              <option value="specialists">Specialists Behind Discoveries</option>
+              <option value="civilizations">Evolution of Civilisations</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Category Label (shown on pill)</label>
+            <input type="text" id="art-tagLabel" placeholder="Plants & Nature">
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Tag Colour Class</label>
+            <select id="art-tagClass">
+              <option value="tag-teal">tag-teal (green)</option>
+              <option value="tag-rose">tag-rose (red)</option>
+              <option value="tag-gold">tag-gold (amber)</option>
+              <option value="tag-violet">tag-violet (purple)</option>
+              <option value="tag-sage">tag-sage (sage green)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Reading Time (minutes)</label>
+            <input type="number" id="art-mins" placeholder="7" min="1" max="60">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Excerpt (shown on cards) <span>*</span></label>
+          <textarea id="art-excerpt" rows="2" placeholder="One sentence that makes someone want to read this."></textarea>
+          <div class="char-count" id="excerpt-count">0 / 160</div>
+        </div>
+        <div class="form-group">
+          <label>Emoji Icon (for thumbnail fallback)</label>
+          <input type="text" id="art-icon" placeholder="🌿">
+        </div>
+        <div class="form-group">
+          <label>Thumbnail Background Gradient</label>
+          <input type="text" id="art-bg" placeholder="linear-gradient(135deg,#1a3a35,#2a7c6f)">
+          <div class="form-hint">CSS gradient shown when no image is loaded</div>
+        </div>
+
+        <div class="section-divider">
+          <h3>📸 Images</h3>
+          <p>Upload images to your GitHub <code style="font-family:var(--mono);font-size:11px;">images/</code> folder first, then enter the filename below</p>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Thumbnail Image Path</label>
+            <input type="text" id="art-img" placeholder="/curious-origins/images/coffee.jpg">
+          </div>
+          <div class="form-group">
+            <label>Image Alt Text <span title="Required for SEO & accessibility">ⓘ</span></label>
+            <input type="text" id="art-imgAlt" placeholder="Ripe red coffee cherries on a coffee plant in Ethiopia">
+            <div class="form-hint">Describe the image specifically — include your focus keyword naturally</div>
+          </div>
+        </div>
+
+        <div class="section-divider">
+          <h3>🔗 URL & Tags</h3>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Article URL / Slug</label>
+            <input type="text" id="art-url" placeholder="articles/coffee.html">
+            <div class="form-hint">e.g. articles/coffee.html → page id becomes article-coffee</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Search Tags (press Enter to add)</label>
+          <div class="tag-input-wrap" id="tags-wrap" onclick="document.getElementById('tags-input').focus()">
+            <input type="text" id="tags-input" class="tag-actual-input" placeholder="Type a tag and press Enter...">
+          </div>
+          <div class="form-hint">Keywords used for site search — add 5–10 relevant terms</div>
+        </div>
+      </div>
+
+      <!-- SEO TAB -->
+      <div id="tab-seo" style="display:none;">
+
+        <div class="section-divider">
+          <h3>🔍 SEO — Search Engine Optimisation <span class="badge badge-seo">SEO</span></h3>
+          <p>Controls how your article appears in Google search results</p>
+        </div>
+        <div class="form-group">
+          <label>Focus Keyword <span title="The main keyword you want this article to rank for">ⓘ</span></label>
+          <input type="text" id="seo-keyword" placeholder="e.g. origin of coffee">
+          <div class="form-hint">One phrase. Use it in your title, first paragraph, and at least one H2.</div>
+        </div>
+        <div class="form-group">
+          <label>Meta Title <span>*</span> <span class="badge badge-seo">SEO</span></label>
+          <input type="text" id="seo-title" placeholder="Origin of Coffee: From Ethiopian Goat Herder to Global Ritual | Curious Origins" oninput="updateCharCount('seo-title','seo-title-count',60)">
+          <div class="char-count" id="seo-title-count">0 / 60</div>
+          <div class="form-hint">Shown in browser tab and as the Google headline. Keep under 60 characters.</div>
+        </div>
+        <div class="form-group">
+          <label>Meta Description <span>*</span> <span class="badge badge-seo">SEO</span></label>
+          <textarea id="seo-desc" rows="3" placeholder="Discover the 1,000-year origin story of coffee..." oninput="updateCharCount('seo-desc','seo-desc-count',160)"></textarea>
+          <div class="char-count" id="seo-desc-count">0 / 160</div>
+          <div class="form-hint">Shown below the Google headline. 140–160 characters. Make it compelling.</div>
+        </div>
+        <div class="form-group">
+          <label>SEO Keywords <span class="badge badge-seo">SEO</span></label>
+          <textarea id="seo-keywords" rows="2" placeholder="origin of coffee, coffee history, ethiopian coffee, coffea arabica, ottoman coffeehouse"></textarea>
+          <div class="form-hint">Comma-separated. 6–10 specific phrases people actually search for.</div>
+        </div>
+        <div class="form-group">
+          <label>OG / Social Share Image Path <span class="badge badge-seo">SEO</span></label>
+          <input type="text" id="seo-img" placeholder="/curious-origins/images/coffee.jpg">
+          <div class="form-hint">Image shown when shared on WhatsApp, LinkedIn, Twitter. Recommended: 1200×630px.</div>
+        </div>
+        <div class="form-group">
+          <label>Canonical URL Slug</label>
+          <input type="text" id="seo-url" placeholder="/article/coffee">
+          <div class="form-hint">The path after ishabangera.github.io/curious-origins — e.g. /article/coffee</div>
+        </div>
+
+        <div class="section-divider" style="margin-top:28px;">
+          <h3>🎙️ AEO — Answer Engine Optimisation <span class="badge badge-aeo">AEO</span></h3>
+          <p>Helps your content appear in AI answers (ChatGPT, Perplexity, Google AI Overview)</p>
+        </div>
+        <div class="form-group">
+          <label>Primary Question This Article Answers <span class="badge badge-aeo">AEO</span></label>
+          <input type="text" id="aeo-question" placeholder="Where did coffee originally come from?">
+          <div class="form-hint">Phrase it as a natural question people ask. Use in your first H2 or opening paragraph.</div>
+        </div>
+        <div class="form-group">
+          <label>Direct Answer (2–3 sentences) <span class="badge badge-aeo">AEO</span></label>
+          <textarea id="aeo-answer" rows="3" placeholder="Coffee originated in the Kaffa region of Ethiopia around the 9th century..."></textarea>
+          <div class="form-hint">A clear, direct answer to the question above. AI systems use this for featured snippets.</div>
+        </div>
+        <div class="form-group">
+          <label>Speakable Content Summary <span class="badge badge-aeo">AEO</span></label>
+          <textarea id="aeo-speakable" rows="2" placeholder="A brief summary suitable for voice search and audio answers..."></textarea>
+          <div class="form-hint">1–2 sentences. Used by voice assistants (Google, Alexa, Siri) when reading your content aloud.</div>
+        </div>
+
+        <div class="section-divider" style="margin-top:28px;">
+          <h3>🌍 GEO — Generative Engine Optimisation <span class="badge badge-geo">GEO</span></h3>
+          <p>Structured signals that help AI models cite and reference your content accurately</p>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Author Name <span class="badge badge-geo">GEO</span></label>
+            <input type="text" id="geo-author" placeholder="Isha Bangera" value="Isha Bangera">
+          </div>
+          <div class="form-group">
+            <label>Content Type</label>
+            <select id="geo-type">
+              <option value="Article">Article</option>
+              <option value="BlogPosting">Blog Post</option>
+              <option value="NewsArticle">News Article</option>
+              <option value="TechArticle">Technical Article</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Geographic Relevance <span class="badge badge-geo">GEO</span></label>
+            <input type="text" id="geo-location" placeholder="Global, Ethiopia, Yemen, Ottoman Empire">
+            <div class="form-hint">Locations referenced or relevant to this article</div>
+          </div>
+          <div class="form-group">
+            <label>Time Period Covered</label>
+            <input type="text" id="geo-period" placeholder="9th century to present">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Citations / Sources (one per line) <span class="badge badge-geo">GEO</span></label>
+          <textarea id="geo-sources" rows="3" placeholder="https://en.wikipedia.org/wiki/History_of_coffee&#10;National Coffee Association — ncausa.org"></textarea>
+          <div class="form-hint">Citing sources improves trustworthiness signals for AI citation engines.</div>
+        </div>
+
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;margin-top:8px;">
+          <div style="font-size:12px;font-weight:500;margin-bottom:8px;color:var(--text2);">Generated JSON-LD Preview</div>
+          <pre id="schema-preview" style="font-family:var(--mono);font-size:11px;color:var(--teal);white-space:pre-wrap;word-break:break-all;max-height:200px;overflow-y:auto;"></pre>
+          <div style="font-size:11px;color:var(--text3);margin-top:8px;">This structured data is automatically added to your article page when you save.</div>
+        </div>
+      </div>
+
+      <!-- FAQ TAB -->
+      <div id="tab-faq" style="display:none;">
+        <div class="section-divider">
+          <h3>❓ FAQ Builder</h3>
+          <p>FAQs added here appear at the bottom of the article and generate Google Rich Result schema automatically</p>
+        </div>
+        <div id="faq-alert" class="alert alert-info show" style="margin-bottom:16px;">
+          💡 Add 3–5 questions people commonly ask about this topic. Google may show these directly in search results.
+        </div>
+        <div class="faq-list" id="faq-list"></div>
+        <button class="btn btn-secondary" style="margin-top:12px;" onclick="addFaqItem()">＋ Add Question</button>
+
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;margin-top:20px;">
+          <div style="font-size:12px;font-weight:500;margin-bottom:8px;color:var(--text2);">FAQ Schema Preview</div>
+          <pre id="faq-schema-preview" style="font-family:var(--mono);font-size:11px;color:var(--violet);white-space:pre-wrap;word-break:break-all;max-height:180px;overflow-y:auto;"></pre>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── SITE SETTINGS ── -->
+    <div id="page-site-settings" class="page">
+      <div class="page-header">
+        <h2>Site Settings</h2>
+        <p>Modify global site details</p>
+      </div>
+      <div id="settings-alert" class="alert"></div>
+      <div class="form-group">
+        <label>Site Name</label>
+        <input type="text" id="set-name" value="Curious Origins">
+      </div>
+      <div class="form-group">
+        <label>Site Tagline</label>
+        <input type="text" id="set-tagline" value="Where Did Everything Begin?">
+      </div>
+      <div class="form-group">
+        <label>GitHub Pages URL</label>
+        <input type="text" id="set-url" value="https://ishabangera.github.io/curious-origins/">
+      </div>
+      <div class="form-group">
+        <label>Contact Email (Formspree)</label>
+        <input type="text" id="set-email" placeholder="Your email connected to Formspree">
+      </div>
+      <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+    </div>
+
+    <!-- ── GLOBAL SEO ── -->
+    <div id="page-seo-settings" class="page">
+      <div class="page-header">
+        <h2>Global SEO Settings</h2>
+        <p>These defaults apply to all pages unless overridden per-article</p>
+      </div>
+      <div id="gseo-alert" class="alert"></div>
+
+      <div class="section-divider">
+        <h3>SEO Pages Coverage</h3>
+      </div>
+      <div id="seo-coverage-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+
+      <div class="section-divider" style="margin-top:24px;">
+        <h3>Global Defaults</h3>
+      </div>
+      <div class="form-group">
+        <label>Default OG Image</label>
+        <input type="text" id="gseo-img" value="/curious-origins/images/og-cover.jpg">
+      </div>
+      <div class="form-group">
+        <label>Twitter Handle</label>
+        <input type="text" id="gseo-twitter" placeholder="@yourhandle">
+      </div>
+      <div class="form-group">
+        <label>Google Analytics / GTM ID</label>
+        <input type="text" id="gseo-ga" placeholder="GTM-XXXXXXX or G-XXXXXXXXXX">
+      </div>
+      <button class="btn btn-primary" onclick="saveGlobalSEO()">Save Global SEO</button>
+    </div>
+
+    <!-- ── PUBLISH ── -->
+    <div id="page-publish" class="page">
+      <div class="page-header">
+        <h2>Push to GitHub</h2>
+        <p>Save all pending changes and deploy to your live site</p>
+      </div>
+
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px;">
+        <div style="font-size:14px;font-weight:500;margin-bottom:12px;">What happens when you push:</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text2);">
+          <div style="display:flex;gap:10px;align-items:center;"><span style="color:var(--teal);">1</span> Admin panel reads your latest <code style="font-family:var(--mono);font-size:12px;">index.html</code> from GitHub</div>
+          <div style="display:flex;gap:10px;align-items:center;"><span style="color:var(--teal);">2</span> Your new/edited articles are injected into the articles array</div>
+          <div style="display:flex;gap:10px;align-items:center;"><span style="color:var(--teal);">3</span> SEO meta, FAQs and structured data are merged in</div>
+          <div style="display:flex;gap:10px;align-items:center;"><span style="color:var(--teal);">4</span> The updated file is committed to your repo</div>
+          <div style="display:flex;gap:10px;align-items:center;"><span style="color:var(--teal);">5</span> GitHub Pages rebuilds — live in ~30 seconds</div>
+        </div>
+      </div>
+
+      <div id="pending-changes-list" style="margin-bottom:16px;"></div>
+
+      <div class="form-group">
+        <label>Commit Message</label>
+        <input type="text" id="commit-msg" value="Update articles and SEO via admin panel">
+      </div>
+      <div id="publish-alert" class="alert" style="margin-bottom:12px;"></div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-primary" id="publish-btn" onclick="publishToGitHub()" style="min-width:160px;">
+          ↑ Push to GitHub
+        </button>
+        <a href="https://ishabangera.github.io/curious-origins/" target="_blank" class="btn btn-secondary">
+          ↗ View Live Site
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="modal-backdrop" id="delete-modal">
+  <div class="modal">
+    <h3>Delete Article?</h3>
+    <p id="delete-modal-text">This will remove the article from your site. This cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger" id="confirm-delete-btn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════════════
+var STATE = {
+  token: '',
+  user: '',
+  repo: '',
+  sha: '',           // SHA of index.html for GitHub API update
+  rawHtml: '',       // current index.html content from GitHub
+  articles: [],      // parsed articles array
+  seoMeta: {},       // parsed SEO_META object
+  editingIndex: -1,  // -1 = new article, >=0 = editing existing
+  pendingChanges: [], // list of pending changes not yet pushed
+  tags: [],           // current tag editor state
+  faqs: []            // current FAQ editor state
+};
+
+var CATEGORIES = {
+  plants: 'Plants & Nature', animals: 'Animals & Biology', origins: 'How Things Began',
+  anime: 'Anime & Pop Culture', mind: 'Human Mind & Behaviour', everyday: 'Everyday Things',
+  mysteries: 'Science Mysteries', technology: 'Evolution of Technology',
+  specialists: 'Specialists Behind Discoveries', civilizations: 'Evolution of Civilisations'
+};
+
+// ══════════════════════════════════════════════════════════════
+//  INIT — check saved credentials
+// ══════════════════════════════════════════════════════════════
+(function init() {
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem('co_admin') || '{}'); } catch(e) {}
+  if (saved.token && saved.user && saved.repo) {
+    document.getElementById('token-input').value = saved.token;
+    document.getElementById('user-input').value  = saved.user;
+    document.getElementById('repo-input').value  = saved.repo;
+    STATE.token = saved.token;
+    STATE.user  = saved.user;
+    STATE.repo  = saved.repo;
+    loadFromGitHub();
+  }
+})();
+
+// ══════════════════════════════════════════════════════════════
+//  GITHUB API
+// ══════════════════════════════════════════════════════════════
+function connectToGitHub() {
+  STATE.token = document.getElementById('token-input').value.trim();
+  STATE.user  = document.getElementById('user-input').value.trim();
+  STATE.repo  = document.getElementById('repo-input').value.trim();
+  if (!STATE.token || !STATE.user || !STATE.repo) {
+    showAlert('connect-error', 'Please fill in all three fields.', 'error');
+    return;
+  }
+  loadFromGitHub();
+}
+
+function loadFromGitHub() {
+  var url = 'https://api.github.com/repos/' + STATE.user + '/' + STATE.repo + '/contents/index.html';
+  fetch(url, {
+    headers: {
+      'Authorization': 'token ' + STATE.token,
+      'Accept': 'application/vnd.github.v3+json'
+    }
+  })
+  .then(function(r) {
+    if (r.status === 401) throw new Error('Invalid token — please check it has "repo" scope.');
+    if (r.status === 404) throw new Error('Repository or file not found. Check username and repo name.');
+    if (!r.ok) throw new Error('GitHub API error: ' + r.status);
+    return r.json();
+  })
+  .then(function(data) {
+    STATE.sha = data.sha;
+    STATE.rawHtml = atob(data.content.replace(/\n/g,''));
+    parseHtml();
+    try { localStorage.setItem('co_admin', JSON.stringify({ token: STATE.token, user: STATE.user, repo: STATE.repo })); } catch(e) {}
+    bootApp();
+  })
+  .catch(function(err) {
+    showAlert('connect-error', err.message, 'error');
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+//  PARSE index.html
+// ══════════════════════════════════════════════════════════════
+function parseHtml() {
+  var html = STATE.rawHtml;
+
+  // Extract articles array
+  var arrStart = html.indexOf('const articles = [');
+  var arrEnd = html.indexOf('];', arrStart) + 2;
+  var arrCode = html.slice(arrStart, arrEnd);
+
+  try {
+    var fn = new Function('return ' + arrCode.replace('const articles = ', ''));
+    STATE.articles = fn();
+  } catch(e) {
+    STATE.articles = [];
+  }
+
+  // Extract SEO_META
+  var seoStart = html.indexOf('var SEO_META = {');
+  var seoEnd = findMatchingBrace(html, seoStart + 'var SEO_META = '.length);
+  if (seoStart > -1 && seoEnd > -1) {
+    var seoCode = html.slice(seoStart, seoEnd + 1);
+    try {
+      var fn2 = new Function('return ' + seoCode.replace('var SEO_META = ', ''));
+      STATE.seoMeta = fn2();
+    } catch(e) { STATE.seoMeta = {}; }
+  }
+}
+
+function findMatchingBrace(str, fromIdx) {
+  var depth = 0;
+  for (var i = fromIdx; i < str.length; i++) {
+    if (str[i] === '{') depth++;
+    if (str[i] === '}') { depth--; if (depth === 0) return i; }
+  }
+  return -1;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  BOOT APP
+// ══════════════════════════════════════════════════════════════
+function bootApp() {
+  document.getElementById('connect-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  renderDashboard();
+  renderArticlesList();
+  renderSeoCoverage();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  NAV
+// ══════════════════════════════════════════════════════════════
+function showSection(name) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelector('.nav-item[onclick*="' + name + '"]').classList.add('active');
+  if (name === 'new-article' && STATE.editingIndex === -1) {
+    resetArticleForm();
+  }
+}
+
+function switchTab(tab) {
+  ['content','seo','faq'].forEach(function(t) {
+    document.getElementById('tab-' + t).style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tab').forEach(function(el, i) {
+    el.classList.toggle('active', ['content','seo','faq'][i] === tab);
+  });
+  if (tab === 'seo') updateSchemaPreview();
+  if (tab === 'faq') updateFaqSchemaPreview();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  DASHBOARD
+// ══════════════════════════════════════════════════════════════
+function renderDashboard() {
+  var arts = STATE.articles;
+  document.getElementById('stat-total').textContent = arts.length;
+  document.getElementById('stat-images').textContent = arts.filter(function(a) { return a.img; }).length;
+  document.getElementById('stat-seo').textContent = Object.keys(STATE.seoMeta).length;
+
+  // Recent articles
+  var recent = arts.slice(-4).reverse();
+  var html = recent.map(function(a) {
+    return '<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);">'
+      + '<div style="width:32px;height:32px;border-radius:6px;background:' + a.bg + ';display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">' + a.icon + '</div>'
+      + '<div style="flex:1;min-width:0;">'
+      + '<div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + a.title + '</div>'
+      + '<div style="font-size:11px;color:var(--text3);">' + (CATEGORIES[a.category] || a.category) + ' · ' + a.mins + ' min read</div>'
+      + '</div></div>';
+  }).join('');
+  document.getElementById('recent-articles-list').innerHTML = html || '<div style="color:var(--text3);font-size:13px;">No articles yet</div>';
+
+  // Category breakdown
+  var cats = {};
+  arts.forEach(function(a) { cats[a.category] = (cats[a.category] || 0) + 1; });
+  var catHtml = Object.keys(CATEGORIES).map(function(k) {
+    var n = cats[k] || 0;
+    return '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">'
+      + '<div style="font-size:12px;color:var(--text2);width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + CATEGORIES[k] + '</div>'
+      + '<div style="flex:1;height:4px;background:var(--bg4);border-radius:2px;"><div style="height:4px;background:var(--gold);border-radius:2px;width:' + Math.min(100, n * 30) + '%"></div></div>'
+      + '<div style="font-size:12px;color:var(--text3);width:16px;text-align:right;">' + n + '</div>'
+      + '</div>';
+  }).join('');
+  document.getElementById('cat-breakdown').innerHTML = catHtml;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ARTICLES LIST
+// ══════════════════════════════════════════════════════════════
+function renderArticlesList(filter) {
+  var arts = STATE.articles;
+  if (filter) arts = arts.filter(function(a) { return a.title.toLowerCase().includes(filter.toLowerCase()); });
+  var container = document.getElementById('articles-list');
+  if (!arts.length) {
+    container.innerHTML = '<div class="empty-state"><div class="icon">◎</div><h3>No articles yet</h3><p>Click "New Article" to add your first story.</p></div>';
+    return;
+  }
+  container.innerHTML = arts.map(function(a, i) {
+    var realIdx = STATE.articles.indexOf(a);
+    return '<div class="article-row">'
+      + '<div class="article-thumb" style="background:' + a.bg + ';">' + a.icon + '</div>'
+      + '<div class="article-info">'
+      + '<h4>' + a.title + '</h4>'
+      + '<p>' + (CATEGORIES[a.category] || a.category) + ' · ' + a.mins + ' min read · ' + (a.img ? '📸 has image' : '🎨 emoji only') + '</p>'
+      + '</div>'
+      + '<div class="article-actions">'
+      + '<button class="btn btn-secondary btn-sm" onclick="editArticle(' + realIdx + ')">Edit</button>'
+      + '<button class="btn btn-danger btn-sm" onclick="confirmDelete(' + realIdx + ')">Delete</button>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+function filterArticles(val) { renderArticlesList(val); }
+
+// ══════════════════════════════════════════════════════════════
+//  ARTICLE FORM
+// ══════════════════════════════════════════════════════════════
+function resetArticleForm() {
+  STATE.editingIndex = -1;
+  STATE.tags = [];
+  STATE.faqs = [];
+  document.getElementById('article-form-title').textContent = 'New Article';
+  document.getElementById('article-form-sub').textContent = 'Fill in the details below and save to update your site';
+  ['art-title','art-tagLabel','art-mins','art-excerpt','art-icon','art-bg','art-img','art-imgAlt','art-url',
+   'seo-keyword','seo-title','seo-desc','seo-keywords','seo-img','seo-url',
+   'aeo-question','aeo-answer','aeo-speakable','geo-author','geo-location','geo-period','geo-sources'
+  ].forEach(function(id) { var el = document.getElementById(id); if (el) el.value = id === 'geo-author' ? 'Isha Bangera' : ''; });
+  document.getElementById('art-category').value = '';
+  document.getElementById('art-tagClass').value = 'tag-teal';
+  document.getElementById('geo-type').value = 'Article';
+  renderTags();
+  renderFaqs();
+  hideAlert('article-alert');
+  switchTab('content');
+}
+
+function editArticle(idx) {
+  STATE.editingIndex = idx;
+  var a = STATE.articles[idx];
+  document.getElementById('article-form-title').textContent = 'Edit Article';
+  document.getElementById('article-form-sub').textContent = a.title.substring(0, 60) + '...';
+
+  document.getElementById('art-title').value    = a.title || '';
+  document.getElementById('art-category').value = a.category || '';
+  document.getElementById('art-tagLabel').value  = a.tagLabel || '';
+  document.getElementById('art-tagClass').value  = a.tagClass || 'tag-teal';
+  document.getElementById('art-mins').value      = a.mins || '';
+  document.getElementById('art-excerpt').value   = a.excerpt || '';
+  document.getElementById('art-icon').value      = a.icon || '';
+  document.getElementById('art-bg').value        = a.bg || '';
+  document.getElementById('art-img').value       = a.img || '';
+  document.getElementById('art-imgAlt').value    = a.imgAlt || '';
+  document.getElementById('art-url').value       = a.url || '';
+
+  STATE.tags = (a.tags || []).slice();
+  renderTags();
+
+  // Load SEO meta if exists
+  var slug = getArticleSlug(a);
+  var seo = STATE.seoMeta[slug] || {};
+  document.getElementById('seo-title').value    = seo.title || '';
+  document.getElementById('seo-desc').value     = seo.desc || '';
+  document.getElementById('seo-keywords').value = seo.keywords || '';
+  document.getElementById('seo-img').value      = seo.img || a.img || '';
+  document.getElementById('seo-url').value      = seo.url || '';
+
+  // FAQs
+  STATE.faqs = (a._faqs || []).slice();
+  renderFaqs();
+
+  showSection('new-article');
+  switchTab('content');
+}
+
+function getArticleSlug(a) {
+  var m = (a.url || '').match(/articles\/(.+)\.html/);
+  return m ? 'article-' + m[1] : 'article-' + (a.title || '').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+
+function saveArticle() {
+  var title = document.getElementById('art-title').value.trim();
+  var category = document.getElementById('art-category').value;
+  var excerpt = document.getElementById('art-excerpt').value.trim();
+  if (!title) { showAlert('article-alert', 'Please enter an article title.', 'error'); return; }
+  if (!category) { showAlert('article-alert', 'Please select a category.', 'error'); return; }
+  if (!excerpt) { showAlert('article-alert', 'Please enter an excerpt.', 'error'); return; }
+
+  var article = {
+    title:    title,
+    category: category,
+    url:      document.getElementById('art-url').value.trim() || 'articles/' + title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '.html',
+    img:      document.getElementById('art-img').value.trim(),
+    imgAlt:   document.getElementById('art-imgAlt').value.trim(),
+    tags:     STATE.tags.slice(),
+    tagLabel: document.getElementById('art-tagLabel').value.trim() || (CATEGORIES[category] || category),
+    tagClass: document.getElementById('art-tagClass').value,
+    icon:     document.getElementById('art-icon').value.trim() || '📖',
+    bg:       document.getElementById('art-bg').value.trim() || 'linear-gradient(135deg,#2a2a3a,#4a4a6a)',
+    excerpt:  excerpt,
+    mins:     parseInt(document.getElementById('art-mins').value) || 5,
+    _faqs:    STATE.faqs.slice()
+  };
+
+  if (STATE.editingIndex >= 0) {
+    STATE.articles[STATE.editingIndex] = article;
+  } else {
+    STATE.articles.push(article);
+  }
+
+  // Save SEO meta
+  var slug = getArticleSlug(article);
+  var seoTitle = document.getElementById('seo-title').value.trim();
+  var seoDesc = document.getElementById('seo-desc').value.trim();
+  if (seoTitle || seoDesc) {
+    STATE.seoMeta[slug] = {
+      title:    seoTitle || title + ' | Curious Origins',
+      desc:     seoDesc,
+      keywords: document.getElementById('seo-keywords').value.trim(),
+      img:      document.getElementById('seo-img').value.trim() || article.img,
+      url:      document.getElementById('seo-url').value.trim() || '/' + slug.replace('article-', 'article/')
+    };
+  }
+
+  // Log pending change
+  var action = STATE.editingIndex >= 0 ? 'Edited' : 'Added';
+  STATE.pendingChanges.push(action + ': "' + title + '"');
+  renderPendingChanges();
+
+  showAlert('article-alert', '✓ Article saved locally. Go to "Push to GitHub" to make it live.', 'success');
+  renderArticlesList();
+  renderDashboard();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  DELETE
+// ══════════════════════════════════════════════════════════════
+var deleteTargetIdx = -1;
+function confirmDelete(idx) {
+  deleteTargetIdx = idx;
+  document.getElementById('delete-modal-text').textContent = 'Delete "' + STATE.articles[idx].title + '"? This cannot be undone.';
+  document.getElementById('delete-modal').classList.add('open');
+  document.getElementById('confirm-delete-btn').onclick = function() {
+    var title = STATE.articles[deleteTargetIdx].title;
+    STATE.articles.splice(deleteTargetIdx, 1);
+    STATE.pendingChanges.push('Deleted: "' + title + '"');
+    renderPendingChanges();
+    renderArticlesList();
+    renderDashboard();
+    closeModal();
+  };
+}
+function closeModal() { document.getElementById('delete-modal').classList.remove('open'); }
+
+// ══════════════════════════════════════════════════════════════
+//  TAGS
+// ══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+  var inp = document.getElementById('tags-input');
+  if (inp) {
+    inp.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ',') {
+        e.preventDefault();
+        var val = inp.value.trim().replace(/,$/, '');
+        if (val && !STATE.tags.includes(val)) { STATE.tags.push(val); renderTags(); }
+        inp.value = '';
+      }
+      if (e.key === 'Backspace' && !inp.value && STATE.tags.length) {
+        STATE.tags.pop(); renderTags();
+      }
+    });
+  }
+});
+
+function renderTags() {
+  var wrap = document.getElementById('tags-wrap');
+  var inp = document.getElementById('tags-input');
+  wrap.querySelectorAll('.tag-chip').forEach(function(el) { el.remove(); });
+  STATE.tags.forEach(function(tag, i) {
+    var chip = document.createElement('span');
+    chip.className = 'tag-chip';
+    chip.innerHTML = tag + '<button onclick="removeTag(' + i + ')">×</button>';
+    wrap.insertBefore(chip, inp);
+  });
+}
+function removeTag(i) { STATE.tags.splice(i, 1); renderTags(); }
+
+// ══════════════════════════════════════════════════════════════
+//  FAQ BUILDER
+// ══════════════════════════════════════════════════════════════
+function addFaqItem() {
+  STATE.faqs.push({ q: '', a: '' });
+  renderFaqs();
+  updateFaqSchemaPreview();
+}
+
+function renderFaqs() {
+  var container = document.getElementById('faq-list');
+  container.innerHTML = STATE.faqs.map(function(faq, i) {
+    return '<div class="faq-item">'
+      + '<div class="faq-item-header"><div class="faq-item-num">' + (i+1) + '</div>'
+      + '<span style="font-size:12px;color:var(--text2);font-weight:500;">FAQ #' + (i+1) + '</span>'
+      + '<button class="faq-remove" onclick="removeFaq(' + i + ')">×</button></div>'
+      + '<div class="form-group" style="margin-bottom:8px;">'
+      + '<label>Question</label>'
+      + '<input type="text" value="' + escHtml(faq.q) + '" placeholder="Where did coffee come from?" oninput="updateFaq(' + i + ',\'q\',this.value)">'
+      + '</div>'
+      + '<div class="form-group" style="margin-bottom:0;">'
+      + '<label>Answer</label>'
+      + '<textarea rows="2" placeholder="A clear, direct answer..." oninput="updateFaq(' + i + ',\'a\',this.value)">' + escHtml(faq.a) + '</textarea>'
+      + '</div></div>';
+  }).join('') || '<div class="empty-state" style="padding:24px 0;"><div class="icon">❓</div><p>No FAQs yet — click "+ Add Question" below</p></div>';
+}
+
+function updateFaq(i, field, val) {
+  STATE.faqs[i][field] = val;
+  updateFaqSchemaPreview();
+}
+function removeFaq(i) { STATE.faqs.splice(i, 1); renderFaqs(); updateFaqSchemaPreview(); }
+
+function updateFaqSchemaPreview() {
+  var valid = STATE.faqs.filter(function(f) { return f.q && f.a; });
+  var schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": valid.map(function(f) {
+      return { "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } };
+    })
+  };
+  document.getElementById('faq-schema-preview').textContent = JSON.stringify(schema, null, 2);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  SEO SCHEMA PREVIEW
+// ══════════════════════════════════════════════════════════════
+function updateSchemaPreview() {
+  var schema = {
+    "@context": "https://schema.org",
+    "@type": document.getElementById('geo-type').value || "Article",
+    "headline": document.getElementById('seo-title').value || document.getElementById('art-title').value,
+    "description": document.getElementById('seo-desc').value,
+    "author": { "@type": "Person", "name": document.getElementById('geo-author').value },
+    "publisher": { "@type": "Organization", "name": "Curious Origins", "url": "https://ishabangera.github.io/curious-origins/" },
+    "image": document.getElementById('seo-img').value || document.getElementById('art-img').value,
+    "keywords": document.getElementById('seo-keywords').value,
+    "speakable": document.getElementById('aeo-speakable').value ? { "@type": "SpeakableSpecification", "cssSelector": ".article-lead" } : undefined
+  };
+  document.getElementById('schema-preview').textContent = JSON.stringify(schema, null, 2);
+}
+['seo-title','seo-desc','seo-keywords','seo-img','geo-author','geo-type','aeo-speakable','art-title','art-img'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) el.addEventListener('input', function() { if (document.getElementById('tab-seo').style.display !== 'none') updateSchemaPreview(); });
+});
+
+// ══════════════════════════════════════════════════════════════
+//  SEO COVERAGE
+// ══════════════════════════════════════════════════════════════
+function renderSeoCoverage() {
+  var allPages = ['home','explore','about','contact'].concat(
+    Object.keys(CATEGORIES).map(function(k) { return 'cat-' + k; })
+  ).concat(STATE.articles.map(function(a) { return getArticleSlug(a); }));
+
+  var html = allPages.map(function(p) {
+    var hasMeta = STATE.seoMeta[p];
+    var label = p.replace('cat-','').replace('article-','');
+    return '<div style="display:flex;align-items:center;gap:12px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;">'
+      + '<span style="width:8px;height:8px;border-radius:50%;background:' + (hasMeta ? 'var(--green)' : 'var(--rose)') + ';flex-shrink:0;display:inline-block;"></span>'
+      + '<span style="flex:1;color:var(--text2);">' + p + '</span>'
+      + '<span style="font-size:11px;color:' + (hasMeta ? 'var(--green)' : 'var(--rose)') + ';">' + (hasMeta ? '✓ configured' : '✗ missing') + '</span>'
+      + '</div>';
+  }).join('');
+  document.getElementById('seo-coverage-list').innerHTML = html;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  PUBLISH TO GITHUB
+// ══════════════════════════════════════════════════════════════
+function renderPendingChanges() {
+  var el = document.getElementById('pending-changes-list');
+  if (!STATE.pendingChanges.length) {
+    el.innerHTML = '<div style="color:var(--text3);font-size:13px;padding:10px 0;">No pending changes</div>';
+    return;
+  }
+  el.innerHTML = '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:4px;">'
+    + '<div style="font-size:12px;font-weight:500;color:var(--text2);margin-bottom:8px;">Pending changes (' + STATE.pendingChanges.length + ')</div>'
+    + STATE.pendingChanges.map(function(c) {
+        return '<div style="font-size:13px;padding:4px 0;border-bottom:1px solid var(--border);color:var(--text);">· ' + c + '</div>';
+      }).join('')
+    + '</div>';
+}
+
+function publishToGitHub() {
+  if (!STATE.pendingChanges.length) {
+    showAlert('publish-alert', 'No pending changes to push.', 'info');
+    return;
+  }
+  var btn = document.getElementById('publish-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Pushing...';
+  showAlert('publish-alert', '', 'info');
+
+  // Re-fetch latest file from GitHub first
+  var url = 'https://api.github.com/repos/' + STATE.user + '/' + STATE.repo + '/contents/index.html';
+  fetch(url, { headers: { 'Authorization': 'token ' + STATE.token, 'Accept': 'application/vnd.github.v3+json' } })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    STATE.sha = data.sha;
+    var currentHtml = atob(data.content.replace(/\n/g,''));
+
+    // Inject updated articles array
+    var newHtml = injectArticles(currentHtml, STATE.articles);
+    // Inject updated SEO_META
+    newHtml = injectSeoMeta(newHtml, STATE.seoMeta);
+
+    // Push to GitHub
+    var encoded = btoa(unescape(encodeURIComponent(newHtml)));
+    return fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'token ' + STATE.token,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github.v3+json'
+      },
+      body: JSON.stringify({
+        message: document.getElementById('commit-msg').value || 'Update via admin panel',
+        content: encoded,
+        sha: STATE.sha
+      })
+    });
+  })
+  .then(function(r) {
+    if (!r.ok) return r.json().then(function(d) { throw new Error(d.message || 'Push failed'); });
+    return r.json();
+  })
+  .then(function() {
+    showAlert('publish-alert', '✓ Pushed successfully! Your site will update in ~30 seconds.', 'success');
+    STATE.pendingChanges = [];
+    renderPendingChanges();
+    btn.disabled = false;
+    btn.innerHTML = '↑ Push to GitHub';
+  })
+  .catch(function(err) {
+    showAlert('publish-alert', 'Error: ' + err.message, 'error');
+    btn.disabled = false;
+    btn.innerHTML = '↑ Push to GitHub';
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+//  HTML INJECTION HELPERS
+// ══════════════════════════════════════════════════════════════
+function injectArticles(html, articles) {
+  var start = html.indexOf('const articles = [');
+  var end   = html.indexOf('];', start) + 2;
+  if (start === -1) return html;
+
+  var lines = articles.map(function(a) {
+    // Build a clean one-line representation
+    var obj = {
+      title: a.title, category: a.category, url: a.url,
+      img: a.img || '', imgAlt: a.imgAlt || '',
+      tags: a.tags || [], tagLabel: a.tagLabel, tagClass: a.tagClass,
+      icon: a.icon, bg: a.bg, excerpt: a.excerpt, mins: a.mins
+    };
+    return '  ' + JSON.stringify(obj).replace(/"([a-zA-Z_]+)":/g, '$1:');
+  });
+
+  var newArr = 'const articles = [\n' + lines.join(',\n') + '\n];';
+  return html.slice(0, start) + newArr + html.slice(end);
+}
+
+function injectSeoMeta(html, seoMeta) {
+  var start = html.indexOf('var SEO_META = {');
+  var end   = findMatchingBrace(html, start + 'var SEO_META = '.length);
+  if (start === -1 || end === -1) return html;
+
+  // Rebuild SEO_META preserving existing entries and merging new ones
+  var entries = Object.keys(seoMeta).map(function(key) {
+    var m = seoMeta[key];
+    var lines = ["  '" + key + "': {"];
+    if (m.title)    lines.push("    title:    " + JSON.stringify(m.title) + ',');
+    if (m.desc)     lines.push("    desc:     " + JSON.stringify(m.desc) + ',');
+    if (m.keywords) lines.push("    keywords: " + JSON.stringify(m.keywords) + ',');
+    if (m.img)      lines.push("    img:      " + JSON.stringify(m.img) + ',');
+    if (m.url)      lines.push("    url:      " + JSON.stringify(m.url));
+    lines.push("  }");
+    return lines.join('\n');
+  });
+
+  var newBlock = 'var SEO_META = {\n' + entries.join(',\n\n') + '\n\n};';
+  return html.slice(0, start) + newBlock + html.slice(end + 1);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  SETTINGS
+// ══════════════════════════════════════════════════════════════
+function saveSettings() {
+  showAlert('settings-alert', '✓ Settings saved. Add to pending changes and push to apply.', 'success');
+}
+function saveGlobalSEO() {
+  showAlert('gseo-alert', '✓ Global SEO saved. Push to GitHub to apply.', 'success');
+}
+
+// ══════════════════════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════════════════════
+function showAlert(id, msg, type) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'alert alert-' + type + ' show';
+}
+function hideAlert(id) {
+  var el = document.getElementById(id);
+  if (el) el.className = 'alert';
+}
+function updateCharCount(inputId, countId, max) {
+  var el = document.getElementById(inputId);
+  var cnt = document.getElementById(countId);
+  if (!el || !cnt) return;
+  var len = el.value.length;
+  cnt.textContent = len + ' / ' + max;
+  cnt.className = 'char-count ' + (len > max ? 'char-over' : len > max * 0.85 ? 'char-warn' : 'char-ok');
+}
+document.getElementById('art-excerpt').addEventListener('input', function() {
+  updateCharCount('art-excerpt','excerpt-count',160);
+});
+function escHtml(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function logout() {
+  try { localStorage.removeItem('co_admin'); } catch(e) {}
+  location.reload();
+}
+
+// Init pending changes panel
+renderPendingChanges();
+</script>
+</body>
+</html>
